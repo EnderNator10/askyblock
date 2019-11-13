@@ -24,8 +24,6 @@ import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R2.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R2.inventory.CraftItemStack;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -39,79 +37,72 @@ import com.wasteofplastic.org.jnbt.ListTag;
 import com.wasteofplastic.org.jnbt.StringTag;
 import com.wasteofplastic.org.jnbt.Tag;
 
-import net.minecraft.server.v1_8_R2.BlockPosition;
-import net.minecraft.server.v1_8_R2.IBlockData;
-import net.minecraft.server.v1_8_R2.NBTTagCompound;
-import net.minecraft.server.v1_8_R2.NBTTagList;
-import net.minecraft.server.v1_8_R2.NBTTagString;
-import net.minecraft.server.v1_8_R2.TileEntityFlowerPot;
-
 public class NMSHandler implements NMSAbstraction {
 
     @Override
     public void setBlockSuperFast(Block b, int blockId, byte data, boolean applyPhysics) {
-        net.minecraft.server.v1_8_R2.World w = ((CraftWorld) b.getWorld()).getHandle();
-        net.minecraft.server.v1_8_R2.Chunk chunk = w.getChunkAt(b.getX() >> 4, b.getZ() >> 4);
-        BlockPosition bp = new BlockPosition(b.getX(), b.getY(), b.getZ());
-        int combined = blockId + (data << 12);
-        IBlockData ibd = net.minecraft.server.v1_8_R2.Block.getByCombinedId(combined);
-        chunk.a(bp, ibd);
-        if (applyPhysics) {
-            net.minecraft.server.v1_8_R2.Block block = chunk.getType(bp);
-            w.update(bp, block);
-        }      
+//        net.minecraft.server.v1_8_R2.World w = ((CraftWorld) b.getWorld()).getHandle();
+//        net.minecraft.server.v1_8_R2.Chunk chunk = w.getChunkAt(b.getX() >> 4, b.getZ() >> 4);
+//        BlockPosition bp = new BlockPosition(b.getX(), b.getY(), b.getZ());
+//        int combined = blockId + (data << 12);
+//        IBlockData ibd = net.minecraft.server.v1_8_R2.Block.getByCombinedId(combined);
+//        chunk.a(bp, ibd);
+//        if (applyPhysics) {
+//            net.minecraft.server.v1_8_R2.Block block = chunk.getType(bp);
+//            w.update(bp, block);
+//        }      
     }
 
     @Override
     public ItemStack setBook(Tag item) {
-        ItemStack chestItem = new ItemStack(Material.WRITTEN_BOOK);
-        //Bukkit.getLogger().info("item data");
-        //Bukkit.getLogger().info(item.toString());
-        if (((CompoundTag) item).getValue().containsKey("tag")) {
-            Map<String,Tag> contents = (Map<String,Tag>) ((CompoundTag) item).getValue().get("tag").getValue();
-            //BookMeta bookMeta = (BookMeta) chestItem.getItemMeta();            
-            String author = "";
-            if (contents.containsKey("author")) {
-                author = ((StringTag)contents.get("author")).getValue();
-            }
-            //Bukkit.getLogger().info("Author: " + author);
-            //bookMeta.setAuthor(author);
-            String title = "";
-            if (contents.containsKey("title")) {
-                title = ((StringTag)contents.get("title")).getValue();
-            }
-            //Bukkit.getLogger().info("Title: " + title);
-            //bookMeta.setTitle(title);
-            List<String> lore = new ArrayList<String>();
-            if (contents.containsKey("display")) {
-                Map<String,Tag> display = (Map<String, Tag>) (contents.get("display")).getValue();
-                List<Tag> loreTag = ((ListTag)display.get("Lore")).getValue();
-                for (Tag s: loreTag) {
-                    lore.add(((StringTag)s).getValue());
-                }
-            }
-            //Bukkit.getLogger().info("Lore: " + lore);
-            net.minecraft.server.v1_8_R2.ItemStack stack = CraftItemStack.asNMSCopy(chestItem); 
-            // Pages
-            NBTTagCompound tag = new NBTTagCompound(); //Create the NMS Stack's NBT (item data)
-            tag.setString("title", title); //Set the book's title
-            tag.setString("author", author);
-            if (contents.containsKey("pages")) {
-                NBTTagList pages = new NBTTagList();
-                List<Tag> pagesTag = ((ListTag)contents.get("pages")).getValue();
-                for (Tag s: pagesTag) {
-                    pages.add(new NBTTagString(((StringTag)s).getValue()));
-                }
-                tag.set("pages", pages); //Add the pages to the tag
-            }
-            stack.setTag(tag); //Apply the tag to the item
-            chestItem = CraftItemStack.asCraftMirror(stack); 
-            ItemMeta bookMeta = (ItemMeta) chestItem.getItemMeta();
-            bookMeta.setLore(lore);
-            chestItem.setItemMeta(bookMeta);
-        }
-        return chestItem;
-
+//        ItemStack chestItem = new ItemStack(Material.WRITTEN_BOOK);
+//        //Bukkit.getLogger().info("item data");
+//        //Bukkit.getLogger().info(item.toString());
+//        if (((CompoundTag) item).getValue().containsKey("tag")) {
+//            Map<String,Tag> contents = (Map<String,Tag>) ((CompoundTag) item).getValue().get("tag").getValue();
+//            //BookMeta bookMeta = (BookMeta) chestItem.getItemMeta();            
+//            String author = "";
+//            if (contents.containsKey("author")) {
+//                author = ((StringTag)contents.get("author")).getValue();
+//            }
+//            //Bukkit.getLogger().info("Author: " + author);
+//            //bookMeta.setAuthor(author);
+//            String title = "";
+//            if (contents.containsKey("title")) {
+//                title = ((StringTag)contents.get("title")).getValue();
+//            }
+//            //Bukkit.getLogger().info("Title: " + title);
+//            //bookMeta.setTitle(title);
+//            List<String> lore = new ArrayList<String>();
+//            if (contents.containsKey("display")) {
+//                Map<String,Tag> display = (Map<String, Tag>) (contents.get("display")).getValue();
+//                List<Tag> loreTag = ((ListTag)display.get("Lore")).getValue();
+//                for (Tag s: loreTag) {
+//                    lore.add(((StringTag)s).getValue());
+//                }
+//            }
+//            //Bukkit.getLogger().info("Lore: " + lore);
+//            net.minecraft.server.v1_8_R2.ItemStack stack = CraftItemStack.asNMSCopy(chestItem); 
+//            // Pages
+//            NBTTagCompound tag = new NBTTagCompound(); //Create the NMS Stack's NBT (item data)
+//            tag.setString("title", title); //Set the book's title
+//            tag.setString("author", author);
+//            if (contents.containsKey("pages")) {
+//                NBTTagList pages = new NBTTagList();
+//                List<Tag> pagesTag = ((ListTag)contents.get("pages")).getValue();
+//                for (Tag s: pagesTag) {
+//                    pages.add(new NBTTagString(((StringTag)s).getValue()));
+//                }
+//                tag.set("pages", pages); //Add the pages to the tag
+//            }
+//            stack.setTag(tag); //Apply the tag to the item
+//            chestItem = CraftItemStack.asCraftMirror(stack); 
+//            ItemMeta bookMeta = (ItemMeta) chestItem.getItemMeta();
+//            bookMeta.setLore(lore);
+//            chestItem.setItemMeta(bookMeta);
+//        }
+//        return chestItem;
+    	return null;
     }
  
     /* (non-Javadoc)
@@ -120,14 +111,14 @@ public class NMSHandler implements NMSAbstraction {
      */
     @Override
     public void setFlowerPotBlock(Block block, ItemStack itemStack) {
-        Location loc = block.getLocation();
-        CraftWorld cw = (CraftWorld)block.getWorld();
-        BlockPosition bp = new BlockPosition(loc.getX(), loc.getY(), loc.getZ());
-        TileEntityFlowerPot te = (TileEntityFlowerPot)cw.getHandle().getTileEntity(bp);
-        //Bukkit.getLogger().info("Debug: flowerpot materialdata = " + (new ItemStack(potItem, 1,(short) potItemData).toString()));
-        net.minecraft.server.v1_8_R2.ItemStack cis = CraftItemStack.asNMSCopy(itemStack);
-        te.a(cis.getItem(), cis.getData());
-        te.update();
+//        Location loc = block.getLocation();
+//        CraftWorld cw = (CraftWorld)block.getWorld();
+//        BlockPosition bp = new BlockPosition(loc.getX(), loc.getY(), loc.getZ());
+//        TileEntityFlowerPot te = (TileEntityFlowerPot)cw.getHandle().getTileEntity(bp);
+//        //Bukkit.getLogger().info("Debug: flowerpot materialdata = " + (new ItemStack(potItem, 1,(short) potItemData).toString()));
+//        net.minecraft.server.v1_8_R2.ItemStack cis = CraftItemStack.asNMSCopy(itemStack);
+//        te.a(cis.getItem(), cis.getData());
+//        te.update();
     }
 
     @Override

@@ -1200,7 +1200,6 @@ public class GridManager {
      * @param number - home location to do to
      * @return true if successful, false if not
      */
-    @SuppressWarnings("deprecation")
     public void homeTeleport(final Player player, int number) {
         Location home = null;
         //plugin.getLogger().info("home teleport called for #" + number);

@@ -78,12 +78,14 @@ import com.wasteofplastic.askyblock.panels.SetBiome;
 import com.wasteofplastic.askyblock.util.Util;
 import com.wasteofplastic.askyblock.util.VaultHelper;
 import com.wasteofplastic.askyblock.util.teleport.SafeTeleportBuilder;
+import com.wasteofplastic.askyblock.zcore.Message;
+import com.wasteofplastic.askyblock.zcore.ZUtils;
 
 /**
  * This class handles admin commands
  *
  */
-public class AdminCmd implements CommandExecutor, TabCompleter {
+public class AdminCmd extends ZUtils implements CommandExecutor, TabCompleter {
     private ASkyBlock plugin;
     private List<UUID> removeList = new ArrayList<UUID>();
     private boolean purgeFlag = false;
@@ -266,7 +268,7 @@ public class AdminCmd implements CommandExecutor, TabCompleter {
             }
             // Send out the help. If the player does not have permission for any commands, tell them they have no permission
             if (helpMessages.size() == 1) {
-                Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoPermission);
+            	message(sender, Message.NO_PERMISSION);
             } else {
                 for (String line : helpMessages) {
                     Util.sendMessage(player, line);
@@ -300,13 +302,12 @@ public class AdminCmd implements CommandExecutor, TabCompleter {
                         || split[0].equalsIgnoreCase("settingsreset") || split[0].equalsIgnoreCase("cobblestats")
                         || split[0].equalsIgnoreCase("setlanguage")) {
                     if (!checkAdminPerms(player, split)) {
-                        Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoPermission);
+                        message(sender, Message.NO_PERMISSION);
                         return true;
                     }
                 } else {
-                    // Mod commands
                     if (!checkModPerms(player, split)) {
-                        Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoPermission);
+                    	message(sender, Message.NO_PERMISSION);
                         return true;
                     }
                 }
@@ -2529,18 +2530,14 @@ public class AdminCmd implements CommandExecutor, TabCompleter {
     }
 
     private boolean checkModPerms(Player player2, String[] split) {
-        // Check perms quickly for this command
         if (player2.isOp()) {
             return true;
         }
         String check = split[0];
-        // Check special cases
-        if (check.contains("challenge".toLowerCase())) {
+        if (check.contains("challenge".toLowerCase())) 
             check = "challenges";
-        }
-        if (VaultHelper.checkPerm(player2, Settings.PERMPREFIX + "mod." + check.toLowerCase())) {
+        if (VaultHelper.checkPerm(player2, Settings.PERMPREFIX + "mod." + check.toLowerCase())) 
             return true;
-        }
         return false;
     }
 

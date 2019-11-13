@@ -17,7 +17,9 @@
 package com.wasteofplastic.askyblock;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -30,6 +32,7 @@ import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
@@ -44,10 +47,14 @@ import com.wasteofplastic.askyblock.Updater.UpdateType;
 import com.wasteofplastic.askyblock.commands.AdminCmd;
 import com.wasteofplastic.askyblock.commands.Challenges;
 import com.wasteofplastic.askyblock.commands.IslandCmd;
-import com.wasteofplastic.askyblock.events.IslandPreDeleteEvent;
 import com.wasteofplastic.askyblock.events.IslandDeleteEvent;
+import com.wasteofplastic.askyblock.events.IslandPreDeleteEvent;
 import com.wasteofplastic.askyblock.events.ReadyEvent;
 import com.wasteofplastic.askyblock.generators.ChunkGeneratorWorld;
+import com.wasteofplastic.askyblock.inventory.InventoryManager;
+import com.wasteofplastic.askyblock.listener.AdapterListener;
+import com.wasteofplastic.askyblock.listener.ListenerAdapter;
+import com.wasteofplastic.askyblock.listener.listeners.BlockLimiter;
 import com.wasteofplastic.askyblock.listeners.AcidEffect;
 import com.wasteofplastic.askyblock.listeners.ChatListener;
 import com.wasteofplastic.askyblock.listeners.CleanSuperFlat;
@@ -73,6 +80,7 @@ import com.wasteofplastic.askyblock.panels.WarpPanel;
 import com.wasteofplastic.askyblock.util.HeadGetter;
 import com.wasteofplastic.askyblock.util.Util;
 import com.wasteofplastic.askyblock.util.VaultHelper;
+import com.wasteofplastic.askyblock.zcore.Logger;
 
 /**
  * @author tastybento
@@ -143,6 +151,38 @@ public class ASkyBlock extends JavaPlugin {
     private HeadGetter headGetter;
     private EntityLimits entityLimits;
 
+    
+    //Logger
+    private final Logger logger = new Logger(this.getDescription().getFullName());
+    
+    public Logger getLog() {
+		return logger;
+	}
+    
+    //Listener
+    
+    private List<ListenerAdapter> listenerAdapters = new ArrayList<>();
+    
+	public void addListener(ListenerAdapter adapter) {
+		listenerAdapters.add(adapter);
+	}
+    
+	public void addListener(Listener listener) {
+		Bukkit.getPluginManager().registerEvents(listener, this);
+	}
+	
+	public List<ListenerAdapter> getListenerAdapters() {
+		return listenerAdapters;
+	}
+	
+	//InventoryMAnager
+	
+	private InventoryManager inventoryManager;
+	
+	public InventoryManager getInventoryManager() {
+		return inventoryManager;
+	}
+	
     /**
      * Returns the World object for the island world named in config.yml.
      * If the world does not exist then it is created.
@@ -289,6 +329,19 @@ public class ASkyBlock extends JavaPlugin {
             onePointEight = true;
         }
 
+        /**
+         * Inventory
+         */
+        inventoryManager = new InventoryManager(this);
+        
+        /**
+         * Listenrr
+         */
+        
+        addListener(new AdapterListener(this));
+        addListener(inventoryManager);
+        addListener(new BlockLimiter(this));
+        
         saveDefaultConfig();
         // Check to see if island distance is set or not
         if (getConfig().getInt("island.distance", -1) < 1) {

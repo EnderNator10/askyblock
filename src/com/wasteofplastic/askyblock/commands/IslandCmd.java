@@ -33,7 +33,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 
-import com.wasteofplastic.askyblock.events.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -75,11 +74,10 @@ import com.wasteofplastic.askyblock.Island;
 import com.wasteofplastic.askyblock.Island.SettingsFlag;
 import com.wasteofplastic.askyblock.LevelCalcByChunk;
 import com.wasteofplastic.askyblock.Settings;
-import com.wasteofplastic.askyblock.TopTen;
-import com.wasteofplastic.askyblock.Island.SettingsFlag;
 import com.wasteofplastic.askyblock.events.IslandJoinEvent;
 import com.wasteofplastic.askyblock.events.IslandLeaveEvent;
 import com.wasteofplastic.askyblock.events.IslandNewEvent;
+import com.wasteofplastic.askyblock.events.IslandPreDeleteEvent;
 import com.wasteofplastic.askyblock.events.IslandPreTeleportEvent;
 import com.wasteofplastic.askyblock.events.IslandResetEvent;
 import com.wasteofplastic.askyblock.listeners.PlayerEvents;
@@ -88,9 +86,11 @@ import com.wasteofplastic.askyblock.schematics.Schematic;
 import com.wasteofplastic.askyblock.schematics.Schematic.PasteReason;
 import com.wasteofplastic.askyblock.util.Util;
 import com.wasteofplastic.askyblock.util.VaultHelper;
+import com.wasteofplastic.askyblock.zcore.Message;
+import com.wasteofplastic.askyblock.zcore.ZUtils;
 
 @SuppressWarnings("deprecation")
-public class IslandCmd implements CommandExecutor, TabCompleter {
+public class IslandCmd extends ZUtils implements CommandExecutor, TabCompleter {
     private static final boolean DEBUG = false;
     public boolean levelCalcFreeFlag = true;
     private static HashMap<String, Schematic> schematics = new HashMap<>();
@@ -995,7 +995,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
         final Player player = (Player) sender;
         // Basic permissions check to even use /island
         if (!VaultHelper.checkPerm(player, Settings.PERMPREFIX + "island.create")) {
-            Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).islanderrorYouDoNotHavePermission);
+           message(sender, Message.NO_PERMISSION);
             return true;
         }
         /*
@@ -1053,35 +1053,37 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                 }
                 // Check if player has resets left
                 if (plugin.getPlayers().getResetsLeft(playerUUID) == 0) {
-                    Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).islandResetNoMore);
+                    message(sender, Message.ISLAND_RESET_ERROR);
                     return true;
                 }
                 // Create new island for player
-                Util.sendMessage(player, ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).islandnew);
-                chooseIsland(player);
+                message(player, 0, 1500, Sound.BLOCK_NOTE_PLING, () -> chooseIsland(player), Message.ISLAND_CREATE, Message.ISLAND_CREATE_1, Message.ISLAND_CREATE_2, Message.ISLAND_CREATE_3, Message.ISLAND_CREATE_4, Message.ISLAND_CREATE_5);
                 return true;
             } else {
+            	
+            	plugin.getInventoryManager().createInventory(1, player, 0);
+            	
                 // Island command
                 // Check if this should open the Control Panel or not
-                if (VaultHelper.checkPerm(player, Settings.PERMPREFIX + "island.controlpanel") && plugin.getPlayers().getControlPanel(playerUUID)) {
-                    Util.runCommand(player, Settings.ISLANDCOMMAND + " cp");
-                } else {
-                    // Check permission
-                    if (!VaultHelper.checkPerm(player, Settings.PERMPREFIX + "island.go")) {
-                        Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoPermission);
-                        return true;
-                    }
-                    if (!player.getWorld().getName().equalsIgnoreCase(Settings.worldName) || Settings.allowTeleportWhenFalling
-                            || !PlayerEvents.isFalling(playerUUID) || (player.isOp() && !Settings.damageOps)) {
-                        // Teleport home
-                        plugin.getGrid().homeTeleport(player);
-                        if (Settings.islandRemoveMobs) {
-                            plugin.getGrid().removeMobs(player.getLocation());
-                        }
-                    } else {
-                        Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorCommandNotReady);
-                    }
-                }
+//                if (VaultHelper.checkPerm(player, Settings.PERMPREFIX + "island.controlpanel") && plugin.getPlayers().getControlPanel(playerUUID)) {
+//                    Util.runCommand(player, Settings.ISLANDCOMMAND + " cp");
+//                } else {
+//                    // Check permission
+//                    if (!VaultHelper.checkPerm(player, Settings.PERMPREFIX + "island.go")) {
+//                        Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoPermission);
+//                        return true;
+//                    }
+//                    if (!player.getWorld().getName().equalsIgnoreCase(Settings.worldName) || Settings.allowTeleportWhenFalling
+//                            || !PlayerEvents.isFalling(playerUUID) || (player.isOp() && !Settings.damageOps)) {
+//                        // Teleport home
+//                        plugin.getGrid().homeTeleport(player);
+//                        if (Settings.islandRemoveMobs) {
+//                            plugin.getGrid().removeMobs(player.getLocation());
+//                        }
+//                    } else {
+//                        Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorCommandNotReady);
+//                    }
+//                }
                 return true;
             }
         case 1:

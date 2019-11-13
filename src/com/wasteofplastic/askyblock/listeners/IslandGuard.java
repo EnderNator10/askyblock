@@ -103,13 +103,15 @@ import com.wasteofplastic.askyblock.events.IslandEnterEvent;
 import com.wasteofplastic.askyblock.events.IslandExitEvent;
 import com.wasteofplastic.askyblock.util.Util;
 import com.wasteofplastic.askyblock.util.VaultHelper;
+import com.wasteofplastic.askyblock.zcore.Message;
+import com.wasteofplastic.askyblock.zcore.ZUtils;
 
 /**
  * @author tastybento
  *         Provides protection to islands
  */
 @SuppressWarnings("deprecation")
-public class IslandGuard implements Listener {
+public class IslandGuard extends ZUtils implements Listener {
     private final ASkyBlock plugin;
     private final static boolean DEBUG = false;
     private final Map<UUID,Vector> onPlate = new HashMap<>();
@@ -416,7 +418,8 @@ public class IslandGuard implements Listener {
                 if (!islandTo.getMembers().contains(e.getPlayer().getUniqueId()) && !e.getPlayer().isOp()
                         && !VaultHelper.checkPerm(e.getPlayer(), Settings.PERMPREFIX + "mod.bypassprotect")
                         && !VaultHelper.checkPerm(e.getPlayer(), Settings.PERMPREFIX + "mod.bypasslock")) {
-                    Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).lockIslandLocked);
+                	
+                    message(e.getPlayer(), Message.ISLAND_LOCK);
 
                     // Get the vector away from this island
                     if (e.getPlayer().isInsideVehicle()) {
@@ -453,7 +456,7 @@ public class IslandGuard implements Listener {
         if (islandTo != null && islandFrom == null) {
             // Entering
             if (islandTo.isLocked() || plugin.getPlayers().isBanned(islandTo.getOwner(),e.getPlayer().getUniqueId())) {
-                Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).lockIslandLocked);
+            	message(e.getPlayer(), Message.ISLAND_LOCK);
             }
             if (islandTo.isSpawn()) {
                 if (!plugin.myLocale(e.getPlayer().getUniqueId()).lockEnteringSpawn.isEmpty()) {
@@ -464,7 +467,10 @@ public class IslandGuard implements Listener {
             } else {
                 if (islandTo.getOwner() != null && !plugin.myLocale(e.getPlayer().getUniqueId()).lockNowEntering.isEmpty()) {
                     if(islandTo.getIgsFlag(SettingsFlag.ENTER_EXIT_MESSAGES)) {
-                        Util.sendEnterExit(e.getPlayer(), plugin.myLocale(e.getPlayer().getUniqueId()).lockNowEntering.replace("[name]", plugin.getGrid().getIslandName(islandTo.getOwner())));
+//                        Util.sendEnterExit(e.getPlayer(), plugin.myLocale(e.getPlayer().getUniqueId()).lockNowEntering.replace("[name]", plugin.getGrid().getIslandName(islandTo.getOwner())));
+                    	
+                        actionMessage(e.getPlayer(), Message.ISLAND_ENTER, plugin.getGrid().getIslandName(islandTo.getOwner()));
+                        
                     }
                 }
             }
@@ -483,7 +489,9 @@ public class IslandGuard implements Listener {
             } else {
                 if (islandFrom.getOwner() != null && !plugin.myLocale(e.getPlayer().getUniqueId()).lockNowLeaving.isEmpty()) {
                     if(islandFrom.getIgsFlag(SettingsFlag.ENTER_EXIT_MESSAGES)) {
-                        Util.sendEnterExit(e.getPlayer(), plugin.myLocale(e.getPlayer().getUniqueId()).lockNowLeaving.replace("[name]", plugin.getGrid().getIslandName(islandFrom.getOwner())));                    }
+//                        actionMessage(e.getPlayer(), Message.ISLAND_LEAVE, plugin.getGrid().getIslandName(islandFrom.getOwner()));  
+                        actionMessage(e.getPlayer(), Message.ISLAND_LEAVE, plugin.getGrid().getIslandName(islandFrom.getOwner()));
+                        }
                 }
             }
             // Fire exit event
@@ -498,7 +506,7 @@ public class IslandGuard implements Listener {
                 }
             } else if (islandFrom.getOwner() != null) {
                 if(islandFrom.getIgsFlag(SettingsFlag.ENTER_EXIT_MESSAGES)) {
-                    Util.sendEnterExit(e.getPlayer(), plugin.myLocale(e.getPlayer().getUniqueId()).lockNowLeaving.replace("[name]", plugin.getGrid().getIslandName(islandFrom.getOwner())));
+                    actionMessage(e.getPlayer(), Message.ISLAND_LEAVE, plugin.getGrid().getIslandName(islandFrom.getOwner()));
                 }
             }
             if (islandTo.isSpawn()) {
@@ -507,7 +515,7 @@ public class IslandGuard implements Listener {
                 }
             } else if (islandTo.getOwner() != null) {
                 if(islandTo.getIgsFlag(SettingsFlag.ENTER_EXIT_MESSAGES)) {
-                    Util.sendEnterExit(e.getPlayer(), plugin.myLocale(e.getPlayer().getUniqueId()).lockNowEntering.replace("[name]", plugin.getGrid().getIslandName(islandTo.getOwner())));
+                	actionMessage(e.getPlayer(), Message.ISLAND_ENTER, plugin.getGrid().getIslandName(islandTo.getOwner()));
                 }
             }
             // Fire exit event

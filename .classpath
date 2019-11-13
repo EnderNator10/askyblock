@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/ProjetSkyblock/paper.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/ProjetSkyblock/plugins/Vault.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/Serveurdedev/spigot-1.7.10.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/Serveurdedev/spigot-1.8.9.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/Serveurdedev/spigot-1.9.2-R0.1-SNAPSHOT-latest.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/Serveurdedev/spigot-1.9.4-R0.1-SNAPSHOT-latest.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/Serveurdedev/spigot-1.10.2-R0.1-SNAPSHOT-latest.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/Serveurdedev/spigot-1.11.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/Serveurdedev/spigot-1.8.7.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/ProjetSkyblock/plugins/PermissionsEx.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

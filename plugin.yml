@@ -1,8 +1,8 @@
-name: ASkyBlock
+name: NeraliaSkyBlock
 main: com.wasteofplastic.askyblock.ASkyBlock
-version: ${version}
+version: 3.0.9.4
 description: A SkyBlock Plugin
-author: Tastybento
+authors: [Tastybento, Maxlego08]
 depend: [Vault]
 load: startup
 loadbefore: [Multiverse-Core]
