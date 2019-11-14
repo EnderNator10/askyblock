@@ -38,6 +38,7 @@ import org.bukkit.entity.Villager;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 import com.wasteofplastic.askyblock.util.Util;
+import com.wasteofplastic.askyblock.zcore.LimitHelper;
 
 /**
  * Stores all the info about an island Managed by GridManager
@@ -405,7 +406,13 @@ public class Island {
 
 				pistonCount = getPistonCount();
 			}
+			
+			if (generatorLevel <= 0)
+				generatorLevel = 1;
 
+			if (hopperLimit <= 0)
+				hopperLimit = 20;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1173,22 +1180,43 @@ public class Island {
 	}
 
 	/**
-	 * @param pistonCount the pistonCount to set
+	 * @param pistonCount
+	 *            the pistonCount to set
 	 */
 	public void setPistonCount(int pistonCount) {
 		this.pistonCount = pistonCount;
 	}
 
-	public int getPiston(){
+	public int getPiston() {
 		return this.pistonCount;
 	}
-	
-	public void addPiston(){
+
+	public void addPiston() {
 		this.pistonCount++;
 	}
-	
-	public void removePiston(){
+
+	public void removePiston() {
 		this.pistonCount--;
 	}
-	
+
+	public boolean updateLevel(int level) {
+		if (Math.abs(level - generatorLevel) > 1)
+			return false;
+		if (level <= generatorLevel)
+			return false;
+		generatorLevel = level;
+		if (generatorLevel > 17) {
+			generatorLevel = 17;
+			return false;
+		}
+		return true;
+	}
+
+	public boolean updateHopper() {
+		if (this.hopperLimit > LimitHelper.HOPPER.getLimit())
+			return false;
+		this.generatorLevel += 10;
+		return true;
+	}
+
 }

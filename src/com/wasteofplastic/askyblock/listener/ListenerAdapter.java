@@ -110,4 +110,7 @@ public abstract class ListenerAdapter extends ZUtils {
 
 	public void onSign(SignChangeEvent event, Player player) {
 	}
+
+	public void onBlockForm(BlockFormEvent event, BlockState newState) {
+	}
 }

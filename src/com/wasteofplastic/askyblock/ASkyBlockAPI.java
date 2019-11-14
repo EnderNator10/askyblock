@@ -546,4 +546,8 @@ public class ASkyBlockAPI {
         return leader != null && leader.equals(playerUUID);
 
     }
+    
+    public Island getIsland(Player player){
+    	return plugin.getGrid().getIslandAt(plugin.getPlayers().getIslandLocation(player.getUniqueId()));
+    }
 }

@@ -928,6 +928,7 @@ public class PluginConfig {
                     plugin.getLogger().warning("Unknown material (" + material + ") in blockvalues.yml blocks section. Skipping...");
                 }
             }
+            Settings.sortValues();
         } else {
             plugin.getLogger().severe("No block values in blockvalues.yml! All island levels will be zero!");
         }

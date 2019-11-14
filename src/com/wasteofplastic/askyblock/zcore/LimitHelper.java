@@ -3,6 +3,8 @@ package com.wasteofplastic.askyblock.zcore;
 public enum LimitHelper {
 
 	HOPPER(200),
+	MEMBER(8),
+	ISLAND(350),
 	PISTON(1000),
 	
 	;

@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 
 import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.inventory.inventories.InventoryIsland;
+import com.wasteofplastic.askyblock.inventory.inventories.InventoryValue;
 import com.wasteofplastic.askyblock.listener.ListenerAdapter;
 import com.wasteofplastic.askyblock.zcore.Logger;
 import com.wasteofplastic.askyblock.zcore.Logger.LogType;
@@ -24,6 +25,7 @@ public class InventoryManager extends ListenerAdapter {
 		this.plugin = plugin;
 
 		addInventory(1, new InventoryIsland());
+		addInventory(2, new InventoryValue());
 		
 		plugin.getLog().log("Loading " + inventories.size() + " inventories", LogType.SUCCESS);
 	}

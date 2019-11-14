@@ -166,4 +166,10 @@ public class AdapterListener implements Listener {
 			template.getListenerAdapters().forEach(
 					adapter -> adapter.onPlayerDamageByEntity(event, (Player) event.getEntity(), event.getDamager()));
 	}
+	
+	@EventHandler
+	public void onBlockForm(BlockFormEvent event) {
+		template.getListenerAdapters().forEach(
+				adapter -> adapter.onBlockForm(event, event.getNewState()));
+	}
 }
