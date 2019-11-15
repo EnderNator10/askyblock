@@ -80,7 +80,6 @@ import com.wasteofplastic.askyblock.events.IslandNewEvent;
 import com.wasteofplastic.askyblock.events.IslandPreDeleteEvent;
 import com.wasteofplastic.askyblock.events.IslandPreTeleportEvent;
 import com.wasteofplastic.askyblock.events.IslandResetEvent;
-import com.wasteofplastic.askyblock.listeners.PlayerEvents;
 import com.wasteofplastic.askyblock.panels.ControlPanel;
 import com.wasteofplastic.askyblock.schematics.Schematic;
 import com.wasteofplastic.askyblock.schematics.Schematic.PasteReason;
@@ -1316,6 +1315,7 @@ public class IslandCmd extends ZUtils implements CommandExecutor, TabCompleter {
                     Util.sendMessage(player, ChatColor.GOLD + "If not, see <http://www.gnu.org/licenses/>.");
                     Util.sendMessage(player, ChatColor.GOLD + "Source code is available on GitHub.");
                     Util.sendMessage(player, ChatColor.GOLD + "(c) 2014 - 2018 by tastybento, Poslovitch");
+                    Util.sendMessage(player, ChatColor.YELLOW + "Version custom développé par §6Maxlego08§e pour neralia.");
                     return true;
                     // Spawn enderman
                     // Enderman enderman = (Enderman)

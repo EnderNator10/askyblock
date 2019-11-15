@@ -3,9 +3,11 @@ package com.wasteofplastic.askyblock.zcore;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.util.VaultHelper;
@@ -262,6 +264,106 @@ public abstract class ZUtils {
 	public void upEconomy() {
 		if (economy == null)
 			economy = VaultHelper.econ;
+	}
+	
+	public String betterName(ItemStack item){
+		String tmpName = item.getType().name().toLowerCase().replace("_", " ");
+		return tmpName.substring(0, 1).toUpperCase()+tmpName.substring(1);
+	}
+	
+	public boolean hasItem(Player player, ItemStack item){
+		for(ItemStack itemc : player.getInventory().getContents())
+			if (itemc != null && itemc.isSimilar(item) && itemc.getAmount() >= item.getAmount())
+				return true;
+		return false;
+	}
+	
+	/**
+	 * Remove somes items in player inventory
+	 * 
+	 * @param player
+	 * @param item
+	 *            number
+	 * @param material
+	 *            who need to remove
+	 * @param data
+	 *            of item
+	 */
+	public void removeItem(Player player, int item, Material material) {
+		removeItem(player, item, material, 0);
+	}
+
+	/**
+	 * Remove somes items in player inventory
+	 * 
+	 * @param player
+	 * @param item
+	 *            number
+	 * @param material
+	 *            who need to remove
+	 * @param data
+	 *            of item
+	 */
+	@SuppressWarnings("deprecation")
+	public void removeItem(Player player, int item, Material material, int data) {
+		for (ItemStack contents1 : player.getInventory().getContents()) {
+			if (contents1 != null && contents1.getType().equals(material) && data == contents1.getData().getData()) {
+
+				if (item <= 0)
+					continue;
+
+				int currentAmount = contents1.getAmount();
+				if (currentAmount > item) {
+					int newAmount = currentAmount - item;
+					item = 0;
+					contents1.setAmount(newAmount);
+				} else {
+
+					item -= contents1.getAmount();
+					contents1.setAmount(0);
+
+				}
+
+			}
+		}
+	}
+	
+	/**
+	 * @param player
+	 * @return true if the player's inventory is full
+	 */
+	protected boolean hasInventoryFull(Player player) {
+		int slot = 0;
+		ItemStack[] arrayOfItemStack;
+		int x = (arrayOfItemStack = player.getInventory().getContents()).length - 5;
+		for (int i = 0; i < x; i++) {
+			ItemStack contents = arrayOfItemStack[i];
+			if ((contents == null)) {
+				slot++;
+			}
+		}
+		return slot == 0;
+	}
+
+	protected boolean give(ItemStack item, Player player) {
+		if (hasInventoryFull(player))
+			return false;
+		player.getInventory().addItem(item);
+		return true;
+	}
+
+	/**
+	 * Gives an item to the player, if the player's inventory is full then the
+	 * item will drop to the ground
+	 * 
+	 * @param player
+	 * @param item
+	 */
+	protected void give(Player player, ItemStack item) {
+		if (hasInventoryFull(player))
+			player.getWorld().dropItem(player.getLocation(), item);
+		else
+			player.getInventory().addItem(item);
 	}
 	
 }

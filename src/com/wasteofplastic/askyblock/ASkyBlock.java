@@ -17,6 +17,7 @@
 package com.wasteofplastic.askyblock;
 
 import java.io.File;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,10 +41,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.wasteofplastic.askyblock.NotSetup.Reason;
 import com.wasteofplastic.askyblock.Settings.GameType;
 import com.wasteofplastic.askyblock.Updater.UpdateResult;
 import com.wasteofplastic.askyblock.Updater.UpdateType;
+import com.wasteofplastic.askyblock.challenges.ChallengesManager;
 import com.wasteofplastic.askyblock.commands.AdminCmd;
 import com.wasteofplastic.askyblock.commands.Challenges;
 import com.wasteofplastic.askyblock.commands.IslandCmd;
@@ -81,6 +85,8 @@ import com.wasteofplastic.askyblock.util.HeadGetter;
 import com.wasteofplastic.askyblock.util.Util;
 import com.wasteofplastic.askyblock.util.VaultHelper;
 import com.wasteofplastic.askyblock.zcore.Logger;
+import com.wasteofplastic.askyblock.zcore.storage.Persist;
+import com.wasteofplastic.askyblock.zcore.storage.Saveable;
 
 /**
  * @author tastybento
@@ -164,9 +170,15 @@ public class ASkyBlock extends JavaPlugin {
     private List<ListenerAdapter> listenerAdapters = new ArrayList<>();
     
 	public void addListener(ListenerAdapter adapter) {
+		if (adapter instanceof Saveable) {
+			addSave((Saveable) adapter);
+		}
 		listenerAdapters.add(adapter);
 	}
-    
+
+	public void addSave(Saveable saver) {
+		this.savers.add(saver);
+	}
 	public void addListener(Listener listener) {
 		Bukkit.getPluginManager().registerEvents(listener, this);
 	}
@@ -181,6 +193,29 @@ public class ASkyBlock extends JavaPlugin {
 	
 	public InventoryManager getInventoryManager() {
 		return inventoryManager;
+	}
+	
+	//Savable
+	
+	private Persist persist = new Persist(this);
+	private Gson gson = getGsonBuilder().create();
+	private List<Saveable> savers = new ArrayList<>();
+	
+	public List<Saveable> getSavers() {
+		return savers;
+	}
+	
+	public Persist getPersist() {
+		return persist;
+	}
+	
+	public Gson getGson() {
+		return gson;
+	}
+	
+	public GsonBuilder getGsonBuilder() {
+		return new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().serializeNulls()
+				.excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE);
 	}
 	
     /**
@@ -304,6 +339,8 @@ public class ASkyBlock extends JavaPlugin {
             e.printStackTrace();
         }
 
+        getSavers().forEach(saver -> saver.save(getPersist()));
+        
         metrics = null;
     }
 
@@ -341,6 +378,7 @@ public class ASkyBlock extends JavaPlugin {
         addListener(new AdapterListener(this));
         addListener(inventoryManager);
         addListener(new BlockLimiter(this));
+        addListener(new ChallengesManager());
         
         saveDefaultConfig();
         // Check to see if island distance is set or not
@@ -606,6 +644,9 @@ public class ASkyBlock extends JavaPlugin {
 
             }
         });
+        
+        getSavers().forEach(saver -> saver.load(getPersist()));
+        
     }
 
     /**

@@ -23,6 +23,10 @@ public enum Message {
 	ISLAND_LIMIT_HOPPER("§cVous ne pouvez pas placer plus de §6%s§c hoppers."),
 	ISLAND_LIMIT_PISTON("§cVous ne pouvez pas placer plus de §6%s§c pistons."),
 	
+	CHALLENGE_ERROR("§cVous ne pouvez pas passer ce challenge."),
+	CHALLENGE_SUCCESS("§aVous venez de terminer le challenge §2%s§a."),
+	CHALLENGE_LEVEL_UP("§aVous venez de débloquer les challengs §2%s§a."),
+	
 	;
 
 	private final String message;
