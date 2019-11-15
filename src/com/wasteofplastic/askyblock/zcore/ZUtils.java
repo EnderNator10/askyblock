@@ -265,19 +265,30 @@ public abstract class ZUtils {
 		if (economy == null)
 			economy = VaultHelper.econ;
 	}
-	
-	public String betterName(ItemStack item){
+
+	public String betterName(ItemStack item) {
 		String tmpName = item.getType().name().toLowerCase().replace("_", " ");
-		return tmpName.substring(0, 1).toUpperCase()+tmpName.substring(1);
+		return tmpName.substring(0, 1).toUpperCase() + tmpName.substring(1);
 	}
-	
-	public boolean hasItem(Player player, ItemStack item){
-		for(ItemStack itemc : player.getInventory().getContents())
+
+	public boolean hasItem(Player player, ItemStack item) {
+		for (ItemStack itemc : player.getInventory().getContents())
 			if (itemc != null && itemc.isSimilar(item) && itemc.getAmount() >= item.getAmount())
 				return true;
 		return false;
 	}
-	
+
+	public boolean hasItem(ItemStack[] items, ItemStack item) {
+		for (int a = 0; a != items.length; a++) {
+			ItemStack currentItem = items[a];
+			if (currentItem != null && currentItem.isSimilar(item) && currentItem.getAmount() >= item.getAmount()) {
+				items[a] = null;
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Remove somes items in player inventory
 	 * 
@@ -327,7 +338,7 @@ public abstract class ZUtils {
 			}
 		}
 	}
-	
+
 	/**
 	 * @param player
 	 * @return true if the player's inventory is full
@@ -365,5 +376,5 @@ public abstract class ZUtils {
 		else
 			player.getInventory().addItem(item);
 	}
-	
+
 }

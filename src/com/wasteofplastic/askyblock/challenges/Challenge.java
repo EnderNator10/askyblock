@@ -60,14 +60,13 @@ public class Challenge extends ZUtils {
 
 		boolean can = true;
 
-		if (presentItem != null)
+		if (presentItem != null){
+			ItemStack[] items = player.getInventory().getContents();
 			for (ItemStack item : presentItem) {
-
-				if (!hasItem(player, item))
+				if (!hasItem(items, item))
 					can = false;
-
 			}
-
+		}
 		if (manuelVerif != null)
 			can = manuelVerif.accept(player);
 			

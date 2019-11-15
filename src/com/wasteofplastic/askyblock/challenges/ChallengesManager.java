@@ -1,14 +1,16 @@
 package com.wasteofplastic.askyblock.challenges;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.WorldType;
 import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -97,29 +99,123 @@ public class ChallengesManager extends ListenerAdapter implements Saveable {
 								.setMoneyReward(200).setXpReward(50));
 		id++;
 
-		addChallenge(new Challenge(ChallengeType.DEFAULT, id, "Pistonneur", Arrays.asList("Créer §2x2§7 pistons"),
-				new ItemStack(Material.PISTON_BASE)).setPresentItem(new ItemStack(Material.PISTON_BASE, 2))
-						.setItemsReward(new ItemStack(Material.IRON_INGOT, 16)).setMoneyReward(200).setXpReward(50));
+		addChallenge(new Challenge(ChallengeType.DEFAULT, id, "Pistonneur+", Arrays.asList("Créer §2x16§7 pistons"),
+				new ItemStack(Material.PISTON_BASE)).setPresentItem(new ItemStack(Material.PISTON_BASE, 16))
+						.setItemsReward(new ItemStack(Material.IRON_INGOT, 32)).setMoneyReward(200).setXpReward(50));
 		id++;
 
 		addChallenge(
-				new Challenge(ChallengeType.DEFAULT, id, "Feuilles", Arrays.asList("Avoir §2x64§7 feuilles de chaine"),
+				new Challenge(ChallengeType.DEFAULT, id, "Feuilles", Arrays.asList("Avoir §2x64§7 feuilles de chêne"),
 						new ItemStack(Material.LEAVES)).setPresentItem(new ItemStack(Material.LEAVES, 64, (byte) 0))
 								.setItemsReward(new ItemStack(Material.GRASS, 64), new ItemStack(Material.WOOD, 10))
 								.setMoneyReward(200).setXpReward(50));
 		id++;
 
 		/**
-		 * Nether
+		 * Compétant
 		 */
 
 		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Nether", Arrays.asList("Etre dans le nether"),
 				new ItemStack(Material.NETHERRACK))
 						.setManuelVerif(player -> player.getLocation().getBlock().getBiome().equals(Biome.HELL))
-						.setItemsReward(new ItemStack(Material.NETHER_STALK, 16))
-						.setMoneyReward(400).setXpReward(200));
+						.setItemsReward(new ItemStack(Material.NETHER_STALK, 16)).setMoneyReward(400).setXpReward(200));
 		id++;
 
+		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Farmeur",
+				Arrays.asList("Avoir §2x64§7 blés, sucres, melons, carrotes, patates et citrouilles"),
+				new ItemStack(Material.WHEAT))
+						.setPresentItem(new ItemStack(Material.WHEAT, 64), new ItemStack(Material.SUGAR, 64),
+								new ItemStack(Material.MELON, 64), new ItemStack(Material.PUMPKIN, 64),
+								new ItemStack(Material.POTATO_ITEM, 64), new ItemStack(Material.CARROT_ITEM, 64))
+						.setItemsReward(new ItemStack(Material.INK_SACK, 1, (byte) 3),
+								new ItemStack(Material.MONSTER_EGG, 1, (byte) 90),
+								new ItemStack(Material.MONSTER_EGG, 1, (byte) 91),
+								new ItemStack(Material.MONSTER_EGG, 1, (byte) 95))
+						.setMoneyReward(300).setXpReward(100));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Pêcheur", Arrays.asList("Cuire §2x32§7 poissons"),
+				new ItemStack(Material.COOKED_FISH)).setPresentItem(new ItemStack(Material.COOKED_FISH, 32))
+						.setItemsReward(new ItemStack(Material.IRON_INGOT, 32)).setMoneyReward(400).setXpReward(200));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Cookie", Arrays.asList("Avoir §2x512§7 cookies"),
+				new ItemStack(Material.COOKIE))
+						.setPresentItem(new ItemStack(Material.COOKIE, 64), new ItemStack(Material.COOKIE, 64),
+								new ItemStack(Material.COOKIE, 64), new ItemStack(Material.COOKIE, 64),
+								new ItemStack(Material.COOKIE, 64), new ItemStack(Material.COOKIE, 64),
+								new ItemStack(Material.COOKIE, 64), new ItemStack(Material.COOKIE, 64))
+						.setItemsReward(new ItemStack(Material.REDSTONE, 64)).setMoneyReward(400).setXpReward(200));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Feuilles",
+				Arrays.asList("Avoir §2x64§7 feuilles de chêne, de boulot et de spruce"),
+				new ItemStack(Material.LEAVES)).setPresentItem(new ItemStack(Material.LEAVES, 64, (byte) 0),
+						new ItemStack(Material.LEAVES, 64, (byte) 1), new ItemStack(Material.LEAVES, 64, (byte) 2))
+						.setItemsReward(new ItemStack(Material.GRASS, 64), new ItemStack(Material.WOOD, 32))
+						.setMoneyReward(400).setXpReward(50));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Bucheron",
+				Arrays.asList("Avoir §2x128§7 buche de chêne"), new ItemStack(Material.LOG))
+						.setPresentItem(new ItemStack(Material.LOG, 64), new ItemStack(Material.LOG, 64))
+						.setItemsReward(new ItemStack(Material.LAPIS_ORE, 32)).setMoneyReward(400).setXpReward(200));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Constructeur",
+				Arrays.asList("Avoir un niveau d'île supérieur ou égal à §2250§7."), new ItemStack(Material.WOOD))
+						.setManuelVerif(
+								player -> ASkyBlockAPI.getInstance().getLongIslandLevel(player.getUniqueId()) >= 250)
+						.setItemsReward(new ItemStack(Material.GRASS, 256)).setMoneyReward(1000).setXpReward(250));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Pistonneur",
+				Arrays.asList("Créer §2x16§7 pistons colant"), new ItemStack(Material.PISTON_STICKY_BASE))
+						.setPresentItem(new ItemStack(Material.PISTON_STICKY_BASE, 32))
+						.setItemsReward(new ItemStack(Material.SLIME_BALL, 16)).setMoneyReward(500).setXpReward(500));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Bienvenue chez moi",
+				Arrays.asList("Créer une maison qui contient,", "une porte en bois, un lit, une bibliothèque",
+						"un four, une vitre, une torche", "une table de craft, une enclume",
+						"et une table d'enchantement"),
+				new ItemStack(Material.BED)).setManuelVerif(player -> houseCheck(player))
+						.setItemsReward(new ItemStack(Material.DIAMOND, 8)).setMoneyReward(400).setXpReward(250));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "EnderPearls",
+				Arrays.asList("Avoir §2x32§7 EnderPearls"), new ItemStack(Material.ENDER_PEARL))
+						.setPresentItem(new ItemStack(Material.ENDER_PEARL, 16),
+								new ItemStack(Material.ENDER_PEARL, 16))
+						.setItemsReward(new ItemStack(Material.COAL_BLOCK, 8)).setMoneyReward(400).setXpReward(200));
+		id++;
+
+	}
+
+	/**
+	 * House check
+	 */
+
+	private final transient List<Material> houses = Arrays.asList(Material.WOODEN_DOOR, Material.TORCH, Material.ANVIL,
+			Material.THIN_GLASS, Material.ENCHANTMENT_TABLE, Material.WORKBENCH, Material.BED_BLOCK, Material.BOOKSHELF,
+			Material.FURNACE);
+
+	private boolean houseCheck(Player player) {
+		List<Material> current = new ArrayList<>();
+		Location defaultLocation = player.getLocation();
+		for (int x = defaultLocation.getBlockX() - 1; x != defaultLocation.getBlockX() + 3; x++) {
+			for (int y = defaultLocation.getBlockY() - 1; y != defaultLocation.getBlockY() + 3; y++) {
+				for (int z = defaultLocation.getBlockZ() - 1; z != defaultLocation.getBlockZ() + 3; z++) {
+					Block block = defaultLocation.getWorld().getBlockAt(x, y, z);
+					if (block.getType().equals(Material.AIR))
+						continue;
+					if (houses.contains(block.getType()) && !current.contains(block.getType())) {
+						current.add(block.getType());
+					}
+				}
+			}
+		}
+		return current.size() == 9;
 	}
 
 	/**
