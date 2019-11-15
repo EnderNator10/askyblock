@@ -38,4 +38,8 @@ public enum ChallengeType {
 						: this == EXPERT ? ADVANCED : this == ChallengeType.ADVANCED ? ELITE : END;
 	}
 
+	public boolean canDo(ChallengeType type) {
+		return type.getId() >= this.getId();
+	}
+
 }

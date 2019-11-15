@@ -2,6 +2,7 @@ package com.wasteofplastic.askyblock.challenges;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -190,6 +191,16 @@ public class ChallengesManager extends ListenerAdapter implements Saveable {
 						.setItemsReward(new ItemStack(Material.COAL_BLOCK, 8)).setMoneyReward(400).setXpReward(200));
 		id++;
 
+		/**
+		 * Expert
+		 */
+
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "SlimeBall",
+				Arrays.asList("Avoir §2x128§7 boule de slime"), new ItemStack(Material.SLIME_BALL))
+						.setPresentItem(new ItemStack(Material.SLIME_BALL, 64), new ItemStack(Material.SLIME_BALL, 64))
+						.setItemsReward(new ItemStack(Material.DIAMOND_BLOCK, 2)).setMoneyReward(500).setXpReward(200));
+		id++;
+
 	}
 
 	/**
@@ -240,6 +251,10 @@ public class ChallengesManager extends ListenerAdapter implements Saveable {
 
 	public List<Challenge> getChallenges(ChallengeType type) {
 		return this.challenges.values().stream().filter(c -> c.getType().equals(type)).collect(Collectors.toList());
+	}
+
+	public Collection<Challenge> getChallenges() {
+		return challenges.values();
 	}
 
 	/**

@@ -20,6 +20,7 @@ import com.wasteofplastic.askyblock.challenges.ChallengesManager;
 import com.wasteofplastic.askyblock.challenges.PlayerChallenges;
 import com.wasteofplastic.askyblock.inventory.ItemButton;
 import com.wasteofplastic.askyblock.inventory.VInventory;
+import com.wasteofplastic.askyblock.zcore.ItemBuilder;
 
 public class InventoryChallenges extends VInventory {
 
@@ -81,6 +82,9 @@ public class InventoryChallenges extends VInventory {
 		int currentSlot = 47;
 		for (ChallengeType currentType : ChallengeType.values()) {
 
+			if (currentType.equals(ChallengeType.END))
+				continue;
+
 			ItemStack item = new ItemStack(Material.BOOK);
 			ItemMeta itemMeta = item.getItemMeta();
 			itemMeta.setDisplayName("§b" + currentType.getName());
@@ -103,11 +107,19 @@ public class InventoryChallenges extends VInventory {
 
 			item.setItemMeta(itemMeta);
 
-			addItem(currentSlot++, new ItemButton(item).setClick(event -> {
+			int tmpSlot = currentSlot++;
+
+			addItem(tmpSlot, new ItemButton(item).setClick(event -> {
 				if (playerChallenges.can(currentType))
 					ChallengesManager.getInstance().open(currentType, player);
 			}));
 		}
+
+		addItem(40, new ItemButton(ItemBuilder.getCreatedItem(Material.NETHER_STAR, 1, "§bListe des challenges"))
+				.setClick(event -> {
+					main.getInventoryManager().createInventory(4, player, page,
+							ChallengesManager.getInstance().getChallenges(), playerChallenges);
+				}));
 
 		return true;
 	}

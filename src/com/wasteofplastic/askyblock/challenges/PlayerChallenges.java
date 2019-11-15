@@ -71,5 +71,9 @@ public class PlayerChallenges {
 			can = hasFinish(challenge.getId());
 		return can;
 	}
+	
+	public boolean canDo(Challenge challenge){
+		return challenge.getType().canDo(this.type);
+	}
 
 }

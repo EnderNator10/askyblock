@@ -18,6 +18,10 @@ public class ItemBuilder {
 	public static ItemStack getCreatedItem(Material Material, int Number, int id) {
 		return getCreatedItemAndData(Material, Number, (byte) id, "");
 	}
+	
+	public static ItemStack getCreatedItem(Material Material, int Number, int id, String name) {
+		return getCreatedItemAndData(Material, Number, (byte) id, name);
+	}
 
 	public static ItemStack getCreatedItem(Material Material, int Number, String... name) {
 		return getCreatedItemWithLore(Material, Number, null, name);
