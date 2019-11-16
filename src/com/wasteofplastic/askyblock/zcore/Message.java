@@ -15,7 +15,7 @@ public enum Message {
 	
 	ISLAND_RESET_ERROR("§cVous ne pouvez plus créer d'île, merci de contacter un administrateur."),
 	
-	ISLAND_LOCK("§cImpossible d'entrer dans cette île, elle est fermé au public."),
+	ISLAND_LOCK("§cImpossible d'entrer dans cette île, elle est fermée au public."),
 	
 	ISLAND_ENTER("§fVous entrez sur l'île de §o%s"),
 	ISLAND_LEAVE("§fVous quittez l'île de §o%s"),
@@ -26,6 +26,9 @@ public enum Message {
 	CHALLENGE_ERROR("§cVous ne pouvez pas passer ce challenge."),
 	CHALLENGE_SUCCESS("§aVous venez de terminer le challenge §2%s§a."),
 	CHALLENGE_LEVEL_UP("§aVous venez de débloquer les challengs §2%s§a."),
+	
+	HOPPER_PLACE("§aVous venez de placer un hopper."),
+	HOPPER_REMOVE("§cVous venez de détruire un hopper !"),
 	
 	;
 

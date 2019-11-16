@@ -3,8 +3,12 @@ package com.wasteofplastic.askyblock.zcore;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -376,5 +380,103 @@ public abstract class ZUtils {
 		else
 			player.getInventory().addItem(item);
 	}
+	
+	/**
+	 * @param location
+	 *            as String
+	 * @return string as location
+	 */
+	protected Location changeStringLocationToLocation(String s) {
+		String[] a = s.split(",");
+		World w = Bukkit.getServer().getWorld(a[0]);
+		float x = Float.parseFloat(a[1]);
+		float y = Float.parseFloat(a[2]);
+		float z = Float.parseFloat(a[3]);
+		return new Location(w, x, y, z);
+	}
 
+	/**
+	 * @param location
+	 *            as string
+	 * @return string as locaiton
+	 */
+	protected Location changeStringLocationToLocationEye(String s) {
+		String[] a = s.split(",");
+		World w = Bukkit.getServer().getWorld(a[0]);
+		float x = Float.parseFloat(a[1]);
+		float y = Float.parseFloat(a[2]);
+		float z = Float.parseFloat(a[3]);
+		float yaw = Float.parseFloat(a[3]);
+		float pitch = Float.parseFloat(a[3]);
+		return new Location(w, x, y, z, yaw, pitch);
+	}
+
+	/**
+	 * @param location
+	 * @return location as string
+	 */
+	protected String changeLocationToString(Location location) {
+		String ret = location.getWorld().getName() + "," + location.getBlockX() + "," + location.getBlockY() + ","
+				+ location.getBlockZ();
+		return ret;
+	}
+
+	/**
+	 * @param location
+	 * @return location as String
+	 */
+	protected String changeLocationToStringEye(Location location) {
+		String ret = location.getWorld().getName() + "," + location.getBlockX() + "," + location.getBlockY() + ","
+				+ location.getBlockZ() + "," + location.getYaw() + "," + location.getPitch();
+		return ret;
+	}
+
+	/**
+	 * @param chunk
+	 * @return string as Chunk
+	 */
+	protected Chunk changeStringChuncToChunk(String chunk) {
+		String[] a = chunk.split(",");
+		World w = Bukkit.getServer().getWorld(a[0]);
+		return w.getChunkAt(Integer.valueOf(a[1]), Integer.valueOf(a[2]));
+	}
+
+	/**
+	 * @param chunk
+	 * @return chunk as string
+	 */
+	protected String changeChunkToString(Chunk chunk) {
+		String c = chunk.getWorld().getName() + "," + chunk.getX() + "," + chunk.getZ();
+		return c;
+	}
+
+	/**
+	 * Check if the item name is the same as the given string
+	 * 
+	 * @param stack
+	 * @param name
+	 * @return true if the item name is the same as string
+	 */
+	protected boolean same(ItemStack stack, String name) {
+		return stack.hasItemMeta() && stack.getItemMeta().hasDisplayName()
+				&& stack.getItemMeta().getDisplayName().equals(name);
+	}
+
+
+	/**
+	 * Remove the item from the player's hand
+	 * 
+	 * @param player
+	 * @param number
+	 *            of items to withdraw
+	 */
+	@SuppressWarnings("deprecation")
+	protected void removeItemInHand(Player player, int how) {
+		if (player.getItemInHand().getAmount() > how)
+			player.getItemInHand().setAmount(player.getItemInHand().getAmount() - how);
+		else
+			player.setItemInHand(new ItemStack(Material.AIR));
+		player.updateInventory();
+	}
+	
 }

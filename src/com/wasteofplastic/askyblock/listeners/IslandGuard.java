@@ -129,7 +129,7 @@ public class IslandGuard extends ZUtils implements Listener {
      * @param entity
      * @return
      */
-    protected static boolean inWorld(Entity entity) {
+    public static boolean inWorld(Entity entity) {
         return inWorld(entity.getLocation());
     }
 

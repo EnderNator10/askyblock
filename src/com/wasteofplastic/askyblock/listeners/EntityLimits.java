@@ -45,7 +45,7 @@ public class EntityLimits implements Listener {
     private static final boolean DEBUG = false;
     private static final boolean DEBUG2 = false;
     private static final boolean DEBUG3 = false;
-    private final ASkyBlock plugin;
+    private static ASkyBlock plugin;
     private YamlConfiguration entities;
 
     /**
@@ -53,7 +53,7 @@ public class EntityLimits implements Listener {
      * @param plugin - ASkyBlock plugin object
      */
     public EntityLimits(ASkyBlock plugin) {
-        this.plugin = plugin;
+    	EntityLimits.plugin = plugin;
         if (Settings.saveEntities) {
             entities = Util.loadYamlFile("entitylimits.yml");
         }
@@ -123,7 +123,7 @@ public class EntityLimits implements Listener {
      * @param flag
      * @return true if allowed
      */
-    private boolean actionAllowed(Location location, SettingsFlag flag) {
+    private static boolean actionAllowed(Location location, SettingsFlag flag) {
         Island island = plugin.getGrid().getProtectedIslandAt(location);
         if (island != null && island.getIgsFlag(flag)){
             return true;
@@ -138,7 +138,7 @@ public class EntityLimits implements Listener {
      * @param flag
      * @return true if allowed
      */
-    private boolean actionAllowed(Player player, Location location, SettingsFlag flag) {
+    public static boolean actionAllowed(Player player, Location location, SettingsFlag flag) {
         if (player == null) {
             return actionAllowed(location, flag);
         }

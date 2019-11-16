@@ -206,5 +206,20 @@ public class ItemBuilder {
 		hammer.addUnsafeEnchantment(Enchantment.DURABILITY, 500);
 		return hammer;
 	}
+	
+	public static ItemStack getHopper(){
+		ItemStack hammer = new ItemStack(Material.HOPPER, 1);
+		ItemMeta hammerM = hammer.getItemMeta();
+		hammerM.setDisplayName("§6» §eHopper §6«");
+		hammerM.setLore(Arrays
+				.asList(new String[] { "§f» §7Permet de récupèrer les items à §25 §7blocs autour de lui"}));
+		hammerM.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ATTRIBUTES });
+		hammerM.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_DESTROYS });
+		hammerM.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ENCHANTS });
+		hammerM.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_UNBREAKABLE });
+		hammer.setItemMeta(hammerM);
+		hammer.addUnsafeEnchantment(Enchantment.DURABILITY, 500);
+		return hammer;
+	}
 
 }

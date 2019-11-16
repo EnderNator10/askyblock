@@ -55,6 +55,7 @@ import com.wasteofplastic.askyblock.events.IslandDeleteEvent;
 import com.wasteofplastic.askyblock.events.IslandPreDeleteEvent;
 import com.wasteofplastic.askyblock.events.ReadyEvent;
 import com.wasteofplastic.askyblock.generators.ChunkGeneratorWorld;
+import com.wasteofplastic.askyblock.hopper.HopperManager;
 import com.wasteofplastic.askyblock.inventory.InventoryManager;
 import com.wasteofplastic.askyblock.listener.AdapterListener;
 import com.wasteofplastic.askyblock.listener.ListenerAdapter;
@@ -218,6 +219,14 @@ public class ASkyBlock extends JavaPlugin {
 				.excludeFieldsWithModifiers(Modifier.TRANSIENT, Modifier.VOLATILE);
 	}
 	
+	//Hopper
+	
+	private final HopperManager hopperManager = new HopperManager();
+	
+	public HopperManager getHopper() {
+		return hopperManager;
+	}
+	
     /**
      * Returns the World object for the island world named in config.yml.
      * If the world does not exist then it is created.
@@ -379,6 +388,7 @@ public class ASkyBlock extends JavaPlugin {
         addListener(inventoryManager);
         addListener(new BlockLimiter(this));
         addListener(new ChallengesManager());
+        addListener(hopperManager);
         
         saveDefaultConfig();
         // Check to see if island distance is set or not
