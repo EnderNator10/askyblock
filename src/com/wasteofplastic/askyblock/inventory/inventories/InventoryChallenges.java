@@ -21,10 +21,11 @@ import com.wasteofplastic.askyblock.challenges.PlayerChallenges;
 import com.wasteofplastic.askyblock.inventory.ItemButton;
 import com.wasteofplastic.askyblock.inventory.VInventory;
 import com.wasteofplastic.askyblock.zcore.ItemBuilder;
+import com.wasteofplastic.askyblock.zcore.Message;
 
 public class InventoryChallenges extends VInventory {
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	public boolean openInventory(ASkyBlock main, Player player, int page, Object... args) throws Exception {
 
@@ -60,7 +61,10 @@ public class InventoryChallenges extends VInventory {
 			if (challenge.getItemsReward() != null && challenge.getItemsReward().size() != 0) {
 				lore.add("§f» §7Récompense" + (challenge.getItemsReward().size() == 1 ? "" : "s") + ":");
 				challenge.getItemsReward().forEach(reward -> {
-					lore.add("  §f- §7x" + reward.getAmount() + " " + betterName(reward));
+					lore.add("  §f- §7x" + reward.getAmount() + " " + (reward.getItemMeta().hasDisplayName()
+							? reward.getItemMeta().getDisplayName()
+							: betterName(reward)
+									+ (reward.getData().getData() == 0 ? "" : ":" + reward.getData().getData())));
 				});
 			}
 			lore.add("");
@@ -74,8 +78,10 @@ public class InventoryChallenges extends VInventory {
 			item.setItemMeta(itemMeta);
 
 			addItem(slot.getAndIncrement(), new ItemButton(item).setClick(event -> {
-				// if (!playerChallenges.hasFinish(challenge.getId()))
-				challenge.perform(player, playerChallenges, challenges);
+				if (!playerChallenges.hasFinish(challenge.getId()))
+					challenge.perform(player, playerChallenges, challenges);
+				else
+					message(player, Message.CHALLENGE_ALREADY);
 			}));
 		});
 

@@ -163,6 +163,7 @@ public abstract class ZUtils {
 	 *            value
 	 */
 	protected void depositMoney(Player player, long value) {
+		upEconomy();
 		economy.depositPlayer(player, (double) value);
 	}
 
@@ -174,6 +175,7 @@ public abstract class ZUtils {
 	 *            value
 	 */
 	protected void depositMoney(Player player, int value) {
+		upEconomy();
 		economy.depositPlayer(player, (double) value);
 	}
 

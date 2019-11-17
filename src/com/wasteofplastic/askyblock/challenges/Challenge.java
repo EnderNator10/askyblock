@@ -10,6 +10,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import com.sun.istack.internal.logging.Logger;
+import com.wasteofplastic.askyblock.zcore.Logger.LogType;
 import com.wasteofplastic.askyblock.zcore.Message;
 import com.wasteofplastic.askyblock.zcore.ReturnConsumer;
 import com.wasteofplastic.askyblock.zcore.ZUtils;
@@ -60,7 +62,7 @@ public class Challenge extends ZUtils {
 
 		boolean can = true;
 
-		if (presentItem != null){
+		if (presentItem != null) {
 			ItemStack[] items = player.getInventory().getContents();
 			for (ItemStack item : presentItem) {
 				if (!hasItem(items, item))
@@ -69,7 +71,7 @@ public class Challenge extends ZUtils {
 		}
 		if (manuelVerif != null)
 			can = manuelVerif.accept(player);
-			
+
 		/**
 		 * Si le mec a fini
 		 */
@@ -97,12 +99,17 @@ public class Challenge extends ZUtils {
 
 			player.updateInventory();
 
+			com.wasteofplastic.askyblock.zcore.Logger.info(player.getName() + " vient de terminer le challenge " + name,
+					LogType.SUCCESS);
+
 			if (playerChallenges.canUpdate(challenges)) {
 				playerChallenges.setType(type.getNext());
 				new Timer().schedule(new TimerTask() {
 
 					@Override
 					public void run() {
+						com.wasteofplastic.askyblock.zcore.Logger.info(player.getName() + " vient de passer au niveau " + playerChallenges.getType().getName(),
+								LogType.SUCCESS);
 						String message = String.format(Message.CHALLENGE_LEVEL_UP.getMessage(),
 								playerChallenges.getType().getName());
 						player.sendTitle("§e§kII§e Félicitation §e§kII", message, 10, 50, 10);
@@ -123,7 +130,7 @@ public class Challenge extends ZUtils {
 		this.manuelVerif = manuelVerif;
 		return this;
 	}
-	
+
 	/**
 	 * @param moneyReward
 	 *            the moneyReward to set
@@ -151,6 +158,11 @@ public class Challenge extends ZUtils {
 		return this;
 	}
 
+	public Challenge setItemsReward(List<ItemStack> itemsReward) {
+		this.itemsReward = itemsReward;
+		return this;
+	}
+
 	/**
 	 * @param consumerReward
 	 *            the consumerReward to set
@@ -162,6 +174,11 @@ public class Challenge extends ZUtils {
 
 	public Challenge setPresentItem(ItemStack... presentItem) {
 		this.presentItem = Arrays.asList(presentItem);
+		return this;
+	}
+
+	public Challenge setPresentItem(List<ItemStack> presentItem) {
+		this.presentItem = presentItem;
 		return this;
 	}
 

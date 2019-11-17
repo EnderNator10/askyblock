@@ -96,10 +96,10 @@ public class InventoryChallengeShow extends VInventory {
 
 		if (getPage() != 1)
 			addItem(48, new ItemButton(ItemBuilder.getCreatedItem(Material.ARROW, 1, "§f» §7Page précédente"))
-					.setClick(event -> createInventory(2, player, getPage() - 1, args)));
+					.setClick(event -> createInventory(4, player, getPage() - 1, args)));
 		if (getPage() != maxPage)
 			addItem(50, new ItemButton(ItemBuilder.getCreatedItem(Material.ARROW, 1, "§f» §7Page suivante"))
-					.setClick(event -> createInventory(2, player, getPage() + 1, args)));
+					.setClick(event -> createInventory(4, player, getPage() + 1, args)));
 
 		return true;
 	}

@@ -1,9 +1,13 @@
-# ASkyBlock is no longer maintained and all development is now on BentoBox and BSkyBlock
-See https://bentobox.world
+# ASkyBlock, update by Maxlego08
 
-ASkyBlock
-==========
+Plugin used for the neralia server
+Discord: https://discord.gg/HcJPc3D
 
-A Skyblock Bukkit plugin for Minecraft.
+Changes made:
 
-This is a survival game where the player starts with an island in the sky.
+* Adding a new challenge system
+* Adding an inventory when ordering / is
+* Adding messages when creating the island
+* Added a farm hopper (allows you to retrieve items within 5 blocks)
+* Addition of an improvable generator system
+* Adding an inventory with all the values of each block

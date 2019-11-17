@@ -387,7 +387,7 @@ public class ASkyBlock extends JavaPlugin {
         addListener(new AdapterListener(this));
         addListener(inventoryManager);
         addListener(new BlockLimiter(this));
-        addListener(new ChallengesManager());
+        addListener(ChallengesManager.getInstance());
         addListener(hopperManager);
         
         saveDefaultConfig();

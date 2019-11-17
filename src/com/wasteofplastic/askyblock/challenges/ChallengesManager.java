@@ -6,18 +6,23 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import com.wasteofplastic.askyblock.listener.ListenerAdapter;
+import com.wasteofplastic.askyblock.zcore.ItemBuilder;
 import com.wasteofplastic.askyblock.zcore.Logger;
 import com.wasteofplastic.askyblock.zcore.Logger.LogType;
 import com.wasteofplastic.askyblock.zcore.storage.Persist;
@@ -171,7 +176,7 @@ public class ChallengesManager extends ListenerAdapter implements Saveable {
 		id++;
 
 		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Pistonneur",
-				Arrays.asList("Créer §2x16§7 pistons colant"), new ItemStack(Material.PISTON_STICKY_BASE))
+				Arrays.asList("Créer §2x32§7 pistons colant"), new ItemStack(Material.PISTON_STICKY_BASE))
 						.setPresentItem(new ItemStack(Material.PISTON_STICKY_BASE, 32))
 						.setItemsReward(new ItemStack(Material.SLIME_BALL, 16)).setMoneyReward(500).setXpReward(500));
 		id++;
@@ -201,6 +206,332 @@ public class ChallengesManager extends ListenerAdapter implements Saveable {
 						.setItemsReward(new ItemStack(Material.DIAMOND_BLOCK, 2)).setMoneyReward(500).setXpReward(200));
 		id++;
 
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "Patissier", Arrays.asList("Faire §2x9§7 gateaux"),
+				new ItemStack(Material.CAKE))
+						.setPresentItem(new ItemStack(Material.CAKE, 1), new ItemStack(Material.CAKE, 1),
+								new ItemStack(Material.CAKE, 1), new ItemStack(Material.CAKE, 1),
+								new ItemStack(Material.CAKE, 1), new ItemStack(Material.CAKE, 1),
+								new ItemStack(Material.CAKE, 1), new ItemStack(Material.CAKE, 1),
+								new ItemStack(Material.CAKE, 1))
+						.setItemsReward(new ItemStack(Material.HOPPER, 1)).setMoneyReward(500).setXpReward(200));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "Chercheur",
+				Arrays.asList("Avoir une map, un compas, une horloge", "§2x64 §7netherrack, §2x16§7 sable des âmes",
+						"§2x2 §7larme de ghast"),
+				new ItemStack(Material.MAP))
+						.setPresentItem(new ItemStack(Material.WATCH, 1), new ItemStack(Material.COMPASS, 1),
+								new ItemStack(Material.MAP, 1), new ItemStack(Material.NETHERRACK, 64),
+								new ItemStack(Material.SOUL_SAND, 16), new ItemStack(Material.GHAST_TEAR, 2))
+						.setItemsReward(new ItemStack(Material.CACTUS, 64)).setMoneyReward(500).setXpReward(200));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Constructeur",
+				Arrays.asList("Avoir un niveau d'île supérieur ou égal à §2400§7."), new ItemStack(Material.WOOD))
+						.setManuelVerif(
+								player -> ASkyBlockAPI.getInstance().getLongIslandLevel(player.getUniqueId()) >= 400)
+						.setItemsReward(new ItemStack(Material.GRASS, 512)).setMoneyReward(1000).setXpReward(250));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Pistonneur",
+				Arrays.asList("Créer §2x64§7 pistons colant"), new ItemStack(Material.PISTON_STICKY_BASE))
+						.setPresentItem(new ItemStack(Material.PISTON_STICKY_BASE, 64))
+						.setItemsReward(new ItemStack(Material.SLIME_BALL, 32)).setMoneyReward(500).setXpReward(500));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "La laine c'est cool",
+				Arrays.asList("Avoir §2x16§7 de chaque laine"), new ItemStack(Material.WOOL))
+						.setPresentItem(getColors(Material.WOOL, 16))
+						.setItemsReward(new ItemStack(Material.DIAMOND_BLOCK, 2)).setMoneyReward(500).setXpReward(200));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "L'art de gîle",
+				Arrays.asList("Avoir §2x16§7 de chaque argile teinté"), new ItemStack(Material.STAINED_CLAY))
+						.setPresentItem(getColors(Material.STAINED_CLAY, 16)).setItemsReward(getFlower(4))
+						.setMoneyReward(500).setXpReward(200));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "Art et fênetre",
+				Arrays.asList("Avoir §2x16§7 de chaque verre"), new ItemStack(Material.STAINED_GLASS))
+						.setPresentItem(getColors(Material.STAINED_GLASS, 16)).setItemsReward(getFlower(4))
+						.setMoneyReward(500).setXpReward(200));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "Art et fênetre le retour",
+				Arrays.asList("Avoir §2x32§7 de chaque vitre"), new ItemStack(Material.STAINED_GLASS_PANE))
+						.setPresentItem(getColors(Material.STAINED_GLASS_PANE, 16)).setItemsReward(getFlower(4))
+						.setMoneyReward(500).setXpReward(200));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "Mineur", Arrays.asList("Miner §2x2304§7 cobblestone"),
+				new ItemStack(Material.COBBLESTONE)).setPresentItem(getCobbleStone()).setItemsReward(
+						new ItemStack(Material.STONE, 64, (byte) 1), new ItemStack(Material.STONE, 64, (byte) 1),
+						new ItemStack(Material.STONE, 64, (byte) 2), new ItemStack(Material.STONE, 64, (byte) 2),
+						new ItemStack(Material.STONE, 64, (byte) 3), new ItemStack(Material.STONE, 64, (byte) 3),
+						new ItemStack(Material.STONE, 64, (byte) 4), new ItemStack(Material.STONE, 64, (byte) 4),
+						new ItemStack(Material.STONE, 64, (byte) 5), new ItemStack(Material.STONE, 64, (byte) 5),
+						new ItemStack(Material.STONE, 64, (byte) 6), new ItemStack(Material.STONE, 64, (byte) 6))
+						.setMoneyReward(500).setXpReward(50));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "J'ADORE QUAND ÇA EXPLOSE",
+				Arrays.asList("Créer §2x64§7 tnt"), new ItemStack(Material.TNT))
+						.setPresentItem(new ItemStack(Material.TNT, 64))
+						.setItemsReward(new ItemStack(Material.SAND, 64), new ItemStack(Material.SAND, 64, (byte) 1))
+						.setMoneyReward(500).setXpReward(500));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "Beacon", Arrays.asList("Marcher sur un beacon"),
+				new ItemStack(Material.BEACON)).setManuelVerif(player -> playerWalkOnBeacon(player))
+						.setItemsReward(new ItemStack(Material.EMERALD_BLOCK, 1)).setMoneyReward(500).setXpReward(500));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "Protecteur", Arrays.asList("Être à coté d'un iron golem"),
+				new ItemStack(Material.EMERALD))
+						.setManuelVerif(player -> nearbyEntities(player, EntityType.IRON_GOLEM, 1))
+						.setItemsReward(new ItemStack(Material.HOPPER)).setMoneyReward(500).setXpReward(250));
+		id++;
+
+		/**
+		 * Avancé
+		 */
+
+		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "KFC", Arrays.asList("Avoir §2x512§7 poulet cuit"),
+				new ItemStack(Material.COOKED_CHICKEN))
+						.setPresentItem(new ItemStack(Material.COOKED_CHICKEN, 64),
+								new ItemStack(Material.COOKED_CHICKEN, 64), new ItemStack(Material.COOKED_CHICKEN, 64),
+								new ItemStack(Material.COOKED_CHICKEN, 64),
+								new ItemStack(Material.COOKED_CHICKEN, 64), new ItemStack(Material.COOKED_CHICKEN, 64),
+								new ItemStack(Material.COOKED_CHICKEN, 64), new ItemStack(Material.COOKED_CHICKEN, 64))
+						.setItemsReward(new ItemStack(Material.HOPPER, 4)).setMoneyReward(750).setXpReward(250));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "Feuilles",
+				Arrays.asList("Avoir §2x64§7 feuilles de chaque feuille"), new ItemStack(Material.LEAVES))
+						.setPresentItem(getLeaves(64))
+						.setItemsReward(new ItemStack(Material.GRASS, 64), new ItemStack(Material.WOOD, 10))
+						.setMoneyReward(750).setXpReward(250));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "Constructeur",
+				Arrays.asList("Avoir un niveau d'île supérieur ou égal à §2750§7."), new ItemStack(Material.WOOD))
+						.setManuelVerif(
+								player -> ASkyBlockAPI.getInstance().getLongIslandLevel(player.getUniqueId()) >= 750)
+						.setItemsReward(new ItemStack(Material.GRASS, 1024)).setMoneyReward(2500).setXpReward(250));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "DJ", Arrays.asList("Avoir §2x1§7 de chaque CD"),
+				new ItemStack(Material.RECORD_10)).setPresentItem(getDJ())
+						.setItemsReward(new ItemStack(Material.DIAMOND, 32), new ItemStack(Material.LAPIS_BLOCK, 8))
+						.setMoneyReward(750).setXpReward(250));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "Voleur de PNJ",
+				Arrays.asList("Avoir §2x64§7 emeraudes"), new ItemStack(Material.EMERALD)).setPresentItem(getDJ())
+						.setItemsReward(ItemBuilder.getBag()).setMoneyReward(750).setXpReward(250));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "La laine c'est cool",
+				Arrays.asList("Avoir §2x32§7 de chaque laine"), new ItemStack(Material.WOOL))
+						.setPresentItem(getColors(Material.WOOL, 32))
+						.setItemsReward(new ItemStack(Material.DIAMOND_BLOCK, 2)).setMoneyReward(1000)
+						.setXpReward(1000));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "L'art de gîle",
+				Arrays.asList("Avoir §2x32§7 de chaque argile teinté"), new ItemStack(Material.STAINED_CLAY))
+						.setPresentItem(getColors(Material.STAINED_CLAY, 32)).setItemsReward(getFlower(8))
+						.setMoneyReward(1000).setXpReward(1000));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "Art et fênetre",
+				Arrays.asList("Avoir §2x32§7 de chaque verre"), new ItemStack(Material.STAINED_GLASS))
+						.setPresentItem(getColors(Material.STAINED_GLASS, 32)).setItemsReward(getFlower(8))
+						.setMoneyReward(1000).setXpReward(1000));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "Art et fênetre le retour",
+				Arrays.asList("Avoir §2x32§7 de chaque vitre"), new ItemStack(Material.STAINED_GLASS_PANE))
+						.setPresentItem(getColors(Material.STAINED_GLASS_PANE, 32)).setItemsReward(getFlower(8))
+						.setMoneyReward(1000).setXpReward(1000));
+
+		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "Alchemist",
+				Arrays.asList("Avoir une potion de resistance au feu", "une potion de lenteur", "une potion de soin",
+						"une potion de dégât", "une potion d'invisibilité", "une potion force",
+						"et une potion de regénération"),
+				new ItemStack(Material.POTION)).setPresentItem(getPotions())
+						.setItemsReward(new ItemStack(Material.ENDER_STONE, 1)).setMoneyReward(750).setXpReward(250));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "Mangeur",
+				Arrays.asList("Avoir §2x64§7 de chaque nourriture (sauf les pommes d'or)"),
+				new ItemStack(Material.COOKED_BEEF)).setPresentItem(getFood()).setItemsReward(ItemBuilder.getHopper())
+						.setMoneyReward(750).setXpReward(250));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "Villagoies", Arrays.asList("Être à coté de §210§7 PNJ"),
+				new ItemStack(Material.EMERALD))
+						.setManuelVerif(player -> nearbyEntities(player, EntityType.VILLAGER, 10))
+						.setItemsReward(new ItemStack(Material.HOPPER)).setMoneyReward(750).setXpReward(250));
+		id++;
+
+		/**
+		 * Elite
+		 */
+
+		addChallenge(new Challenge(ChallengeType.ELITE, id, "Constructeur",
+				Arrays.asList("Avoir un niveau d'île supérieur ou égal à §22000§7."), new ItemStack(Material.WOOD))
+						.setManuelVerif(
+								player -> ASkyBlockAPI.getInstance().getLongIslandLevel(player.getUniqueId()) >= 2000)
+						.setItemsReward(new ItemStack(Material.GRASS, 2304)).setMoneyReward(10000).setXpReward(250));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ELITE, id, "La laine c'est cool",
+				Arrays.asList("Avoir §2x64§7 de chaque laine"), new ItemStack(Material.WOOL))
+						.setPresentItem(getColors(Material.WOOL, 64))
+						.setItemsReward(new ItemStack(Material.DIAMOND_BLOCK, 8)).setMoneyReward(1000)
+						.setXpReward(2500));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ELITE, id, "L'art de gîle",
+				Arrays.asList("Avoir §2x64§7 de chaque argile teinté"), new ItemStack(Material.STAINED_CLAY))
+						.setPresentItem(getColors(Material.STAINED_CLAY, 64)).setItemsReward(getFlower(32))
+						.setMoneyReward(2500).setXpReward(1000));
+		id++;
+
+		addChallenge(
+				new Challenge(ChallengeType.ELITE, id, "Art et fênetre", Arrays.asList("Avoir §2x64§7 de chaque verre"),
+						new ItemStack(Material.STAINED_GLASS)).setPresentItem(getColors(Material.STAINED_GLASS, 64))
+								.setItemsReward(getFlower(32)).setMoneyReward(2500).setXpReward(1000));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ELITE, id, "Art et fênetre le retour",
+				Arrays.asList("Avoir §2x64§7 de chaque vitre"), new ItemStack(Material.STAINED_GLASS_PANE))
+						.setPresentItem(getColors(Material.STAINED_GLASS_PANE, 64)).setItemsReward(getFlower(32))
+						.setMoneyReward(1000).setXpReward(1000));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ELITE, id, "Vendeur de tapis",
+				Arrays.asList("Avoir §2x64§7 de chaque tapis"), new ItemStack(Material.CARPET))
+						.setPresentItem(getColors(Material.CARPET, 64)).setItemsReward(getFlower(32))
+						.setMoneyReward(2500).setXpReward(1000));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ELITE, id, "J'ADORE QUAND ÇA EXPLOSE VRAIMENT",
+				Arrays.asList("Créer §2x512§7 tnt"), new ItemStack(Material.TNT))
+						.setPresentItem(new ItemStack(Material.TNT, 64), new ItemStack(Material.TNT, 64),
+								new ItemStack(Material.TNT, 64), new ItemStack(Material.TNT, 64),
+								new ItemStack(Material.TNT, 64), new ItemStack(Material.TNT, 64),
+								new ItemStack(Material.TNT, 64), new ItemStack(Material.TNT, 64))
+						.setItemsReward(new ItemStack(Material.SAND, 256), new ItemStack(Material.SAND, 256, (byte) 1))
+						.setMoneyReward(2500).setXpReward(500));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ELITE, id, "Etoile dans les yeux",
+				Arrays.asList("Avoir §2x64§7 nether star", "Permet d'obtenir le grade Elite"),
+				new ItemStack(Material.NETHER_STAR)).setPresentItem(getColors(Material.NETHER_STAR, 64))
+						.setConsumerReward(player -> {
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+									"pex user " + player.getName() + " group set elite");
+						}));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.ELITE, id, "C'est la fête !",
+				Arrays.asList("Avoir §2x5§7 joueurs à moins de 10 blocs"), new ItemStack(Material.SKULL_ITEM))
+						.setManuelVerif(player -> nearbyEntities(player, EntityType.PLAYER, 5))
+						.setItemsReward(ItemBuilder.getCreatedSkullPlayerWithLoreAndName("Maxlego08", null, null))
+						.setMoneyReward(2500).setXpReward(1000));
+		id++;
+
+	}
+
+	private ItemStack[] getColors(Material color, int how) {
+		ItemStack[] colors = new ItemStack[15];
+		for (int a = 0; a != 15; a++)
+			colors[a] = new ItemStack(color, how, (byte) a);
+		return colors;
+	}
+
+	private List<ItemStack> getLeaves(int how) {
+		List<ItemStack> leaves = new ArrayList<>();
+		leaves.add(new ItemStack(Material.LEAVES, how, (byte) 0));
+		leaves.add(new ItemStack(Material.LEAVES, how, (byte) 1));
+		leaves.add(new ItemStack(Material.LEAVES, how, (byte) 2));
+		leaves.add(new ItemStack(Material.LEAVES, how, (byte) 3));
+		leaves.add(new ItemStack(Material.LEAVES_2, how, (byte) 0));
+		leaves.add(new ItemStack(Material.LEAVES_2, how, (byte) 1));
+		return leaves;
+	}
+
+	private List<ItemStack> getPotions() {
+		List<ItemStack> leaves = new ArrayList<>();
+		leaves.add(new ItemStack(Material.POTION, 1, (byte) 8259));
+		leaves.add(new ItemStack(Material.POTION, 1, (byte) 8266));
+		leaves.add(new ItemStack(Material.POTION, 1, (byte) 8229));
+		leaves.add(new ItemStack(Material.POTION, 1, (byte) 8236));
+		leaves.add(new ItemStack(Material.POTION, 1, (byte) 8270));
+		leaves.add(new ItemStack(Material.POTION, 1, (byte) 8265));
+		leaves.add(new ItemStack(Material.POTION, 1, (byte) 8257));
+		return leaves;
+	}
+
+	@SuppressWarnings("deprecation")
+	private List<ItemStack> getFood() {
+		List<ItemStack> food = new ArrayList<>();
+		food.add(new ItemStack(Material.APPLE, 64));
+		food.add(new ItemStack(Material.BEETROOT_SOUP, 1));
+		food.add(new ItemStack(Material.MUSHROOM_SOUP, 1));
+		food.add(new ItemStack(Material.BREAD, 64));
+		food.add(new ItemStack(Material.getMaterial(319), 64));
+		food.add(new ItemStack(Material.getMaterial(320), 64));
+		food.add(new ItemStack(Material.RAW_FISH, 64));
+		food.add(new ItemStack(Material.RAW_FISH, 64, (byte) 1));
+		food.add(new ItemStack(Material.RAW_FISH, 64, (byte) 2));
+		food.add(new ItemStack(Material.RAW_FISH, 64, (byte) 3));
+		food.add(new ItemStack(Material.COOKED_FISH, 64));
+		food.add(new ItemStack(Material.CAKE, 1));
+		food.add(new ItemStack(Material.COOKIE, 64));
+		food.add(new ItemStack(Material.MELON, 64));
+		food.add(new ItemStack(Material.RAW_BEEF, 64));
+		food.add(new ItemStack(Material.COOKED_BEEF, 64));
+		food.add(new ItemStack(Material.RAW_CHICKEN, 64));
+		food.add(new ItemStack(Material.COOKED_CHICKEN, 64));
+		food.add(new ItemStack(Material.SPIDER_EYE, 64));
+		food.add(new ItemStack(Material.CARROT_ITEM, 64));
+		food.add(new ItemStack(Material.POTATO_ITEM, 64));
+		food.add(new ItemStack(Material.POISONOUS_POTATO, 64));
+		food.add(new ItemStack(Material.BAKED_POTATO, 64));
+		food.add(new ItemStack(Material.PUMPKIN_PIE, 64));
+		food.add(new ItemStack(Material.RABBIT_STEW, 1));
+		food.add(new ItemStack(Material.COOKED_RABBIT, 64));
+		food.add(new ItemStack(Material.RABBIT, 64));
+		food.add(new ItemStack(Material.MUTTON, 64));
+		food.add(new ItemStack(Material.COOKED_MUTTON, 64));
+		food.add(new ItemStack(Material.BEETROOT, 64));
+		return food;
+	}
+
+	private List<ItemStack> getFlower(int how) {
+		List<ItemStack> flowers = new ArrayList<>();
+		flowers.add(new ItemStack(Material.YELLOW_FLOWER, how));
+		for (int a = 0; a != 8; a++)
+			flowers.add(new ItemStack(Material.RED_ROSE, how, (byte) a));
+		return flowers;
+	}
+
+	private List<ItemStack> getCobbleStone() {
+		List<ItemStack> cobbles = new ArrayList<>();
+		for (int a = 0; a != 36; a++)
+			cobbles.add(new ItemStack(Material.COBBLESTONE, 64));
+		return cobbles;
+	}
+
+	@SuppressWarnings("deprecation")
+	private List<ItemStack> getDJ() {
+		List<ItemStack> dj = new ArrayList<>();
+		for (int a = 2256; a != 2267; a++)
+			dj.add(new ItemStack(Material.getMaterial(a), 1));
+		return dj;
 	}
 
 	/**
@@ -211,6 +542,12 @@ public class ChallengesManager extends ListenerAdapter implements Saveable {
 			Material.THIN_GLASS, Material.ENCHANTMENT_TABLE, Material.WORKBENCH, Material.BED_BLOCK, Material.BOOKSHELF,
 			Material.FURNACE);
 
+	/**
+	 * Permet de vérifier si le joueur est a coté d'une maison
+	 * 
+	 * @param player
+	 * @return
+	 */
 	private boolean houseCheck(Player player) {
 		List<Material> current = new ArrayList<>();
 		Location defaultLocation = player.getLocation();
@@ -227,6 +564,20 @@ public class ChallengesManager extends ListenerAdapter implements Saveable {
 			}
 		}
 		return current.size() == 9;
+	}
+
+	private boolean playerWalkOnBeacon(Player player) {
+		return player.getLocation().getBlock().getRelative(BlockFace.DOWN).getType().equals(Material.BEACON);
+	}
+
+	private boolean nearbyEntities(Player player, EntityType type, int minim) {
+		AtomicInteger count = new AtomicInteger();
+		player.getWorld().getNearbyEntities(player.getLocation(), 10.0, 10.0, 10.0).forEach(entity -> {
+			if (entity.getType().equals(type)) {
+				count.getAndIncrement();
+			}
+		});
+		return count.get() >= minim;
 	}
 
 	/**
