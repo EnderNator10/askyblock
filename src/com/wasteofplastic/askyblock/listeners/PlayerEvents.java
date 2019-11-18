@@ -486,7 +486,7 @@ public class PlayerEvents implements Listener {
                 || plugin.getGrid().locationIsOnIsland(e.getPlayer(), e.getItemDrop().getLocation())) {
             return;
         }
-        Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
+        e.getPlayer().sendActionBar(ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
         e.setCancelled(true);
     }
 
@@ -640,7 +640,7 @@ public class PlayerEvents implements Listener {
                 }
                 if (DEBUG )
                     plugin.getLogger().info("DEBUG: enderpearl not allowed");
-                Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
+                e.getPlayer().sendActionBar(ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
                 e.setCancelled(true);
                 return;
             } else if (!plugin.getServer().getVersion().contains("(MC: 1.8")
@@ -672,7 +672,7 @@ public class PlayerEvents implements Listener {
                         }
                     }
                     if (cancel) {
-                        Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
+                        e.getPlayer().sendActionBar(ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
                         e.setCancelled(true);
                     }
                     return;
@@ -864,7 +864,7 @@ public class PlayerEvents implements Listener {
         //plugin.getLogger().info(Settings.visitorCommandBlockList.toString());
         String[] args = e.getMessage().substring(1).toLowerCase().split(" ");
         if (Settings.visitorCommandBlockList.contains(args[0])) {
-            Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
+            e.getPlayer().sendActionBar(ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
             e.setCancelled(true);
         }
     }

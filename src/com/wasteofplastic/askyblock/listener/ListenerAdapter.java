@@ -1,5 +1,7 @@
 package com.wasteofplastic.askyblock.listener;
 
+import org.bukkit.Chunk;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Entity;
@@ -29,6 +31,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.wasteofplastic.askyblock.zcore.ZUtils;
@@ -112,5 +116,11 @@ public abstract class ListenerAdapter extends ZUtils {
 	}
 
 	public void onBlockForm(BlockFormEvent event, BlockState newState) {
+	}
+
+	public void onChunkLoad(ChunkLoadEvent event, Chunk chunk, World world) {
+	}
+
+	public void onChunkUnLoad(ChunkUnloadEvent event, Chunk chunk, World world) {
 	}
 }

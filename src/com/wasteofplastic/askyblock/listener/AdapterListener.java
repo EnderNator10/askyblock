@@ -27,6 +27,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 
 import com.wasteofplastic.askyblock.ASkyBlock;
 
@@ -171,5 +173,17 @@ public class AdapterListener implements Listener {
 	public void onBlockForm(BlockFormEvent event) {
 		template.getListenerAdapters().forEach(
 				adapter -> adapter.onBlockForm(event, event.getNewState()));
+	}
+	
+	@EventHandler
+	public void onChunk(ChunkLoadEvent event) {
+		template.getListenerAdapters().forEach(
+				adapter -> adapter.onChunkLoad(event, event.getChunk(), event.getWorld()));
+	}
+	
+	@EventHandler
+	public void onChunk(ChunkUnloadEvent event) {
+		template.getListenerAdapters().forEach(
+				adapter -> adapter.onChunkUnLoad(event, event.getChunk(), event.getWorld()));
 	}
 }

@@ -27,6 +27,8 @@ public enum Message {
 	CHALLENGE_SUCCESS("§aVous venez de terminer le challenge §2%s§a."),
 	CHALLENGE_LEVEL_UP("§aVous venez de débloquer les challengs §2%s§a."),
 	CHALLENGE_ALREADY("§aVous avec déjà terminé ce challenge !"),
+	CHALLENGE_DELETE_SUCCES("§aVous venez de supprimer les challenges de §2%s§a."),
+	CHALLENGE_DELETE_ERROR("§cLe joueur §6%s§c est introuvable."),
 	
 	HOPPER_PLACE("§aVous venez de placer un hopper."),
 	HOPPER_REMOVE("§cVous venez de détruire un hopper !"),

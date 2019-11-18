@@ -39,15 +39,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wasteofplastic.askyblock.NotSetup.Reason;
-import com.wasteofplastic.askyblock.Settings.GameType;
 import com.wasteofplastic.askyblock.Updater.UpdateResult;
-import com.wasteofplastic.askyblock.Updater.UpdateType;
 import com.wasteofplastic.askyblock.challenges.ChallengesManager;
+import com.wasteofplastic.askyblock.command.CommandManager;
 import com.wasteofplastic.askyblock.commands.AdminCmd;
 import com.wasteofplastic.askyblock.commands.Challenges;
 import com.wasteofplastic.askyblock.commands.IslandCmd;
@@ -226,6 +224,13 @@ public class ASkyBlock extends JavaPlugin {
 	public HopperManager getHopper() {
 		return hopperManager;
 	}
+	//Command
+	
+	private CommandManager commandManager;
+	
+	public CommandManager getCommandManager() {
+		return commandManager;
+	}
 	
     /**
      * Returns the World object for the island world named in config.yml.
@@ -379,6 +384,7 @@ public class ASkyBlock extends JavaPlugin {
          * Inventory
          */
         inventoryManager = new InventoryManager(this);
+        commandManager = new CommandManager(this);
         
         /**
          * Listenrr
@@ -463,8 +469,11 @@ public class ASkyBlock extends JavaPlugin {
             getCommand("island").setExecutor(islandCmd);
             getCommand("island").setTabCompleter(islandCmd);
 
-            getCommand("asc").setExecutor(getChallenges());
-            getCommand("asc").setTabCompleter(getChallenges());
+            /*
+             * On retire les commandes de challenges de base
+             */
+//            getCommand("asc").setExecutor(getChallenges());
+//            getCommand("asc").setTabCompleter(getChallenges());
 
             getCommand("asadmin").setExecutor(adminCmd);
             getCommand("asadmin").setTabCompleter(adminCmd);
@@ -598,56 +607,6 @@ public class ASkyBlock extends JavaPlugin {
                     getServer().getPluginManager().callEvent(new ReadyEvent());
                 });
                 // Check for updates asynchronously
-                if (Settings.updateCheck) {
-                    checkUpdates();
-                    new BukkitRunnable() {
-                        int count = 0;
-                        @Override
-                        public void run() {
-                            if (count++ > 20) {
-                                ASkyBlock.this.getLogger().info("No updates found. (No response from server after 20s)");
-                                this.cancel();
-                            } else {
-                                // Wait for the response
-                                if (updateCheck != null) {
-                                    switch (updateCheck.getResult()) {
-                                    case DISABLED:
-                                        ASkyBlock.this.getLogger().info("Updating has been disabled");
-                                        break;
-                                    case FAIL_APIKEY:
-                                        ASkyBlock.this.getLogger().info("API key failed");
-                                        break;
-                                    case FAIL_BADID:
-                                        ASkyBlock.this.getLogger().info("Bad ID");
-                                        break;
-                                    case FAIL_DBO:
-                                        ASkyBlock.this.getLogger().info("Could not connect to updating service");
-                                        break;
-                                    case FAIL_DOWNLOAD:
-                                        ASkyBlock.this.getLogger().info("Downloading failed");
-                                        break;
-                                    case FAIL_NOVERSION:
-                                        ASkyBlock.this.getLogger().info("Could not recognize version");
-                                        break;
-                                    case NO_UPDATE:
-                                        ASkyBlock.this.getLogger().info("No update available.");
-                                        break;
-                                    case SUCCESS:
-                                        ASkyBlock.this.getLogger().info("Success!");
-                                        break;
-                                    case UPDATE_AVAILABLE:
-                                        ASkyBlock.this.getLogger().info("Update available " + updateCheck.getLatestName());
-                                        break;
-                                    default:
-                                        break;
-
-                                    }
-                                    this.cancel();
-                                }
-                            }
-                        }
-                    }.runTaskTimer(ASkyBlock.this, 0L, 20L); // Check status every second
-                }
 
                 // Run acid tasks
                 acidTask = new AcidTask(ASkyBlock.this);
@@ -657,25 +616,6 @@ public class ASkyBlock extends JavaPlugin {
         
         getSavers().forEach(saver -> saver.load(getPersist()));
         
-    }
-
-    /**
-     * Checks to see if there are any plugin updates
-     * Called when reloading settings too
-     */
-    public void checkUpdates() {
-        // Version checker
-        getLogger().info("Checking for new updates...");
-        getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
-            @Override
-            public void run() {
-                if (Settings.GAMETYPE.equals(GameType.ASKYBLOCK)) {
-                    updateCheck = new Updater(ASkyBlock.this, 85189, ASkyBlock.this.getFile(), UpdateType.NO_DOWNLOAD, true); // ASkyBlock
-                } else {
-                    updateCheck = new Updater(ASkyBlock.this, 80095, ASkyBlock.this.getFile(), UpdateType.NO_DOWNLOAD, true); // AcidIsland
-                }                
-            }
-        });
     }
 
     public void checkUpdatesNotify(Player p) {

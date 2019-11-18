@@ -7,8 +7,6 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
-import org.bukkit.block.Hopper;
-import org.bukkit.craftbukkit.v1_12_R1.block.CraftHopper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
@@ -79,7 +77,19 @@ public class BlockLimiter extends ListenerAdapter {
 	public void onBlockForm(BlockFormEvent event, BlockState newState) {
 
 		Island island = main.getGrid().getIslandAt(event.getBlock().getLocation());
-
+//
+//		if (newState.getType().equals(Material.STONE)) {
+//			List<Material> generateOre = new ArrayList<Material>();
+//			generateOre.add(Material.STONE);
+//			generateOre.add(Material.STONE);
+//			generateOre.add(Material.STONE);
+//			generateOre.add(Material.SAND);
+//			generateOre.add(Material.SAND);
+//			generateOre.add(Material.SAND);
+//			event.getNewState().setData(new MaterialData(generateOre.get(random.nextInt(generateOre.size())), (byte)random.nextInt(2)));
+//			event.getNewState().update();
+//		}
+		
 		if (newState.getType().equals(Material.COBBLESTONE)) {
 
 			List<Material> generateOre = new ArrayList<Material>();

@@ -19,6 +19,7 @@ public class Hopper extends ZUtils {
 
 	private transient Location location;
 	private transient boolean canRun = false;
+	private transient boolean isRunning = false;
 	private final String stringLocation;
 
 	public Hopper(Location location) {
@@ -39,6 +40,7 @@ public class Hopper extends ZUtils {
 
 	public void destroy() {
 		canRun = false;
+		isRunning = false;
 	}
 
 	public Inventory getInventory() {
@@ -55,6 +57,9 @@ public class Hopper extends ZUtils {
 
 	public void run() {
 
+		if (isRunning)
+			return;
+		
 		canRun = true;
 
 		new Timer().scheduleAtFixedRate(new TimerTask() {
@@ -62,9 +67,18 @@ public class Hopper extends ZUtils {
 			public void run() {
 				if (!canRun || !ASkyBlock.getPlugin().isEnabled()) {
 					cancel();
+					isRunning = false;
 					return;
 				}
 
+				isRunning = true;
+				
+				if (!getLocation().getChunk().isLoaded()){
+					isRunning = false;
+					cancel();
+					return;
+				}
+				
 				Collection<Entity> entities = getLocation().getWorld().getNearbyEntities(getLocation(), 5.0, 5.0, 5.0);
 				entities.forEach(entity -> {
 					if (entity.getType().equals(EntityType.DROPPED_ITEM)) {
@@ -72,6 +86,7 @@ public class Hopper extends ZUtils {
 						Inventory inventory = getInventory();
 						if (inventory == null) {
 							cancel();
+							isRunning = false;
 							canRun = false;
 							return;
 						}
@@ -86,6 +101,10 @@ public class Hopper extends ZUtils {
 		}, 1000, 1000);
 	}
 
+	public boolean isRunning() {
+		return isRunning;
+	}
+	
 	public boolean inventoryFull(Inventory inventory) {
 		for (ItemStack item : inventory.getContents())
 			if (item == null || item.getType().equals(Material.AIR))

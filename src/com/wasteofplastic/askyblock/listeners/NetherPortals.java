@@ -105,7 +105,7 @@ public class NetherPortals implements Listener {
                 || (island != null && !(island.getIgsFlag(SettingsFlag.PORTAL) || island.getMembers().contains(event.getPlayer().getUniqueId())))) {
             // Portals use is not allowed
             if (!event.getPlayer().isOp() && !VaultHelper.checkPerm(event.getPlayer(), Settings.PERMPREFIX + "mod.bypassprotect")) {
-                Util.sendMessage(event.getPlayer(), ChatColor.RED + plugin.myLocale(event.getPlayer().getUniqueId()).islandProtected);
+            	event.getPlayer().sendActionBar(ChatColor.RED + plugin.myLocale(event.getPlayer().getUniqueId()).islandProtected);
                 event.setCancelled(true);
                 return;
             }

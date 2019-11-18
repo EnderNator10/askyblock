@@ -15,6 +15,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,6 +25,7 @@ import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import com.wasteofplastic.askyblock.listener.ListenerAdapter;
 import com.wasteofplastic.askyblock.zcore.ItemBuilder;
 import com.wasteofplastic.askyblock.zcore.Logger;
+import com.wasteofplastic.askyblock.zcore.Message;
 import com.wasteofplastic.askyblock.zcore.Logger.LogType;
 import com.wasteofplastic.askyblock.zcore.storage.Persist;
 import com.wasteofplastic.askyblock.zcore.storage.Saveable;
@@ -226,14 +228,14 @@ public class ChallengesManager extends ListenerAdapter implements Saveable {
 						.setItemsReward(new ItemStack(Material.CACTUS, 64)).setMoneyReward(500).setXpReward(200));
 		id++;
 
-		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Constructeur",
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "Constructeur",
 				Arrays.asList("Avoir un niveau d'île supérieur ou égal à §2400§7."), new ItemStack(Material.WOOD))
 						.setManuelVerif(
 								player -> ASkyBlockAPI.getInstance().getLongIslandLevel(player.getUniqueId()) >= 400)
 						.setItemsReward(new ItemStack(Material.GRASS, 512)).setMoneyReward(1000).setXpReward(250));
 		id++;
 
-		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Pistonneur",
+		addChallenge(new Challenge(ChallengeType.EXPERT, id, "Pistonneur",
 				Arrays.asList("Créer §2x64§7 pistons colant"), new ItemStack(Material.PISTON_STICKY_BASE))
 						.setPresentItem(new ItemStack(Material.PISTON_STICKY_BASE, 64))
 						.setItemsReward(new ItemStack(Material.SLIME_BALL, 32)).setMoneyReward(500).setXpReward(500));
@@ -354,6 +356,7 @@ public class ChallengesManager extends ListenerAdapter implements Saveable {
 				Arrays.asList("Avoir §2x32§7 de chaque vitre"), new ItemStack(Material.STAINED_GLASS_PANE))
 						.setPresentItem(getColors(Material.STAINED_GLASS_PANE, 32)).setItemsReward(getFlower(8))
 						.setMoneyReward(1000).setXpReward(1000));
+		id++;
 
 		addChallenge(new Challenge(ChallengeType.ADVANCED, id, "Alchemist",
 				Arrays.asList("Avoir une potion de resistance au feu", "une potion de lenteur", "une potion de soin",
@@ -631,6 +634,15 @@ public class ChallengesManager extends ListenerAdapter implements Saveable {
 		if (!players.containsKey(name))
 			return createPlayer(name);
 		return players.get(name);
+	}
+
+	public void deletePlayer(String name, CommandSender sender) {
+		if (players.containsKey(name)) {
+			players.remove(name);
+			message(sender, Message.CHALLENGE_DELETE_SUCCES, name);
+		} else {
+			message(sender, Message.CHALLENGE_DELETE_ERROR, name);
+		}
 	}
 
 	/**

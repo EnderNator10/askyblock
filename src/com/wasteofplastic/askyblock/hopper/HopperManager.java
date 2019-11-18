@@ -1,12 +1,18 @@
 package com.wasteofplastic.askyblock.hopper;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.bukkit.Chunk;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
+import org.bukkit.event.world.ChunkUnloadEvent;
 
 import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.Island;
@@ -88,6 +94,29 @@ public class HopperManager extends ListenerAdapter implements Saveable {
 			}
 		}
 
+	}
+
+	@Override
+	public void onChunkUnLoad(ChunkUnloadEvent event, Chunk chunk, World world) {
+		if (IslandGuard.inWorld(world)) {
+			List<Hopper> hoppers = getHopper(chunk);
+			if (hoppers.size() != 0) 
+				hoppers.forEach(Hopper::destroy);
+		}
+	}
+
+	@Override
+	public void onChunkLoad(ChunkLoadEvent event, Chunk chunk, World world) {
+		if (IslandGuard.inWorld(world)) {
+			List<Hopper> hoppers = getHopper(chunk);
+			if (hoppers.size() != 0) 
+				hoppers.forEach(Hopper::run);
+		}
+	}
+
+	private List<Hopper> getHopper(Chunk chunk) {
+		return hoppers.values().stream().filter(hopper -> hopper.getLocation().getChunk().equals(chunk))
+				.collect(Collectors.toList());
 	}
 
 	public Hopper getHopper(String loc) {

@@ -345,7 +345,7 @@ public class EntityLimits implements Listener {
             Island island = plugin.getGrid().getProtectedIslandAt(e.getBlock().getLocation());
             if (island == null) {
                 if (!Settings.defaultWorldSettings.get(SettingsFlag.PLACE_BLOCKS)) {
-                    Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
+                    e.getPlayer().sendActionBar(ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
                     e.setCancelled(true);
                 }
                 return;
@@ -377,7 +377,7 @@ public class EntityLimits implements Listener {
                 return;
             }
             // Outside of protection area or visitor
-            Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
+            e.getPlayer().sendActionBar(ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
             e.setCancelled(true);
         }
     }
@@ -412,7 +412,7 @@ public class EntityLimits implements Listener {
             // Outside of island protection zone
             if (island == null) {
                 if (!Settings.defaultWorldSettings.get(SettingsFlag.PLACE_BLOCKS)) {
-                    Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
+                    e.getPlayer().sendActionBar(ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
                     e.setCancelled(true);
                 }
                 return;
@@ -443,8 +443,8 @@ public class EntityLimits implements Listener {
                 }
             } else {
                 // Visitor
-                Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
                 e.setCancelled(true);
+                e.getPlayer().sendActionBar(ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
             }
         }
     }
@@ -469,7 +469,7 @@ public class EntityLimits implements Listener {
             // Outside of island protection zone
             if (island == null) {
                 if (!Settings.defaultWorldSettings.get(SettingsFlag.PLACE_BLOCKS)) {
-                    Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
+                    e.getPlayer().sendActionBar(ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
                     e.setCancelled(true);
                 }
                 return;
@@ -491,7 +491,7 @@ public class EntityLimits implements Listener {
                 }
             } else {
                 // Visitor
-                Util.sendMessage(e.getPlayer(), ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
+                e.getPlayer().sendActionBar(ChatColor.RED + plugin.myLocale(e.getPlayer().getUniqueId()).islandProtected);
                 e.setCancelled(true);
             }
         }
