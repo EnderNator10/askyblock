@@ -17,6 +17,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
@@ -185,5 +186,11 @@ public class AdapterListener implements Listener {
 	public void onChunk(ChunkUnloadEvent event) {
 		template.getListenerAdapters().forEach(
 				adapter -> adapter.onChunkUnLoad(event, event.getChunk(), event.getWorld()));
+	}
+	
+	@EventHandler
+	public void onWorld(PlayerChangedWorldEvent event) {
+		template.getListenerAdapters().forEach(
+				adapter -> adapter.onWorld(event, event.getPlayer()));
 	}
 }

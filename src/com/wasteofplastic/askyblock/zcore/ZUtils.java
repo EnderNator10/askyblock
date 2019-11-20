@@ -55,7 +55,7 @@ public abstract class ZUtils {
 				if (index >= messages.length) {
 					cancel();
 					if (runnable != null)
-						runnable.run();
+						Bukkit.getScheduler().runTask(ASkyBlock.getPlugin(), () -> runnable.run());
 					return;
 				}
 
@@ -382,7 +382,7 @@ public abstract class ZUtils {
 		else
 			player.getInventory().addItem(item);
 	}
-	
+
 	/**
 	 * @param location
 	 *            as String
@@ -464,7 +464,6 @@ public abstract class ZUtils {
 				&& stack.getItemMeta().getDisplayName().equals(name);
 	}
 
-
 	/**
 	 * Remove the item from the player's hand
 	 * 
@@ -480,5 +479,5 @@ public abstract class ZUtils {
 			player.setItemInHand(new ItemStack(Material.AIR));
 		player.updateInventory();
 	}
-	
+
 }

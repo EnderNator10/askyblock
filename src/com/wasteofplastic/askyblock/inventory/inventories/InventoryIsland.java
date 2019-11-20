@@ -83,6 +83,7 @@ public class InventoryIsland extends VInventory {
 				"  §f» §2/is unban <player> §7Revoquer le bannis d'un joueur de votre île",
 				"  §f» §2/is coop <player> §7Donner des accès provisoir à un joueur",
 				"  §f» §2/is uncoop <player> §7Retirer les accès provisoir à un joueur",
+				"  §f» §2/is fly §7Permet de fly",
 				""
 				
 				));

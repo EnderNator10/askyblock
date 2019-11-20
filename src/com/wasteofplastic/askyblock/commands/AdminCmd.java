@@ -72,6 +72,7 @@ import com.wasteofplastic.askyblock.Island.SettingsFlag;
 import com.wasteofplastic.askyblock.PluginConfig;
 import com.wasteofplastic.askyblock.Settings;
 import com.wasteofplastic.askyblock.Settings.GameType;
+import com.wasteofplastic.askyblock.fly.FlyManager;
 import com.wasteofplastic.askyblock.listeners.LavaCheck;
 import com.wasteofplastic.askyblock.panels.ControlPanel;
 import com.wasteofplastic.askyblock.panels.SetBiome;
@@ -389,7 +390,7 @@ public class AdminCmd extends ZUtils implements CommandExecutor, TabCompleter {
 						|| split[0].equalsIgnoreCase("reserve") || split[0].equalsIgnoreCase("addrange")
 						|| split[0].equalsIgnoreCase("unregister") || split[0].equalsIgnoreCase("clearresetall")
 						|| split[0].equalsIgnoreCase("settingsreset") || split[0].equalsIgnoreCase("cobblestats")
-						|| split[0].equalsIgnoreCase("setlanguage")) {
+						|| split[0].equalsIgnoreCase("fly") || split[0].equalsIgnoreCase("setlanguage")) {
 					if (!checkAdminPerms(player, split)) {
 						message(sender, Message.NO_PERMISSION);
 						return true;
@@ -1987,7 +1988,21 @@ public class AdminCmd extends ZUtils implements CommandExecutor, TabCompleter {
 				return false;
 			}
 		case 3:
-			if (split[0].equalsIgnoreCase("resetchallengeforall")) {
+			if (split[0].equalsIgnoreCase("fly")) {
+				try{
+					
+					String currentPlayer = split[1];
+					long sec = Long.valueOf(split[2]);
+					
+					FlyManager.getInstance().giveFly(currentPlayer, sec);
+					message(sender, Message.FLY_ADMIN, sec, currentPlayer);
+					return true;
+					
+				}catch (Exception e) {
+					message(sender, Message.FLY_ADMIN_SYNTAXE);
+				}
+				return true;
+			} else if (split[0].equalsIgnoreCase("resetchallengeforall")) {
 				if (!Settings.challengeList.contains(split[1].toLowerCase())) {
 					Util.sendMessage(sender,
 							ChatColor.RED + plugin.myLocale().resetChallengeerrorChallengeDoesNotExist);

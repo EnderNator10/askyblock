@@ -52,6 +52,7 @@ import com.wasteofplastic.askyblock.commands.IslandCmd;
 import com.wasteofplastic.askyblock.events.IslandDeleteEvent;
 import com.wasteofplastic.askyblock.events.IslandPreDeleteEvent;
 import com.wasteofplastic.askyblock.events.ReadyEvent;
+import com.wasteofplastic.askyblock.fly.FlyManager;
 import com.wasteofplastic.askyblock.generators.ChunkGeneratorWorld;
 import com.wasteofplastic.askyblock.hopper.HopperManager;
 import com.wasteofplastic.askyblock.inventory.InventoryManager;
@@ -395,6 +396,7 @@ public class ASkyBlock extends JavaPlugin {
         addListener(new BlockLimiter(this));
         addListener(ChallengesManager.getInstance());
         addListener(hopperManager);
+        addListener(FlyManager.getInstance());
         
         saveDefaultConfig();
         // Check to see if island distance is set or not

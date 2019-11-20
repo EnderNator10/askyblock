@@ -100,7 +100,7 @@ public class HopperManager extends ListenerAdapter implements Saveable {
 	public void onChunkUnLoad(ChunkUnloadEvent event, Chunk chunk, World world) {
 		if (IslandGuard.inWorld(world)) {
 			List<Hopper> hoppers = getHopper(chunk);
-			if (hoppers.size() != 0) 
+			if (hoppers.size() != 0)
 				hoppers.forEach(Hopper::destroy);
 		}
 	}
@@ -109,13 +109,15 @@ public class HopperManager extends ListenerAdapter implements Saveable {
 	public void onChunkLoad(ChunkLoadEvent event, Chunk chunk, World world) {
 		if (IslandGuard.inWorld(world)) {
 			List<Hopper> hoppers = getHopper(chunk);
-			if (hoppers.size() != 0) 
+			if (hoppers.size() != 0)
 				hoppers.forEach(Hopper::run);
 		}
 	}
 
 	private List<Hopper> getHopper(Chunk chunk) {
-		return hoppers.values().stream().filter(hopper -> hopper.getLocation().getChunk().equals(chunk))
+		return hoppers
+				.values().stream().filter(hopper -> hopper.getLocation() != null
+						&& hopper.getLocation().getChunk() != null && hopper.getLocation().getChunk().equals(chunk))
 				.collect(Collectors.toList());
 	}
 

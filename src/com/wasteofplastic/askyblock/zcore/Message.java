@@ -33,6 +33,17 @@ public enum Message {
 	HOPPER_PLACE("§aVous venez de placer un hopper."),
 	HOPPER_REMOVE("§cVous venez de détruire un hopper !"),
 	
+	FLY_INFO("§eVous avez §6%s §ede fly."),
+	FLY_ENEABLE_ERROR("§cVous êtes déjà en fly."),
+	FLY_ENEABLE("§aVous venez d'activer le fly !"),
+	FLY_DISEABLE("§cVous venez de désactiver le fly !"),
+	FLY_DISEABLE_ERROR("§cVous n'êtes pas en fly !"),
+	FLY_GIVE("§aVous venez de reçevoir §6%s §ade fly ! Pour l'utiliser fait §d/is fly§a."),
+	FLY_END("§cVous venez d'épuiser votre temsp de fly !"),
+	FLY_ERROR("§cVous ne pouvez pas fly !"),
+	FLY_ADMIN_SYNTAXE("§cVous devez utiliser la commande comme ceci: §b/asadmin fly <player> <second>"),
+	FLY_ADMIN("§aVous venez de donner §6%s §asecondes de fly à §6%s§a."),
+	
 	;
 
 	private final String message;

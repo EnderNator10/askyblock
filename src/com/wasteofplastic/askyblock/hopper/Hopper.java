@@ -73,12 +73,6 @@ public class Hopper extends ZUtils {
 
 				isRunning = true;
 				
-				if (!getLocation().getChunk().isLoaded()){
-					isRunning = false;
-					cancel();
-					return;
-				}
-				
 				Collection<Entity> entities = getLocation().getWorld().getNearbyEntities(getLocation(), 5.0, 5.0, 5.0);
 				entities.forEach(entity -> {
 					if (entity.getType().equals(EntityType.DROPPED_ITEM)) {
