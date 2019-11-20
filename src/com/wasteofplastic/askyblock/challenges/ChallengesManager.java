@@ -12,10 +12,12 @@ import java.util.stream.Collectors;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -23,10 +25,11 @@ import org.bukkit.inventory.ItemStack;
 import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.ASkyBlockAPI;
 import com.wasteofplastic.askyblock.listener.ListenerAdapter;
+import com.wasteofplastic.askyblock.zcore.CustomEnchant;
 import com.wasteofplastic.askyblock.zcore.ItemBuilder;
 import com.wasteofplastic.askyblock.zcore.Logger;
-import com.wasteofplastic.askyblock.zcore.Message;
 import com.wasteofplastic.askyblock.zcore.Logger.LogType;
+import com.wasteofplastic.askyblock.zcore.Message;
 import com.wasteofplastic.askyblock.zcore.storage.Persist;
 import com.wasteofplastic.askyblock.zcore.storage.Saveable;
 
@@ -196,6 +199,14 @@ public class ChallengesManager extends ListenerAdapter implements Saveable {
 						.setPresentItem(new ItemStack(Material.ENDER_PEARL, 16),
 								new ItemStack(Material.ENDER_PEARL, 16))
 						.setItemsReward(new ItemStack(Material.COAL_BLOCK, 8)).setMoneyReward(400).setXpReward(200));
+		id++;
+
+		addChallenge(new Challenge(ChallengeType.COMPETANT, id, "Super épée",
+				Arrays.asList("Avoir une épée sharpness §26 §7(Faite /customcraft)"),
+				new ItemStack(Material.DIAMOND_SWORD)).setPresentItem(
+						ItemBuilder.enchant(Material.DIAMOND_SWORD, new CustomEnchant(Enchantment.DAMAGE_ALL, 6)))
+						.setItemsReward(new ItemStack(Material.DIAMOND_BLOCK, 4)).setMoneyReward(1000)
+						.setXpReward(200));
 		id++;
 
 		/**
@@ -601,6 +612,17 @@ public class ChallengesManager extends ListenerAdapter implements Saveable {
 	public void open(ChallengeType type, Player player) {
 		ASkyBlock.getPlugin().getInventoryManager().createInventory(3, player, 1, type, getChallenges(type),
 				getPlayer(player.getName()));
+		if (getPlayer(player.getName()).canUpdate(getChallenges(getPlayer(player.getName()).getType()))) {
+			getPlayer(player.getName()).setType(type.getNext());
+			com.wasteofplastic.askyblock.zcore.Logger.info(
+					player.getName() + " vient de passer au niveau " + getPlayer(player.getName()).getType().getName(),
+					LogType.SUCCESS);
+			String message = String.format(Message.CHALLENGE_LEVEL_UP.getMessage(),
+					getPlayer(player.getName()).getType().getName());
+			player.sendTitle("§e§kII§e Félicitation §e§kII", message, 10, 50, 10);
+			message(player, message);
+			player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+		}
 	}
 
 	public List<Challenge> getChallenges(ChallengeType type) {

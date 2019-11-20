@@ -11,6 +11,7 @@ import org.bukkit.event.inventory.InventoryDragEvent;
 import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.inventory.inventories.InventoryChallengeShow;
 import com.wasteofplastic.askyblock.inventory.inventories.InventoryChallenges;
+import com.wasteofplastic.askyblock.inventory.inventories.InventoryClassement;
 import com.wasteofplastic.askyblock.inventory.inventories.InventoryIsland;
 import com.wasteofplastic.askyblock.inventory.inventories.InventoryValue;
 import com.wasteofplastic.askyblock.listener.ListenerAdapter;
@@ -30,6 +31,7 @@ public class InventoryManager extends ListenerAdapter {
 		addInventory(2, new InventoryValue());
 		addInventory(3, new InventoryChallenges());
 		addInventory(4, new InventoryChallengeShow());
+		addInventory(5, new InventoryClassement());
 		
 		plugin.getLog().log("Loading " + inventories.size() + " inventories", LogType.SUCCESS);
 	}

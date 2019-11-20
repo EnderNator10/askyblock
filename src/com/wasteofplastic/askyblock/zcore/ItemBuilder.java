@@ -18,10 +18,6 @@ public class ItemBuilder {
 	public static ItemStack getCreatedItem(Material Material, int Number, int id) {
 		return getCreatedItemAndData(Material, Number, (byte) id, "");
 	}
-	
-	public static ItemStack getCreatedItem(Material Material, int Number, int id, String name) {
-		return getCreatedItemAndData(Material, Number, (byte) id, name);
-	}
 
 	public static ItemStack getCreatedItem(Material Material, int Number, String... name) {
 		return getCreatedItemWithLore(Material, Number, null, name);
@@ -40,11 +36,30 @@ public class ItemBuilder {
 		return item;
 	}
 
+	public static ItemStack getCreatedItem(Material Material, int Number, int d, String Name) {
+		ItemStack item = new ItemStack(Material, Number, (byte) d);
+		ItemMeta meta = item.getItemMeta();
+		item.setAmount(Number);
+		meta.setDisplayName(Name);
+		item.setItemMeta(meta);
+		return item;
+	}
+
 	public static ItemStack getCreatedItemFlag(Material Material, int Number, String Name) {
 		ItemStack item = new ItemStack(Material, Number);
 		ItemMeta meta = item.getItemMeta();
 		meta.setDisplayName(Name);
 		meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		item.setItemMeta(meta);
+		return item;
+	}
+
+	public static ItemStack getCreatedItemEnchantFlag(Material Material, int Number, String Name) {
+		ItemStack item = new ItemStack(Material, Number);
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(Name);
+		meta.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
+		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		item.setItemMeta(meta);
 		return item;
 	}
@@ -135,6 +150,23 @@ public class ItemBuilder {
 		return item;
 	}
 
+	public static ItemStack enchant(Material material, CustomEnchant... customEnchants) {
+		return enchant(material, null, null, customEnchants);
+	}
+
+	public static ItemStack enchant(Material material, String name, List<String> lore,
+			CustomEnchant... customEnchants) {
+		ItemStack item = new ItemStack(material);
+		ItemMeta meta = item.getItemMeta();
+		meta.setDisplayName(name);
+		for (CustomEnchant customEnchant : customEnchants)
+			meta.addEnchant(customEnchant.getEnchantment(), customEnchant.getLevel(), true);
+		if (lore != null)
+			meta.setLore(lore);
+		item.setItemMeta(meta);
+		return item;
+	}
+
 	public static ItemStack getCreatedItemWithLoreTicket(Material material, int number, String name,
 			String... strings) {
 		ItemStack item = new ItemStack(material, number);
@@ -184,14 +216,14 @@ public class ItemBuilder {
 		return item;
 	}
 
-	public static ItemStack createBook(Enchantment enchantment, int level){
+	public static ItemStack createBook(Enchantment enchantment, int level) {
 		ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
 		EnchantmentStorageMeta enchantmentStorageMeta = (EnchantmentStorageMeta) item.getItemMeta();
 		enchantmentStorageMeta.addStoredEnchant(enchantment, level, true);
 		item.setItemMeta(enchantmentStorageMeta);
 		return item;
 	}
-	
+
 	public static ItemStack getHammer() {
 		ItemStack hammer = new ItemStack(Material.DIAMOND_PICKAXE, 1);
 		ItemMeta hammerM = hammer.getItemMeta();
@@ -206,13 +238,13 @@ public class ItemBuilder {
 		hammer.addUnsafeEnchantment(Enchantment.DURABILITY, 500);
 		return hammer;
 	}
-	
-	public static ItemStack getHopper(){
+
+	public static ItemStack getHopper() {
 		ItemStack hammer = new ItemStack(Material.HOPPER, 1);
 		ItemMeta hammerM = hammer.getItemMeta();
 		hammerM.setDisplayName("§6» §eHopper §6«");
-		hammerM.setLore(Arrays
-				.asList(new String[] { "§f» §7Permet de récupèrer les items à §25 §7blocs autour de lui"}));
+		hammerM.setLore(
+				Arrays.asList(new String[] { "§f» §7Permet de récupèrer les items à §25 §7blocs autour de lui" }));
 		hammerM.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ATTRIBUTES });
 		hammerM.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_DESTROYS });
 		hammerM.addItemFlags(new ItemFlag[] { ItemFlag.HIDE_ENCHANTS });

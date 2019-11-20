@@ -20,6 +20,8 @@ package com.wasteofplastic.askyblock;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1674,6 +1676,16 @@ public class GridManager {
         return ownershipMap;
     }
 
+    public List<Island> getIsland(){
+    	return new ArrayList<>(ownershipMap.values());
+    }
+    
+    public List<Island> getSortIsland(){
+    	List<Island> islands = getIsland();
+    	Collections.sort(islands, Comparator.comparingLong(Island::getLevel));
+    	return islands;
+    }
+    
     /**
      * Get name of the island owned by owner
      * @param owner island owner UUID

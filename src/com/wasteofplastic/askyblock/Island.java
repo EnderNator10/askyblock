@@ -412,6 +412,10 @@ public class Island {
 
 			if (hopperLimit <= 0)
 				hopperLimit = 20;
+
+			if (pistonLimit <= 0){
+				pistonLimit = 100;
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -502,6 +506,9 @@ public class Island {
 		this.password = "";
 		this.votes = 0;
 		this.owner = owner;
+		this.hopperLimit = 20;
+		this.pistonLimit = 100;
+		this.generatorLevel = 1;
 		// Island Guard Settings
 		setIgsDefaults();
 	}
@@ -536,6 +543,9 @@ public class Island {
 		this.votes = Integer.valueOf(island.votes);
 		this.world = island.world == null ? null : Bukkit.getWorld(island.world.getUID());
 		this.y = Integer.valueOf(island.y);
+		this.hopperLimit = island.hopperLimit;
+		this.pistonLimit = island.pistonLimit;
+		this.generatorLevel = island.generatorLevel;
 	}
 
 	/**
@@ -1215,8 +1225,19 @@ public class Island {
 	public boolean updateHopper() {
 		if (this.hopperLimit > LimitHelper.HOPPER.getLimit())
 			return false;
-		this.generatorLevel += 10;
+		this.hopperLimit += 10;
 		return true;
+	}
+	
+	public boolean updatePiston() {
+		if (this.pistonLimit > LimitHelper.PISTON.getLimit())
+			return false;
+		this.pistonLimit += 10;
+		return true;
+	}
+	
+	public long getLevel(){
+		return ASkyBlockAPI.getInstance().getLongIslandLevel(owner);
 	}
 
 }

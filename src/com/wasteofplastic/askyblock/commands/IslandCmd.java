@@ -1943,12 +1943,7 @@ public class IslandCmd extends ZUtils implements CommandExecutor, TabCompleter {
 				return true;
 			} else if (split[0].equalsIgnoreCase("top")) {
 				if (VaultHelper.checkPerm(player, Settings.PERMPREFIX + "island.topten")) {
-					if (creatingTopTen) {
-						Util.sendMessage(player,
-								ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorCommandNotReady);
-						return true;
-					}
-					plugin.getTopTen().topTenShow(player);
+					plugin.getInventoryManager().createInventory(5, player, 1);
 					return true;
 				} else {
 					Util.sendMessage(player, ChatColor.RED + plugin.myLocale(playerUUID).errorNoPermission);
