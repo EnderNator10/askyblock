@@ -1,5 +1,6 @@
 package com.wasteofplastic.askyblock.hopper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,9 +116,20 @@ public class HopperManager extends ListenerAdapter implements Saveable {
 	}
 
 	private List<Hopper> getHopper(Chunk chunk) {
+		if (chunk == null)
+			return new ArrayList<Hopper>();
 		return hoppers
-				.values().stream().filter(hopper -> hopper.getLocation() != null
-						&& hopper.getLocation().getChunk() != null && hopper.getLocation().getChunk().equals(chunk))
+				.values().stream().filter(hopper -> {
+//					System.out.println(hopper);
+//					
+//					System.out.println(hopper.getLocation());
+//					
+//					System.out.println(hopper.getLocation().getChunk());
+//					
+//					System.out.println(chunk);
+					return hopper.getLocation() != null
+							&& hopper.getLocation().getChunk() != null && hopper.getLocation().getChunk().equals(chunk);
+				})
 				.collect(Collectors.toList());
 	}
 

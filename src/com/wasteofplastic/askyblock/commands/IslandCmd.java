@@ -1599,43 +1599,7 @@ public class IslandCmd extends ZUtils implements CommandExecutor, TabCompleter {
 						Util.sendMessage(player, ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).resetYouHave
 								.replace("[number]", String.valueOf(plugin.getPlayers().getResetsLeft(playerUUID))));
 					}
-					// Show a schematic panel if the player has a choice
-					// Get the schematics that this player is eligible to use
-					List<Schematic> schems = getSchematics(player, false);
-					// plugin.getLogger().info("DEBUG: size of schematics for
-					// this player = " + schems.size());
-					Island oldIsland = plugin.getGrid().getIsland(player.getUniqueId());
-					if (schems.isEmpty()) {
-						// No schematics - use default island
-						newIsland(player);
-						resetPlayer(player, oldIsland);
-					} else if (schems.size() == 1) {
-						// Hobson's choice
-						newIsland(player, schems.get(0));
-						resetPlayer(player, oldIsland);
-					} else {
-						// A panel can only be shown if there is >1 viable
-						// schematic
-						if (Settings.useSchematicPanel) {
-							pendingNewIslandSelection.add(playerUUID);
-							resettingIsland.add(playerUUID);
-							player.openInventory(plugin.getSchematicsPanel().getPanel(player));
-						} else {
-							// No panel
-							// Check schematics for specific permission
-							schems = getSchematics(player, true);
-							if (schems.isEmpty()) {
-								newIsland(player);
-							} else if (Settings.chooseIslandRandomly) {
-								// Choose an island randomly from the list
-								newIsland(player, schems.get(random.nextInt(schems.size())));
-							} else {
-								// Do the first one in the list
-								newIsland(player, schems.get(0));
-							}
-							resetPlayer(player, oldIsland);
-						}
-					}
+					chooseIsland(player);
 					return true;
 				} else {
 					Util.sendMessage(player, plugin.myLocale(player.getUniqueId()).helpColor + "/island restart: "
@@ -3655,38 +3619,41 @@ public class IslandCmd extends ZUtils implements CommandExecutor, TabCompleter {
 		List<Schematic> schems = getSchematics(player, false);
 		// plugin.getLogger().info("DEBUG: size of schematics for this player =
 		// " + schems.size());
-		if (schems.isEmpty()) {
-			// No schematics - use default island
-			newIsland(player);
-		} else if (schems.size() == 1) {
-			// Hobson's choice
-			newIsland(player, schems.get(0));
-		} else {
-			// A panel can only be shown if there is >1 viable schematic
-			if (Settings.useSchematicPanel) {
-				pendingNewIslandSelection.add(player.getUniqueId());
-				Inventory inv = plugin.getSchematicsPanel().getPanel(player);
-				if (inv != null) {
-					player.openInventory(inv);
-				} else {
-					plugin.getLogger().severe("There are no valid schematics available for " + player.getName()
-							+ "! Check config.yml schematicsection.");
-				}
-			} else {
-				// No panel
-				// Check schematics for specific permission
-				schems = getSchematics(player, true);
-				if (schems.isEmpty()) {
-					newIsland(player);
-				} else if (Settings.chooseIslandRandomly) {
-					// Choose an island randomly from the list
-					newIsland(player, schems.get(random.nextInt(schems.size())));
-				} else {
-					// Do the first one in the list
-					newIsland(player, schems.get(0));
-				}
-			}
-		}
+		
+		ASkyBlock.getPlugin().getInventoryManager().createInventory(6, player, 1, this, schems);
+		
+//		if (schems.isEmpty()) {
+//			// No schematics - use default island
+//			newIsland(player);
+//		} else if (schems.size() == 1) {
+//			// Hobson's choice
+//			newIsland(player, schems.get(0));
+//		} else {
+//			// A panel can only be shown if there is >1 viable schematic
+//			if (Settings.useSchematicPanel) {
+//				pendingNewIslandSelection.add(player.getUniqueId());
+//				Inventory inv = plugin.getSchematicsPanel().getPanel(player);
+//				if (inv != null) {
+//					player.openInventory(inv);
+//				} else {
+//					plugin.getLogger().severe("There are no valid schematics available for " + player.getName()
+//							+ "! Check config.yml schematicsection.");
+//				}
+//			} else {
+//				// No panel
+//				// Check schematics for specific permission
+//				schems = getSchematics(player, true);
+//				if (schems.isEmpty()) {
+//					newIsland(player);
+//				} else if (Settings.chooseIslandRandomly) {
+//					// Choose an island randomly from the list
+//					newIsland(player, schems.get(random.nextInt(schems.size())));
+//				} else {
+//					// Do the first one in the list
+//					newIsland(player, schems.get(0));
+//				}
+//			}
+//		}
 	}
 
 	private void resetPlayer(Player player, Island oldIsland) {
