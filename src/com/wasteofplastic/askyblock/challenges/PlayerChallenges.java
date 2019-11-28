@@ -64,16 +64,27 @@ public class PlayerChallenges {
 	public boolean hasFinish(int id) {
 		return this.challenges.getOrDefault(id, false);
 	}
-	
-	public boolean canUpdate(List<Challenge> challenges){
-		boolean can = true;
-		for(Challenge challenge : challenges)
-			can = hasFinish(challenge.getId());
-		return can;
+
+	public boolean canUpdate(List<Challenge> challenges) {
+		int can = 0;
+		for (Challenge challenge : challenges)
+			can += hasFinish(challenge.getId()) ? 1 : 0;
+		return can == challenges.size();
 	}
-	
-	public boolean canDo(Challenge challenge){
+
+	public boolean canDo(Challenge challenge) {
 		return challenge.getType().canDo(this.type);
 	}
+
+	// /*
+	// * (non-Javadoc)
+	// *
+	// * @see java.lang.Object#toString()
+	// */
+	// @Override
+	// public String toString() {
+	// return "PlayerChallenges [name=" + name + ", challenges=" + challenges +
+	// ", type=" + type + "]";
+	// }
 
 }

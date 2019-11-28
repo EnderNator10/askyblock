@@ -38,7 +38,7 @@ public class InventoryChallenges extends VInventory {
 		AtomicInteger slot = new AtomicInteger(0);
 		challenges.forEach(challenge -> {
 
-			ItemStack item = challenge.getDisplayItem();
+			ItemStack item = challenge.getDisplayItem().clone();
 
 			ItemMeta itemMeta = item.getItemMeta();
 			itemMeta.setDisplayName("§a" + challenge.getName());
@@ -48,15 +48,15 @@ public class InventoryChallenges extends VInventory {
 			if (playerChallenges.hasFinish(challenge.getId())) {
 				itemMeta.addEnchant(Enchantment.ARROW_DAMAGE, 1, true);
 				itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+				lore.add("");
+				lore.add("§f» §c/§7!§c\\ §cTu as déjà effectué ce challenge !");
 			}
 
 			lore.add("");
 			lore.add("§f» §7Description:");
 			challenge.getDesc().forEach(desc -> lore.add("  §f- §7" + desc));
-			if (challenge.getPresentItem() != null && challenge.getPresentItem().size() >= 1) {
+			if (challenge.getPresentItem() != null && challenge.getPresentItem().size() >= 1) 
 				lore.add("§f» §c/§7!§c\\ §7Les items seront retiré de votre inventaire §c/§7!§c\\");
-				lore.add("");
-			}
 			lore.add("");
 			if (challenge.getItemsReward() != null && challenge.getItemsReward().size() != 0) {
 				lore.add("§f» §7Récompense" + (challenge.getItemsReward().size() == 1 ? "" : "s") + ":");
@@ -66,8 +66,8 @@ public class InventoryChallenges extends VInventory {
 							: betterName(reward)
 									+ (reward.getData().getData() == 0 ? "" : ":" + reward.getData().getData())));
 				});
+				lore.add("");
 			}
-			lore.add("");
 			if (challenge.getXpReward() != 0)
 				lore.add("§f» §7Récompense en xp: §2" + challenge.getXpReward() + "§axp");
 			if (challenge.getMoneyReward() != 0)

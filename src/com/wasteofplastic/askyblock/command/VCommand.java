@@ -273,7 +273,7 @@ public abstract class VCommand extends ZUtils {
 	/**
 	 * method that allows you to execute the command
 	 */
-	public abstract CommandType perform(ASkyBlock main);
+	public abstract CommandType perform(ASkyBlock main, Player player);
 
 	public boolean sameSubCommands() {
 		if (parent == null)

@@ -10,7 +10,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.sun.istack.internal.logging.Logger;
 import com.wasteofplastic.askyblock.zcore.Logger.LogType;
 import com.wasteofplastic.askyblock.zcore.Message;
 import com.wasteofplastic.askyblock.zcore.ReturnConsumer;
@@ -102,13 +101,14 @@ public class Challenge extends ZUtils {
 			com.wasteofplastic.askyblock.zcore.Logger.info(player.getName() + " vient de terminer le challenge " + name,
 					LogType.SUCCESS);
 
-			if (playerChallenges.canUpdate(challenges)) {
+			if (playerChallenges.canUpdate(challenges) && !playerChallenges.getType().equals(type.getNext())) {
 				playerChallenges.setType(type.getNext());
 				new Timer().schedule(new TimerTask() {
 
 					@Override
 					public void run() {
-						com.wasteofplastic.askyblock.zcore.Logger.info(player.getName() + " vient de passer au niveau " + playerChallenges.getType().getName(),
+						com.wasteofplastic.askyblock.zcore.Logger.info(
+								player.getName() + " vient de passer au niveau " + playerChallenges.getType().getName(),
 								LogType.SUCCESS);
 						String message = String.format(Message.CHALLENGE_LEVEL_UP.getMessage(),
 								playerChallenges.getType().getName());
@@ -116,7 +116,7 @@ public class Challenge extends ZUtils {
 						message(player, message);
 						player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
 					}
-				}, 1000 * 5l);
+				}, 1000 * 2l);
 			}
 
 		} else {
@@ -247,6 +247,16 @@ public class Challenge extends ZUtils {
 	 */
 	public Consumer<Player> getConsumerReward() {
 		return consumerReward;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Challenge [type=" + type + ", id=" + id + ", name=" + name + ", desc=" + desc + "]";
 	}
 
 }

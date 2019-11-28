@@ -144,7 +144,7 @@ public class CommandManager implements CommandExecutor {
 			}
 			command.setSender(sender);
 			command.setArgs(strings);
-			CommandType returnType = command.perform(main);
+			CommandType returnType = command.perform(main, (Player) sender);
 			if (returnType == CommandType.SYNTAX_ERROR) {
 				sender.sendMessage(prefix + " " + syntaxeError.replace("%command%", command.getSyntaxe()));
 			}
