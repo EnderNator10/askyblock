@@ -13,6 +13,7 @@ import com.wasteofplastic.askyblock.inventory.inventories.InventoryChallengeShow
 import com.wasteofplastic.askyblock.inventory.inventories.InventoryChallenges;
 import com.wasteofplastic.askyblock.inventory.inventories.InventoryChooseIsland;
 import com.wasteofplastic.askyblock.inventory.inventories.InventoryClassement;
+import com.wasteofplastic.askyblock.inventory.inventories.InventoryClassementShow;
 import com.wasteofplastic.askyblock.inventory.inventories.InventoryIsland;
 import com.wasteofplastic.askyblock.inventory.inventories.InventoryValue;
 import com.wasteofplastic.askyblock.listener.ListenerAdapter;
@@ -34,6 +35,7 @@ public class InventoryManager extends ListenerAdapter {
 		addInventory(4, new InventoryChallengeShow());
 		addInventory(5, new InventoryClassement());
 		addInventory(6, new InventoryChooseIsland());
+		addInventory(7, new InventoryClassementShow());
 		
 		plugin.getLog().log("Loading " + inventories.size() + " inventories", LogType.SUCCESS);
 	}

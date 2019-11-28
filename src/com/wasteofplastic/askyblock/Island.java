@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -34,6 +35,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Hopper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Villager;
+import org.bukkit.material.MaterialData;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
@@ -101,6 +103,8 @@ public class Island {
 	}
 	private HashMap<SettingsFlag, Boolean> igs = new HashMap<>();
 	private int levelHandicap;
+
+	private transient Map<Material, Integer> datas = new HashMap<>();
 
 	/**
 	 * Island Guard Setting flags Covers island, spawn and system settings
@@ -406,17 +410,19 @@ public class Island {
 
 				pistonCount = getPistonCount();
 			}
-			
+
 			if (generatorLevel <= 0)
 				generatorLevel = 1;
 
 			if (hopperLimit <= 0)
 				hopperLimit = 20;
 
-			if (pistonLimit <= 0){
+			if (pistonLimit <= 0) {
 				pistonLimit = 100;
 			}
-			
+
+			datas = new HashMap<>();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -511,6 +517,7 @@ public class Island {
 		this.generatorLevel = 1;
 		// Island Guard Settings
 		setIgsDefaults();
+		datas = new HashMap<>();
 	}
 
 	/**
@@ -546,6 +553,7 @@ public class Island {
 		this.hopperLimit = island.hopperLimit;
 		this.pistonLimit = island.pistonLimit;
 		this.generatorLevel = island.generatorLevel;
+		datas = new HashMap<>();
 	}
 
 	/**
@@ -1228,16 +1236,30 @@ public class Island {
 		this.hopperLimit += 10;
 		return true;
 	}
-	
+
 	public boolean updatePiston() {
 		if (this.pistonLimit > LimitHelper.PISTON.getLimit())
 			return false;
 		this.pistonLimit += 10;
 		return true;
 	}
-	
-	public long getLevel(){
+
+	public long getLevel() {
 		return ASkyBlockAPI.getInstance().getLongIslandLevel(owner);
 	}
 
+	public void addData(MaterialData md) {
+		int amount = datas.getOrDefault(md.getItemType(), 0);
+		amount++;
+		datas.put(md.getItemType(), amount);
+	}
+
+	public Map<Material, Integer> getDatas() {
+		return datas;
+	}
+
+	public int getData(Material material){
+		return datas.getOrDefault(material, 0);
+	}
+	
 }

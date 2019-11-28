@@ -150,6 +150,9 @@ public class LevelCalcByChunk {
         // Currently, there is no alternative to using block data (Feb 2018)
         @SuppressWarnings("deprecation")
         MaterialData md = new MaterialData(type, (byte) blockData);
+        
+        island.addData(md);
+        
         int count = limitCount(md);
         if (count != 0) {
             if (belowSeaLevel) {

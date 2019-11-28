@@ -1,5 +1,6 @@
 package com.wasteofplastic.askyblock.inventory.inventories;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -49,11 +50,27 @@ public class InventoryClassement extends VInventory {
 			itemMeta.setDisplayName(getNameByInteger(is, position));
 
 			itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-			itemMeta.setLore(Arrays.asList("§f» §7Niveau de l'île§8: §2" + is.getLevel()));
+
+			List<String> lore = new ArrayList<>();
+
+			lore.add("");
+			lore.add("§f» §7Niveau de l'île§8: §2" + is.getLevel());
+			lore.add("§f» §7Place§8: §2" + position);
+			lore.add("");
+			lore.add("§f» §7Membres§8:");
+			is.getMembers().forEach(member -> lore.add("  §7- §f" + Bukkit.getOfflinePlayer(member).getName()));
+			lore.add("");
+			lore.add("§f» §7Clique §cgauche§7 pour avois les blocs de l'île");
+			lore.add("§f» §7Clique §edroit§7 pour se téléporter au warp de l'île");
+
+			itemMeta.setLore(lore);
 
 			item.setItemMeta(itemMeta);
 
-			addItem(slot.getAndIncrement(), item);
+			addItem(slot.getAndIncrement(), new ItemButton(item).setLeftClick(event -> {
+				main.getInventoryManager().createInventory(7, player, 1, is, getPage());
+			}).setRightClick(
+					event -> player.performCommand("is warp " + Bukkit.getOfflinePlayer(is.getOwner()).getName())));
 		});
 
 		if (getPage() != 1)
@@ -92,7 +109,7 @@ public class InventoryClassement extends VInventory {
 			break;
 		}
 
-		name += " §e" + Bukkit.getOfflinePlayer(is.getOwner()).getName();
+		name += " §e§n" + Bukkit.getOfflinePlayer(is.getOwner()).getName();
 
 		return name;
 	}

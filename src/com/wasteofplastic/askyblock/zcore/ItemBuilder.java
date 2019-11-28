@@ -12,6 +12,8 @@ import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import com.wasteofplastic.askyblock.Island;
+
 public class ItemBuilder {
 
 	// Gestions des objets
@@ -252,6 +254,14 @@ public class ItemBuilder {
 		hammer.setItemMeta(hammerM);
 		hammer.addUnsafeEnchantment(Enchantment.DURABILITY, 500);
 		return hammer;
+	}
+
+	public static ItemStack getIslandInfo(Material material, Island island) {
+		ItemStack item = new ItemStack(material);
+		ItemMeta itemM = item.getItemMeta();
+		itemM.setLore(Arrays.asList("§f» §7Nombre de blocs sur l'île§7: §2" + island.getData(material)));
+		item.setItemMeta(itemM);
+		return item;
 	}
 
 }

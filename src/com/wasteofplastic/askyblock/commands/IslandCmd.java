@@ -28,7 +28,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -116,8 +115,6 @@ public class IslandCmd extends ZUtils implements CommandExecutor, TabCompleter {
 
 	// Level calc checker
 	BukkitTask checker = null;
-	// To choose an island randomly
-	private final Random random = new Random();
 	private HashMap<UUID, Location> islandSpot = new HashMap<>();
 	private List<UUID> leavingPlayers = new ArrayList<>();
 	private boolean creatingTopTen;

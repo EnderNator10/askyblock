@@ -38,7 +38,7 @@ public class InventoryChooseIsland extends VInventory {
 			addItem(slot.getAndIncrement(), new ItemButton(getItem(schem.getName(), schem)).setRightClick(event -> {
 				island.newIsland(player, schem);
 			}).setLeftClick(event -> {
-				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ewarps " + schem.getName() + " " + player.getName());
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ewarp " + schem.getName() + " " + player.getName());
 			}));
 
 		});
@@ -60,8 +60,8 @@ public class InventoryChooseIsland extends VInventory {
 			lore.add("");
 			lore.add("§f» §7Biome§7: §2" + s.getBiome().name());
 			lore.add("");
-			lore.add("§f» §7Clique §2droit §7pour créer ton île");
-			lore.add("§f» §7Clique §2gauche§7 pour visiter l'île");
+			lore.add("§f» §7Clique §e§ldroit §7pour créer ton île");
+			lore.add("§f» §7Clique §cgauche§7 pour visiter l'île");
 			lore.add("");
 			itemMeta.setLore(lore);
 			item.setItemMeta(itemMeta);
@@ -80,8 +80,8 @@ public class InventoryChooseIsland extends VInventory {
 			lore.add("");
 			lore.add("§f» §7Biome§7: §2" + s.getBiome().name());
 			lore.add("");
-			lore.add("§f» §7Clique §adroit §7pour créer ton île");
-			lore.add("§f» §7Clique §agauche§7 pour visiter l'île");
+			lore.add("§f» §7Clique §e§ldroit §7pour créer ton île");
+			lore.add("§f» §7Clique §c§lgauche§7 pour visiter l'île");
 			lore.add("");
 			itemMeta.setLore(lore);
 			item.setItemMeta(itemMeta);
@@ -101,8 +101,8 @@ public class InventoryChooseIsland extends VInventory {
 			lore.add("");
 			lore.add("§f» §7Biome§7: §2" + s.getBiome().name());
 			lore.add("");
-			lore.add("§f» §7Clique §adroit §7pour créer ton île");
-			lore.add("§f» §7Clique §agauche§7 pour visiter l'île");
+			lore.add("§f» §7Clique §e§ldroit §7pour créer ton île");
+			lore.add("§f» §7Clique §c§lgauche§7 pour visiter l'île");
 			lore.add("");
 			itemMeta.setLore(lore);
 			item.setItemMeta(itemMeta);
@@ -120,8 +120,8 @@ public class InventoryChooseIsland extends VInventory {
 			lore.add("");
 			lore.add("§f» §7Biome§7: §2" + s.getBiome().name());
 			lore.add("");
-			lore.add("§f» §7Clique §adroit §7pour créer ton île");
-			lore.add("§f» §7Clique §agauche§7 pour visiter l'île");
+			lore.add("§f» §7Clique §e§ldroit §7pour créer ton île");
+			lore.add("§f» §7Clique §c§lgauche§7 pour visiter l'île");
 			lore.add("");
 			itemMeta.setLore(lore);
 			item.setItemMeta(itemMeta);
@@ -139,8 +139,8 @@ public class InventoryChooseIsland extends VInventory {
 			lore.add("");
 			lore.add("§f» §7Biome§7: §2" + s.getBiome().name());
 			lore.add("");
-			lore.add("§f» §7Clique §adroit §7pour créer ton île");
-			lore.add("§f» §7Clique §agauche§7 pour visiter l'île");
+			lore.add("§f» §7Clique §e§ldroit §7pour créer ton île");
+			lore.add("§f» §7Clique §c§lgauche§7 pour visiter l'île");
 			lore.add("");
 			itemMeta.setLore(lore);
 			item.setItemMeta(itemMeta);
@@ -158,8 +158,8 @@ public class InventoryChooseIsland extends VInventory {
 			lore.add("");
 			lore.add("§f» §7Biome§7: §2" + s.getBiome().name());
 			lore.add("");
-			lore.add("§f» §7Clique §adroit §7pour créer ton île");
-			lore.add("§f» §7Clique §agauche§7 pour visiter l'île");
+			lore.add("§f» §7Clique §e§ldroit §7pour créer ton île");
+			lore.add("§f» §7Clique §c§lgauche§7 pour visiter l'île");
 			lore.add("");
 			itemMeta.setLore(lore);
 			item.setItemMeta(itemMeta);
@@ -178,8 +178,8 @@ public class InventoryChooseIsland extends VInventory {
 			lore.add("");
 			lore.add("§f» §7Biome§7: §2" + s.getBiome().name());
 			lore.add("");
-			lore.add("§f» §7Clique §adroit §7pour créer ton île");
-			lore.add("§f» §7Clique §agauche§7 pour visiter l'île");
+			lore.add("§f» §7Clique §e§ldroit §7pour créer ton île");
+			lore.add("§f» §7Clique §c§lgauche§7 pour visiter l'île");
 			lore.add("");
 			itemMeta.setLore(lore);
 			item.setItemMeta(itemMeta);
@@ -197,8 +197,8 @@ public class InventoryChooseIsland extends VInventory {
 			lore.add("");
 			lore.add("§f» §7Biome§7: §2" + s.getBiome().name());
 			lore.add("");
-			lore.add("§f» §7Clique §adroit §7pour créer ton île");
-			lore.add("§f» §7Clique §agauche§7 pour visiter l'île");
+			lore.add("§f» §7Clique §e§ldroit §7pour créer ton île");
+			lore.add("§f» §7Clique §c§lgauche§7 pour visiter l'île");
 			lore.add("");
 			itemMeta.setLore(lore);
 			item.setItemMeta(itemMeta);
@@ -217,8 +217,8 @@ public class InventoryChooseIsland extends VInventory {
 			lore.add("");
 			lore.add("§f» §7Biome§7: §2" + s.getBiome().name());
 			lore.add("");
-			lore.add("§f» §7Clique §adroit §7pour créer ton île");
-			lore.add("§f» §7Clique §agauche§7 pour visiter l'île");
+			lore.add("§f» §7Clique §e§ldroit §7pour créer ton île");
+			lore.add("§f» §7Clique §c§lgauche§7 pour visiter l'île");
 			lore.add("");
 			itemMeta.setLore(lore);
 			item.setItemMeta(itemMeta);
@@ -235,8 +235,8 @@ public class InventoryChooseIsland extends VInventory {
 			lore.add("");
 			lore.add("§f» §7Biome§7: §2" + s.getBiome().name());
 			lore.add("");
-			lore.add("§f» §7Clique §adroit §7pour créer ton île");
-			lore.add("§f» §7Clique §agauche§7 pour visiter l'île");
+			lore.add("§f» §7Clique §e§ldroit §7pour créer ton île");
+			lore.add("§f» §7Clique §c§lgauche§7 pour visiter l'île");
 			lore.add("");
 			itemMeta.setLore(lore);
 			item.setItemMeta(itemMeta);
