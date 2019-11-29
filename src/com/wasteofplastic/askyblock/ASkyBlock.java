@@ -48,7 +48,6 @@ import com.wasteofplastic.askyblock.challenges.ChallengesManager;
 import com.wasteofplastic.askyblock.command.CommandManager;
 import com.wasteofplastic.askyblock.commands.AdminCmd;
 import com.wasteofplastic.askyblock.commands.Challenges;
-import com.wasteofplastic.askyblock.commands.IslandCmd;
 import com.wasteofplastic.askyblock.events.IslandDeleteEvent;
 import com.wasteofplastic.askyblock.events.IslandPreDeleteEvent;
 import com.wasteofplastic.askyblock.events.ReadyEvent;
@@ -116,13 +115,10 @@ public class ASkyBlock extends JavaPlugin {
     // Island grid manager
     private GridManager grid;
     // Island command object
-    private IslandCmd islandCmd;
-    // Database
     private TinyDB tinyDB;
     // Warp panel
     private WarpPanel warpPanel;
     // Top Ten
-    private TopTen topTen;
     // V1.8 or later
     private boolean onePointEight;
 
@@ -332,9 +328,6 @@ public class ASkyBlock extends JavaPlugin {
             if (messages != null) {
                 messages.saveMessages(false);
             }
-            if (topTen != null) {
-                topTen.topTenSave();
-            }
             // Close the name database
             if (tinyDB != null) {
                 tinyDB.saveDB();
@@ -380,23 +373,6 @@ public class ASkyBlock extends JavaPlugin {
         if (clazz != null) {
             onePointEight = true;
         }
-
-        /**
-         * Inventory
-         */
-        inventoryManager = new InventoryManager(this);
-        commandManager = new CommandManager(this);
-        
-        /**
-         * Listenrr
-         */
-        
-        addListener(new AdapterListener(this));
-        addListener(inventoryManager);
-        addListener(new BlockLimiter(this));
-        addListener(ChallengesManager.getInstance());
-        addListener(hopperManager);
-        addListener(FlyManager.getInstance());
         
         saveDefaultConfig();
         // Check to see if island distance is set or not
@@ -408,7 +384,7 @@ public class ASkyBlock extends JavaPlugin {
             getLogger().severe("");
             getLogger().severe("+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+");
             if (Settings.GAMETYPE.equals(Settings.GameType.ASKYBLOCK)) {
-                getCommand("island").setExecutor(new NotSetup(Reason.DISTANCE));
+//                getCommand("island").setExecutor(new NotSetup(Reason.DISTANCE));
                 getCommand("asc").setExecutor(new NotSetup(Reason.DISTANCE));
                 getCommand("asadmin").setExecutor(new NotSetup(Reason.DISTANCE));
             } else {
@@ -422,7 +398,7 @@ public class ASkyBlock extends JavaPlugin {
         if (!PluginConfig.loadPluginConfig(this)) {
             // Currently, the only setup error is where the world_name does not match
             if (Settings.GAMETYPE.equals(Settings.GameType.ASKYBLOCK)) {
-                getCommand("island").setExecutor(new NotSetup(Reason.WORLD_NAME));
+//                getCommand("island").setExecutor(new NotSetup(Reason.WORLD_NAME));
                 getCommand("asc").setExecutor(new NotSetup(Reason.WORLD_NAME));
                 getCommand("asadmin").setExecutor(new NotSetup(Reason.WORLD_NAME));
             } else {
@@ -464,16 +440,11 @@ public class ASkyBlock extends JavaPlugin {
             Bukkit.getLogger().info("DEBUG: Setting up player cache");
         players = new PlayerCache(this);
         // Set up commands for this plugin
-        islandCmd = new IslandCmd(this);
         if (Settings.GAMETYPE.equals(Settings.GameType.ASKYBLOCK)) {
             AdminCmd adminCmd = new AdminCmd(this);
 
-            getCommand("island").setExecutor(islandCmd);
-            getCommand("island").setTabCompleter(islandCmd);
-
-            /*
-             * On retire les commandes de challenges de base
-             */
+//            getCommand("island").setExecutor(islandCmd);
+//            getCommand("island").setTabCompleter(islandCmd);
 //            getCommand("asc").setExecutor(getChallenges());
 //            getCommand("asc").setTabCompleter(getChallenges());
 
@@ -482,15 +453,51 @@ public class ASkyBlock extends JavaPlugin {
         } else {
             AdminCmd adminCmd = new AdminCmd(this);
 
-            getCommand("ai").setExecutor(islandCmd);
-            getCommand("ai").setTabCompleter(islandCmd);
-
             getCommand("aic").setExecutor(getChallenges());
             getCommand("aic").setTabCompleter(getChallenges());
 
             getCommand("acid").setExecutor(adminCmd);
             getCommand("acid").setTabCompleter(adminCmd);
         }
+        
+        
+        
+        
+        
+        
+        /**
+         * Inventory
+         */
+        inventoryManager = new InventoryManager(this);
+        commandManager = new CommandManager(this);
+        
+        /**
+         * Listenrr
+         */
+        
+        addListener(new AdapterListener(this));
+        addListener(inventoryManager);
+        addListener(new BlockLimiter(this));
+        addListener(ChallengesManager.getInstance());
+        addListener(hopperManager);
+        addListener(FlyManager.getInstance());
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         // Register events that this plugin uses
         // registerEvents();
         // Load messages
@@ -570,11 +577,7 @@ public class ASkyBlock extends JavaPlugin {
                         warpPanel = new WarpPanel(ASkyBlock.this);
                         getServer().getPluginManager().registerEvents(warpPanel, ASkyBlock.this);
                     }
-                    topTen = new TopTen(ASkyBlock.this);
                     // Load the TopTen GUI
-                    if (!Settings.displayIslandTopTenInChat){
-                        getServer().getPluginManager().registerEvents(topTen, ASkyBlock.this);
-                    }
                     // Minishop - must wait for economy to load before we can use
                     // econ
                     getServer().getPluginManager().registerEvents(new ControlPanel(ASkyBlock.this), ASkyBlock.this);
@@ -847,7 +850,6 @@ public class ASkyBlock extends JavaPlugin {
         players.clearStartIslandRating(player.getUniqueId());
         // Save the player
         players.save(player.getUniqueId());
-        topTen.topTenAddEntry(player.getUniqueId(), 0);
         // Update the inventory
         player.updateInventory();
         if (Settings.resetEnderChest) {
@@ -929,13 +931,6 @@ public class ASkyBlock extends JavaPlugin {
      */
     public Messages getMessages() {
         return messages;
-    }
-
-    /**
-     * @return the islandCmd
-     */
-    public IslandCmd getIslandCmd() {
-        return islandCmd;
     }
 
     /**
@@ -1049,10 +1044,4 @@ public class ASkyBlock extends JavaPlugin {
         return headGetter;
     }
 
-    /**
-     * @return the topTen
-     */
-    public TopTen getTopTen() {
-        return topTen;
-    }
 }

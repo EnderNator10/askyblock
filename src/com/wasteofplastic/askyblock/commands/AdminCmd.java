@@ -72,6 +72,7 @@ import com.wasteofplastic.askyblock.Island.SettingsFlag;
 import com.wasteofplastic.askyblock.PluginConfig;
 import com.wasteofplastic.askyblock.Settings;
 import com.wasteofplastic.askyblock.Settings.GameType;
+import com.wasteofplastic.askyblock.command.commands.IslandPerfom;
 import com.wasteofplastic.askyblock.fly.FlyManager;
 import com.wasteofplastic.askyblock.listeners.LavaCheck;
 import com.wasteofplastic.askyblock.panels.ControlPanel;
@@ -886,7 +887,7 @@ public class AdminCmd extends ZUtils implements CommandExecutor, TabCompleter {
 				}
 				ControlPanel.loadControlPanel();
 				plugin.setUpdateCheck(null);
-				plugin.getIslandCmd().loadSchematics();
+				IslandPerfom.getInstance().loadSchematics();
 				if (plugin.getAcidTask() != null)
 					plugin.getAcidTask().runAcidItemRemovalTask();
 				// Give back any temporary permissions
@@ -905,7 +906,6 @@ public class AdminCmd extends ZUtils implements CommandExecutor, TabCompleter {
 				return true;
 			} else if (split[0].equalsIgnoreCase("topten")) {
 				Util.sendMessage(sender, ChatColor.YELLOW + plugin.myLocale().adminTopTengenerating);
-				plugin.getTopTen().topTenCreate(sender);
 				return true;
 			} else if (split[0].equalsIgnoreCase("purge")) {
 				if (purgeFlag) {
@@ -1103,9 +1103,9 @@ public class AdminCmd extends ZUtils implements CommandExecutor, TabCompleter {
 					return true;
 				} else {
 					if (sender instanceof Player) {
-						plugin.getIslandCmd().calculateIslandLevel(sender, playerUUID, false);
+						IslandPerfom.getInstance().calculateIslandLevel(sender, playerUUID, false);
 					} else {
-						plugin.getIslandCmd().calculateIslandLevel(sender, playerUUID, true);
+						IslandPerfom.getInstance().calculateIslandLevel(sender, playerUUID, true);
 					}
 					return true;
 				}
@@ -1902,7 +1902,7 @@ public class AdminCmd extends ZUtils implements CommandExecutor, TabCompleter {
 						Island island = plugin.getGrid().getIslandAt(islandLoc);
 						if (island == null) {
 							// Empty spot, reserve it!
-							plugin.getIslandCmd().reserveLocation(playerUUID, islandLoc);
+							IslandPerfom.getInstance().reserveLocation(playerUUID, islandLoc);
 							Util.sendMessage(sender, ChatColor.GREEN + " [" + islandLoc.getBlockX() + ", "
 									+ islandLoc.getBlockZ() + "] " + plugin.myLocale().generalSuccess);
 						} else {

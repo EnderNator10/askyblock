@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -17,6 +18,9 @@ public abstract class VCommand extends ZUtils {
 	 * execute the command
 	 */
 	private String permission;
+
+	private Command command;
+	protected String label;
 
 	/**
 	 * Mother command of this command
@@ -273,7 +277,7 @@ public abstract class VCommand extends ZUtils {
 	/**
 	 * method that allows you to execute the command
 	 */
-	public abstract CommandType perform(ASkyBlock main, Player player);
+	public abstract CommandType perform(ASkyBlock main);
 
 	public boolean sameSubCommands() {
 		if (parent == null)
@@ -282,6 +286,36 @@ public abstract class VCommand extends ZUtils {
 			if (parent.getSubCommands().contains(command))
 				return true;
 		return false;
+	}
+
+	/**
+	 * @return the command
+	 */
+	public Command getCommand() {
+		return command;
+	}
+
+	/**
+	 * @return the label
+	 */
+	public String getLabel() {
+		return label;
+	}
+
+	/**
+	 * @param command
+	 *            the command to set
+	 */
+	public void setCommand(Command command) {
+		this.command = command;
+	}
+
+	/**
+	 * @param label
+	 *            the label to set
+	 */
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	/*
@@ -293,6 +327,12 @@ public abstract class VCommand extends ZUtils {
 	public String toString() {
 		return "VCommand [permission=" + permission + ", subCommands=" + subCommands + ", consoleCanUse="
 				+ consoleCanUse + ", description=" + description + "]";
+	}
+	
+	public void setArgsLength(int length){
+		setIgnoreArgs(true);
+		setArgsMinLength(length);
+		setArgsMaxLength(length);
 	}
 
 }

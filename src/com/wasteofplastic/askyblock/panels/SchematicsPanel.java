@@ -34,6 +34,7 @@ import org.bukkit.inventory.Inventory;
 
 import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.Settings;
+import com.wasteofplastic.askyblock.command.commands.IslandPerfom;
 import com.wasteofplastic.askyblock.schematics.Schematic;
 import com.wasteofplastic.askyblock.util.Util;
 import com.wasteofplastic.askyblock.util.VaultHelper;
@@ -59,7 +60,7 @@ public class SchematicsPanel implements Listener {
         // Go through the available schematics for this player
         int slot = 0;
         List<SPItem> items = new ArrayList<SPItem>();
-        List<Schematic> availableSchems = plugin.getIslandCmd().getSchematics(player, false);
+        List<Schematic> availableSchems = IslandPerfom.getInstance().getSchematics(player, false);
         // Add an info icon
         //items.add(new SPItem(Material.MAP,"Choose your island", "Pick from the selection...",slot++));
         // Generate additional available schematics

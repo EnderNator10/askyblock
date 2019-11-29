@@ -42,8 +42,8 @@ import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.GridManager;
 import com.wasteofplastic.askyblock.Island;
 import com.wasteofplastic.askyblock.Island.SettingsFlag;
+import com.wasteofplastic.askyblock.command.commands.IslandPerfom;
 import com.wasteofplastic.askyblock.Settings;
-import com.wasteofplastic.askyblock.commands.IslandCmd;
 import com.wasteofplastic.askyblock.events.IslandEnterEvent;
 import com.wasteofplastic.askyblock.schematics.Schematic;
 import com.wasteofplastic.askyblock.schematics.Schematic.PasteReason;
@@ -219,11 +219,11 @@ public class NetherPortals implements Listener {
                             if (DEBUG)
                                 plugin.getLogger().info("DEBUG: big scan is null");
                             plugin.getLogger().warning("Creating nether island for " + event.getPlayer().getName() + " using default nether schematic");
-                            Schematic nether = IslandCmd.getSchematics().get("nether");
+                            Schematic nether = IslandPerfom.getInstance().getSchematics().get("nether");
                             if (nether != null) {
                                 if (DEBUG)
                                     plugin.getLogger().info("DEBUG: pasting at " + island.getCenter().toVector());
-                                plugin.getIslandCmd().pasteSchematic(nether, netherIsland, event.getPlayer(), PasteReason.PARTNER);
+                                IslandPerfom.getInstance().pasteSchematic(nether, netherIsland, event.getPlayer(), PasteReason.PARTNER);
                                 if (nether.isPlayerSpawn()) {
                                     // Set partner home
                                     plugin.getPlayers().setHomeLocation(event.getPlayer().getUniqueId(), nether.getPlayerSpawn(netherIsland), -2);

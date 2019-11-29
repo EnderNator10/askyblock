@@ -15,3 +15,4 @@ Changes made:
 * Adding an inventory with all the values of each block
 * Adding /is fly
 * Custom islands choice 
+* new command system

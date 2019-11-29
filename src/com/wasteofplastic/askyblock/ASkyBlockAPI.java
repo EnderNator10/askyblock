@@ -24,7 +24,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
@@ -424,22 +423,6 @@ public class ASkyBlockAPI {
      * Get the top ten list
      * @return Top ten list
      */
-    @Deprecated
-    public Map<UUID, Integer> getTopTen() {
-        HashMap<UUID, Integer> result = new HashMap<UUID, Integer>();
-        for (Entry<UUID, Long> en : plugin.getTopTen().getTopTenList().entrySet()) {
-            result.put(en.getKey(), en.getValue().intValue());
-        }
-        return result;
-    }
-
-    /**
-     * Get the top ten list
-     * @return Top ten list
-     */
-    public Map<UUID, Long> getLongTopTen() {
-        return new HashMap<UUID, Long>(plugin.getTopTen().getTopTenList());
-    }
 
     /**
      * Obtains a copy of the island object owned by playerUUID

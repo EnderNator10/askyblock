@@ -2,6 +2,7 @@ package com.wasteofplastic.askyblock.command;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,6 +13,42 @@ import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.command.commands.challenges.CommandChallenge;
 import com.wasteofplastic.askyblock.command.commands.challenges.CommandChallengeHelp;
 import com.wasteofplastic.askyblock.command.commands.challenges.CommandChallengeReset;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommand;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandAccept;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandBan;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandBanList;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandBiome;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandConfirm;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandExpel;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandFly;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandGo;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandInvite;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandKick;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandLeave;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandLock;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandMake;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandReStart;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandReject;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandSetHome;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandSettings;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandSpawn;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandTeam;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandTeamChat;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandUnBan;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandWarp;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandWarps;
+import com.wasteofplastic.askyblock.command.commands.island.coop.IslandCommandCoop;
+import com.wasteofplastic.askyblock.command.commands.island.coop.IslandCommandCoopAccept;
+import com.wasteofplastic.askyblock.command.commands.island.coop.IslandCommandCoopList;
+import com.wasteofplastic.askyblock.command.commands.island.coop.IslandCommandCoopReject;
+import com.wasteofplastic.askyblock.command.commands.island.coop.IslandCommandUnCoop;
+import com.wasteofplastic.askyblock.command.commands.island.mics.IslandCommandAbout;
+import com.wasteofplastic.askyblock.command.commands.island.mics.IslandCommandHelp;
+import com.wasteofplastic.askyblock.command.commands.island.mics.IslandCommandLevel;
+import com.wasteofplastic.askyblock.command.commands.island.mics.IslandCommandTop;
+import com.wasteofplastic.askyblock.command.commands.island.mics.IslandCommandValue;
+import com.wasteofplastic.askyblock.command.commands.island.name.IslandCommandName;
+import com.wasteofplastic.askyblock.command.commands.island.name.IslandCommandResetName;
 import com.wasteofplastic.askyblock.zcore.Logger.LogType;
 
 public class CommandManager implements CommandExecutor {
@@ -25,6 +62,47 @@ public class CommandManager implements CommandExecutor {
 	}
 
 	private void registerCommands() {
+
+		/**
+		 * Island
+		 */
+
+		VCommand island = addCommand("island", new IslandCommand());
+		addCommand(new IslandCommandHelp().setParent(island));
+		addCommand(new IslandCommandAbout().setParent(island));
+		addCommand(new IslandCommandGo().setParent(island));
+		addCommand(new IslandCommandFly().setParent(island));
+		addCommand(new IslandCommandValue().setParent(island));
+		addCommand(new IslandCommandResetName().setParent(island));
+		addCommand(new IslandCommandTeamChat().setParent(island));
+		addCommand(new IslandCommandBanList().setParent(island));
+		addCommand(new IslandCommandLevel().setParent(island));
+		addCommand(new IslandCommandWarps().setParent(island));
+		addCommand(new IslandCommandWarp().setParent(island));
+		addCommand(new IslandCommandInvite().setParent(island));
+		addCommand(new IslandCommandAccept().setParent(island));
+		addCommand(new IslandCommandReject().setParent(island));
+		addCommand(new IslandCommandLeave().setParent(island));
+		addCommand(new IslandCommandName().setParent(island));
+		addCommand(new IslandCommandCoopList().setParent(island));
+		addCommand(new IslandCommandBiome().setParent(island));
+		addCommand(new IslandCommandSetHome().setParent(island));
+		addCommand(new IslandCommandConfirm().setParent(island));
+		addCommand(new IslandCommandReStart().setParent(island));
+		addCommand(new IslandCommandLock().setParent(island));
+		addCommand(new IslandCommandSettings().setParent(island));
+		addCommand(new IslandCommandMake().setParent(island));
+		addCommand(new IslandCommandTeam().setParent(island));
+		addCommand(new IslandCommandCoopReject().setParent(island));
+		addCommand(new IslandCommandCoopAccept().setParent(island));
+		addCommand(new IslandCommandTop().setParent(island));
+		addCommand(new IslandCommandSpawn().setParent(island));
+		addCommand(new IslandCommandUnBan().setParent(island));
+		addCommand(new IslandCommandBan().setParent(island));
+		addCommand(new IslandCommandUnCoop().setParent(island));
+		addCommand(new IslandCommandExpel().setParent(island));
+		addCommand(new IslandCommandCoop().setParent(island));
+		addCommand(new IslandCommandKick().setParent(island));
 
 		/**
 		 * Challenge command
@@ -61,14 +139,14 @@ public class CommandManager implements CommandExecutor {
 		for (VCommand command : commands) {
 			if (command.getSubCommands().contains(cmd.getName().toLowerCase())) {
 				if ((args.length == 0 || command.isIgnoreParent()) && command.getParent() == null) {
-					CommandType type = processRequirements(command, sender, args);
+					CommandType type = processRequirements(command, sender, cmd, label, args);
 					if (!type.equals(CommandType.CONTINUE))
 						return true;
 				}
 			} else if (args.length >= 1 && command.getParent() != null
 					&& command.getParent().getSubCommands().contains(cmd.getName().toLowerCase())
 					&& canExecute(args, cmd.getName().toLowerCase(), command)) {
-				CommandType type = processRequirements(command, sender, args);
+				CommandType type = processRequirements(command, sender, cmd, label, args);
 				if (!type.equals(CommandType.CONTINUE))
 					return true;
 			}
@@ -97,6 +175,8 @@ public class CommandManager implements CommandExecutor {
 	}
 
 	/**
+	 * On verifie les arguments de la commande
+	 * 
 	 * @param args
 	 * @param cmd
 	 * @param command
@@ -114,21 +194,24 @@ public class CommandManager implements CommandExecutor {
 			return false;
 	}
 
-	public static String prefix = "§7[§bNeralia§7]";
+	private final String prefix = "§7[§bNeralia§7]";
 
-	public static String commandHelp = "§a» §2%syntaxe% §8- §7%description%";
-	public static String noPermission = "§cVous n'avez pas la permission";
-	public static String syntaxeError = "§cVous devez exécuter la commande comme ceci§7: §a%command%";
-	public static String commandError = "§cCet argument n'existe pas !";
-	public static String onlinePlayerCanUse = "§cYou must be player to do this !";
+	private final String commandHelp = "§a» §2%syntaxe% §8- §7%description%";
+	private final String noPermission = "§cVous n'avez pas la permission";
+	private final String syntaxeError = "§cVous devez exécuter la commande comme ceci§7: §a%command%";
+	private final String commandError = "§cCet argument n'existe pas !";
+	private final String onlinePlayerCanUse = "§cYou must be player to do this !";
 
 	/**
+	 * Exécution de la commande
+	 * 
 	 * @param command
 	 * @param sender
 	 * @param strings
 	 * @return
 	 */
-	private CommandType processRequirements(VCommand command, CommandSender sender, String[] strings) {
+	private CommandType processRequirements(VCommand command, CommandSender sender, Command cmd, String label,
+			String[] strings) {
 
 		if (!(sender instanceof Player) && !command.isConsoleCanUse()) {
 			sender.sendMessage(prefix + " " + onlinePlayerCanUse);
@@ -144,9 +227,13 @@ public class CommandManager implements CommandExecutor {
 			}
 			command.setSender(sender);
 			command.setArgs(strings);
-			CommandType returnType = command.perform(main, (Player) sender);
+			command.setCommand(cmd);
+			command.setLabel(label);
+			CommandType returnType = command.perform(main);
 			if (returnType == CommandType.SYNTAX_ERROR) {
 				sender.sendMessage(prefix + " " + syntaxeError.replace("%command%", command.getSyntaxe()));
+			} else if (returnType == CommandType.EXCEPTION_ERROR) {
+				sender.sendMessage(prefix + " §cUne erreur est survenu lors de l'éxecution de la commande !");
 			}
 			return returnType;
 		}
@@ -154,8 +241,8 @@ public class CommandManager implements CommandExecutor {
 		return CommandType.DEFAULT;
 	}
 
-	public List<VCommand> getCommands() {
-		return commands;
+	public List<VCommand> getCommands(String string) {
+		return commands.stream().filter(command -> isValid(command, string)).collect(Collectors.toList());
 	}
 
 	private int getUniqueCommand() {
@@ -176,9 +263,9 @@ public class CommandManager implements CommandExecutor {
 		});
 	}
 
-	public boolean isValid(VCommand command, String commandString) {
-		return (command.getSubCommands().contains(commandString)
-				|| (command.getParent() != null && command.getParent().getSubCommands().contains(commandString)));
+	public boolean isValid(VCommand command, String defaultCommand) {
+		return command.getParent() == null ? command.getSubCommands().contains(defaultCommand.toLowerCase())
+				: isValid(command.getParent(), defaultCommand);
 	}
 
 }

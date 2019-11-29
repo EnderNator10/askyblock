@@ -11,9 +11,6 @@ public class AsyncBackup {
         plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
             plugin.getGrid().saveGrid();
             plugin.getTinyDB().asyncSaveDB();
-            if (plugin.getTopTen() != null) {
-                plugin.getTopTen().topTenSave();
-            }
         }, Settings.backupDuration, Settings.backupDuration);
     }
     

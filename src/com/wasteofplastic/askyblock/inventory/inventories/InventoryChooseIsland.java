@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.wasteofplastic.askyblock.ASkyBlock;
-import com.wasteofplastic.askyblock.commands.IslandCmd;
+import com.wasteofplastic.askyblock.command.commands.IslandPerfom;
 import com.wasteofplastic.askyblock.inventory.ItemButton;
 import com.wasteofplastic.askyblock.inventory.VInventory;
 import com.wasteofplastic.askyblock.schematics.Schematic;
@@ -26,7 +26,6 @@ public class InventoryChooseIsland extends VInventory {
 	@SuppressWarnings("unchecked")
 	public boolean openInventory(ASkyBlock main, Player player, int page, Object... args) throws Exception {
 
-		IslandCmd island = (IslandCmd) args[0];
 		List<Schematic> schems = (List<Schematic>) args[1];
 
 		createInventory("§bChoix de ton île", 27);
@@ -36,7 +35,7 @@ public class InventoryChooseIsland extends VInventory {
 		schems.forEach(schem -> {
 
 			addItem(slot.getAndIncrement(), new ItemButton(getItem(schem.getName(), schem)).setRightClick(event -> {
-				island.newIsland(player, schem);
+				IslandPerfom.getInstance().newIsland(player, schem);
 			}).setLeftClick(event -> {
 				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "ewarp " + schem.getName() + " " + player.getName());
 			}));
@@ -147,7 +146,7 @@ public class InventoryChooseIsland extends VInventory {
 			return item;
 		}
 		case "mesa1": {
-			ItemStack item = new ItemStack(Material.STAINED_CLAY, 1, (byte)1);
+			ItemStack item = new ItemStack(Material.STAINED_CLAY, 1, (byte) 1);
 			ItemMeta itemMeta = item.getItemMeta();
 			itemMeta.setDisplayName("§bIle Mesa");
 			List<String> lore = new ArrayList<String>();
@@ -166,7 +165,7 @@ public class InventoryChooseIsland extends VInventory {
 			return item;
 		}
 		case "mesa2": {
-			ItemStack item = new ItemStack(Material.STAINED_CLAY, 1, (byte)7);
+			ItemStack item = new ItemStack(Material.STAINED_CLAY, 1, (byte) 7);
 			ItemMeta itemMeta = item.getItemMeta();
 			itemMeta.setDisplayName("§bIle Mesa 2");
 			List<String> lore = new ArrayList<String>();
@@ -186,7 +185,7 @@ public class InventoryChooseIsland extends VInventory {
 			return item;
 		}
 		case "sand1": {
-			ItemStack item = new ItemStack(Material.SAND, 1, (byte)0);
+			ItemStack item = new ItemStack(Material.SAND, 1, (byte) 0);
 			ItemMeta itemMeta = item.getItemMeta();
 			itemMeta.setDisplayName("§bIle Sable");
 			List<String> lore = new ArrayList<String>();
@@ -205,7 +204,7 @@ public class InventoryChooseIsland extends VInventory {
 			return item;
 		}
 		case "sand2": {
-			ItemStack item = new ItemStack(Material.SAND, 1, (byte)1);
+			ItemStack item = new ItemStack(Material.SAND, 1, (byte) 1);
 			ItemMeta itemMeta = item.getItemMeta();
 			itemMeta.setDisplayName("§bIle Sable");
 			List<String> lore = new ArrayList<String>();

@@ -237,7 +237,6 @@ public class PlayerCache {
         playerCache.get(playerUUID).setIslandLocation(null);
         playerCache.get(playerUUID).setIslandLevel(0);
         playerCache.get(playerUUID).save(false); // Needed?
-        plugin.getTopTen().topTenRemoveEntry(playerUUID);
     }
 
     /**
