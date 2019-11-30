@@ -72,20 +72,18 @@ public class IslandCommandValue extends IslandCommandBase {
 			} else if (Settings.blockValues.containsKey(new MaterialData(item.getType()))) {
 				value = (int) ((double) Settings.blockValues.get(new MaterialData(item.getType())) * multiplier);
 			}
+
+			String tmpName = item.getType().name().toLowerCase().replace("_", " ");
+			String name = tmpName.substring(0, 1).toUpperCase() + tmpName.substring(1);
+
 			if (value > 0) {
-				// [name] placed here may be worth [value]
-				Util.sendMessage(player, ChatColor.GREEN + (plugin.myLocale(player.getUniqueId()).islandblockValue
-						.replace("[name]", Util.prettifyText(item.getType().name()))
-						.replace("[value]", String.valueOf(value))));
+				Util.sendMessage(player, "§f» §7Le bloc §2" + name + " §7rapporte §2§l" + value + " §7point"
+						+ (value > 1 ? "s" : "") + ".");
 			} else {
-				// [name] is worthless
-				Util.sendMessage(player,
-						ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).islandblockWorthless
-								.replace("[name]", Util.prettifyText(item.getType().name())));
+				Util.sendMessage(player, "§f» §7Le block §2" + name + " §7ne rapporte pas de point.");
 			}
 		} else {
-			// That is not a block
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNotABlock);
+			Util.sendMessage(player, "§f» §7L'item dans votre main n'est pas un bloc.");
 		}
 
 		return CommandType.SUCCESS;

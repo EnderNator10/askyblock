@@ -104,7 +104,7 @@ public class LevelCalcByChunk {
 				checking = false;
 				checkChunksAsync(chunkSnapshot);
 			}
-		}, 0L, SPEED);
+		}, 5L, SPEED);
 	}
 
 	private void checkChunksAsync(final Set<ChunkSnapshot> chunkSnapshot) {
@@ -286,12 +286,12 @@ public class LevelCalcByChunk {
 				if (!(asker instanceof Player)) {
 					// Console
 					if (!report) {
-						Util.sendMessage(asker, ChatColor.GREEN + plugin.myLocale().islandislandLevelis
-								.replace("[level]", String.valueOf(plugin.getPlayers().getIslandLevel(targetPlayer))));
+						Util.sendMessage(asker, "§f» §7Niveau de votre île: §2"
+								+ String.valueOf(plugin.getPlayers().getIslandLevel(targetPlayer)));
 					} else {
 						sendConsoleReport(asker);
-						Util.sendMessage(asker, ChatColor.GREEN + plugin.myLocale().islandislandLevelis
-								.replace("[level]", String.valueOf(plugin.getPlayers().getIslandLevel(targetPlayer))));
+						Util.sendMessage(asker, "§f» §7Niveau de votre île: §2"
+								+ String.valueOf(plugin.getPlayers().getIslandLevel(targetPlayer)));
 					}
 				} else {
 					// Player
@@ -305,24 +305,17 @@ public class LevelCalcByChunk {
 											String.valueOf(plugin.getPlayers().getIslandLevel(targetPlayer))));
 						}
 						if (((Player) asker).isOnline()) {
-							String message = ChatColor.GREEN
-									+ plugin.myLocale(((Player) asker).getUniqueId()).islandislandLevelis.replace(
-											"[level]",
-											String.valueOf(plugin.getPlayers().getIslandLevel(targetPlayer)));
-							if (Settings.deathpenalty != 0) {
-								message += " " + plugin.myLocale(((Player) asker).getUniqueId()).levelDeaths
-										.replace("[number]", String.valueOf(result.deathHandicap));
-							}
-							Util.sendMessage(asker, message);
-							// Send player how many points are required to reach
-							// next island level
+							Util.sendMessage(asker,
+									"§f» §7Niveau de votre île: "
+											+ String.valueOf(plugin.getPlayers().getIslandLevel(targetPlayer)) + " §c["
+											+ String.valueOf(result.deathHandicap) + " morts]");
 							if (event.getLongPointsToNextLevel() >= 0) {
-								String toNextLevel = ChatColor.GREEN + plugin
-										.myLocale(((Player) asker).getUniqueId()).islandrequiredPointsToNextLevel
-												.replace("[points]", String.valueOf(event.getLongPointsToNextLevel()));
-								toNextLevel = toNextLevel.replace("[next]",
-										String.valueOf(plugin.getPlayers().getIslandLevel(targetPlayer) + 1));
-								Util.sendMessage(asker, toNextLevel);
+								Util.sendMessage(asker,
+										"§f» §7Vous avez besoin de §2"
+												+ String.valueOf(event.getLongPointsToNextLevel())
+												+ "§7 points supplémentaire pour attendre le niveau§2 "
+												+ String.valueOf(plugin.getPlayers().getIslandLevel(targetPlayer) + 1)
+												+ " §7!");
 							}
 						}
 					} else {

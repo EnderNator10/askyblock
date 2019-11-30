@@ -45,11 +45,12 @@ import com.wasteofplastic.askyblock.schematics.Schematic;
 import com.wasteofplastic.askyblock.schematics.Schematic.PasteReason;
 import com.wasteofplastic.askyblock.util.Util;
 import com.wasteofplastic.askyblock.util.VaultHelper;
+import com.wasteofplastic.askyblock.zcore.CustomMap;
 
 @SuppressWarnings("deprecation")
 public class IslandPerfom {
 
-	public final HashMap<UUID, UUID> inviteList = new HashMap<>();
+	public final CustomMap<UUID, UUID> inviteList = new CustomMap<>();
 	public final HashMap<UUID, UUID> coopInviteList = new HashMap<>();
 	private HashMap<UUID, Long> resetWaitTime = new HashMap<>();
 	public HashMap<UUID, Boolean> confirm = new HashMap<>();

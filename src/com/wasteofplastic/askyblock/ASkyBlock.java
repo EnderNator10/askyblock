@@ -58,6 +58,7 @@ import com.wasteofplastic.askyblock.inventory.InventoryManager;
 import com.wasteofplastic.askyblock.listener.AdapterListener;
 import com.wasteofplastic.askyblock.listener.ListenerAdapter;
 import com.wasteofplastic.askyblock.listener.listeners.BlockLimiter;
+import com.wasteofplastic.askyblock.listener.listeners.TreeListener;
 import com.wasteofplastic.askyblock.listeners.AcidEffect;
 import com.wasteofplastic.askyblock.listeners.ChatListener;
 import com.wasteofplastic.askyblock.listeners.CleanSuperFlat;
@@ -481,7 +482,7 @@ public class ASkyBlock extends JavaPlugin {
         addListener(ChallengesManager.getInstance());
         addListener(hopperManager);
         addListener(FlyManager.getInstance());
-        
+        addListener(new TreeListener());
         
         
         

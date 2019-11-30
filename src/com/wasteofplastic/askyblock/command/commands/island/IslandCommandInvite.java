@@ -1,8 +1,6 @@
 package com.wasteofplastic.askyblock.command.commands.island;
 
-import java.util.Map;
 import java.util.UUID;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -31,38 +29,43 @@ public class IslandCommandInvite extends IslandCommandBase {
 	public CommandType postPerform(ASkyBlock plugin) {
 		// If the player who is doing the inviting has a team
 		// Only online players can be invited
+
+		Player localPlayer = player;
+		UUID localUUID = playerUUID;
+
 		Player invitedPlayer = plugin.getServer().getPlayer(args[1]);
 		if (invitedPlayer == null || !player.canSee(invitedPlayer)) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorOfflinePlayer);
+			Util.sendMessage(localPlayer,
+					ChatColor.RED + plugin.myLocale(localPlayer.getUniqueId()).errorOfflinePlayer);
 			return CommandType.DEFAULT;
 		}
 		final UUID invitedPlayerUUID = invitedPlayer.getUniqueId();
 		// Player issuing the command must have an island
-		if (!plugin.getPlayers().hasIsland(player.getUniqueId())) {
-			Util.sendMessage(player,
-					ChatColor.RED + plugin.myLocale(player.getUniqueId()).inviteerrorYouMustHaveIslandToInvite);
+		if (!plugin.getPlayers().hasIsland(localPlayer.getUniqueId())) {
+			Util.sendMessage(localPlayer,
+					ChatColor.RED + plugin.myLocale(localPlayer.getUniqueId()).inviteerrorYouMustHaveIslandToInvite);
 			return CommandType.DEFAULT;
 		}
 		// Player cannot invite themselves
-		if (player.getUniqueId().equals(invitedPlayer.getUniqueId())) {
-			Util.sendMessage(player,
-					ChatColor.RED + plugin.myLocale(player.getUniqueId()).inviteerrorYouCannotInviteYourself);
+		if (localPlayer.getUniqueId().equals(invitedPlayer.getUniqueId())) {
+			Util.sendMessage(localPlayer,
+					ChatColor.RED + plugin.myLocale(localPlayer.getUniqueId()).inviteerrorYouCannotInviteYourself);
 			return CommandType.DEFAULT;
 		}
 		// Check if this player can be invited to this island, or
 		// whether they are still on cooldown
 		long time = plugin.getPlayers().getInviteCoolDownTime(invitedPlayerUUID,
-				plugin.getPlayers().getIslandLocation(playerUUID));
+				plugin.getPlayers().getIslandLocation(localUUID));
 		if (time > 0 && !player.isOp()) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).inviteerrorCoolDown
+			Util.sendMessage(localPlayer, ChatColor.RED + plugin.myLocale(localPlayer.getUniqueId()).inviteerrorCoolDown
 					.replace("[time]", String.valueOf(time)));
 			return CommandType.DEFAULT;
 		}
 		// If the player already has a team then check that they are
 		// the leader, etc
-		if (plugin.getPlayers().inTeam(player.getUniqueId())) {
+		if (plugin.getPlayers().inTeam(localPlayer.getUniqueId())) {
 			// Leader?
-			if (teamLeader.equals(player.getUniqueId())) {
+			if (teamLeader.equals(localPlayer.getUniqueId())) {
 				// Invited player is free and not in a team
 				if (!plugin.getPlayers().inTeam(invitedPlayerUUID)) {
 					// Player has space in their team
@@ -100,30 +103,22 @@ public class IslandCommandInvite extends IslandCommandBase {
 						// then retract it.
 						// Players can only have one invite out at a
 						// time - interesting
-						if (perform.inviteList.containsValue(playerUUID)) {
-							perform.inviteList.remove(getKeyByValue(perform.inviteList, player.getUniqueId()));
-							Util.sendMessage(player,
-									ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).inviteremovingInvite);
+						if (perform.inviteList.containsValue(localUUID)) {
+							perform.inviteList.remove(perform.inviteList.getKeyByValue(localPlayer.getUniqueId()));
+							Util.sendMessage(localPlayer,
+									ChatColor.YELLOW + plugin.myLocale(localPlayer.getUniqueId()).inviteremovingInvite);
 						}
-						// Put the invited player (key) onto the
-						// list with inviter (value)
-						// If someone else has invited a player,
-						// then this invite will overwrite the
-						// previous invite!
-						perform.inviteList.put(invitedPlayerUUID, player.getUniqueId());
-						Util.sendMessage(player,
-								ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).inviteinviteSentTo
-										.replace("[name]", invitedPlayer.getName()));
+						perform.inviteList.put(invitedPlayerUUID, localPlayer.getUniqueId());
+						Util.sendMessage(localPlayer,
+								"§f» §7Vous venez d'envoyer d'une invitation à §2" + invitedPlayer.getName() + "§7.");
 						// Send message to online player
 						Util.sendMessage(Bukkit.getPlayer(invitedPlayerUUID),
-								plugin.myLocale(invitedPlayerUUID).invitenameHasInvitedYou.replace("[name]",
-										player.getName()));
+								"§f» §2" + player.getName() + "§7 vous a invité à rejoindre son île !");
 						Util.sendMessage(Bukkit.getPlayer(invitedPlayerUUID),
-								ChatColor.WHITE + "/" + label + " [accept/reject]" + ChatColor.YELLOW + " "
-										+ plugin.myLocale(invitedPlayerUUID).invitetoAcceptOrReject);
+								"§f» §7Faite §2/is accept/reject §7pour accepter ou refuser l'invitation.");
 						if (plugin.getPlayers().hasIsland(invitedPlayerUUID)) {
 							Util.sendMessage(Bukkit.getPlayer(invitedPlayerUUID),
-									ChatColor.RED + plugin.myLocale(invitedPlayerUUID).invitewarningYouWillLoseIsland);
+									"§f» §cAttention: Votre île sera supprimée si vous acceptez !");
 						}
 						// Start timeout on invite
 						if (Settings.inviteTimeout > 0) {
@@ -132,16 +127,15 @@ public class IslandCommandInvite extends IslandCommandBase {
 								@Override
 								public void run() {
 									if (perform.inviteList.containsKey(invitedPlayerUUID)
-											&& perform.inviteList.get(invitedPlayerUUID).equals(playerUUID)) {
+											&& perform.inviteList.get(invitedPlayerUUID).equals(localUUID)) {
 										perform.inviteList.remove(invitedPlayerUUID);
-										if (plugin.getServer().getPlayer(playerUUID) != null) {
-											Util.sendMessage(plugin.getServer().getPlayer(playerUUID), ChatColor.YELLOW
-													+ plugin.myLocale(player.getUniqueId()).inviteremovingInvite);
+										if (plugin.getServer().getPlayer(localUUID) != null) {
+											Util.sendMessage(plugin.getServer().getPlayer(localUUID),
+													"§f» §7Suppresion de votre ancienne invitation.");
 										}
 										if (plugin.getServer().getPlayer(invitedPlayerUUID) != null) {
 											Util.sendMessage(plugin.getServer().getPlayer(invitedPlayerUUID),
-													ChatColor.YELLOW + plugin
-															.myLocale(player.getUniqueId()).inviteremovingInvite);
+													"§f» §7Suppresion de votre ancienne invitation.");
 										}
 									}
 
@@ -149,16 +143,13 @@ public class IslandCommandInvite extends IslandCommandBase {
 							}, Settings.inviteTimeout);
 						}
 					} else {
-						Util.sendMessage(player,
-								ChatColor.RED + plugin.myLocale(player.getUniqueId()).inviteerrorYourIslandIsFull);
+						Util.sendMessage(localPlayer, "§f» §cVous n'avez plus de place sur votre île !");
 					}
 				} else {
-					Util.sendMessage(player, ChatColor.RED
-							+ plugin.myLocale(player.getUniqueId()).inviteerrorThatPlayerIsAlreadyInATeam);
+					Util.sendMessage(localPlayer, "§f» §cLe joueur est déjà sur votre île !");
 				}
 			} else {
-				Util.sendMessage(player,
-						ChatColor.RED + plugin.myLocale(player.getUniqueId()).inviteerrorYouMustHaveIslandToInvite);
+				Util.sendMessage(localPlayer, "§f» §cVous devez avoir une île pour effectuer cette commande !");
 			}
 		} else {
 			// First-time invite player does not have a team
@@ -166,29 +157,23 @@ public class IslandCommandInvite extends IslandCommandBase {
 			if (!plugin.getPlayers().inTeam(invitedPlayerUUID)) {
 				// If the inviter already has an invite out, remove
 				// it
-				if (perform.inviteList.containsValue(playerUUID)) {
-					perform.inviteList.remove(getKeyByValue(perform.inviteList, player.getUniqueId()));
-					Util.sendMessage(player,
-							ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).inviteremovingInvite);
+				if (perform.inviteList.containsValue(localUUID)) {
+					perform.inviteList.remove(perform.inviteList.getKeyByValue(localPlayer.getUniqueId()));
+					Util.sendMessage(localPlayer,
+							ChatColor.YELLOW + plugin.myLocale(localPlayer.getUniqueId()).inviteremovingInvite);
 				}
 				// Place the player and invitee on the invite list
-				perform.inviteList.put(invitedPlayerUUID, player.getUniqueId());
-				Util.sendMessage(player, ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).inviteinviteSentTo
-						.replace("[name]", invitedPlayer.getName()));
+				perform.inviteList.put(invitedPlayerUUID, localPlayer.getUniqueId());
+				Util.sendMessage(localPlayer,
+						"§f» §7Vous venez d'envoyer d'une invitation à §2" + invitedPlayer.getName() + "§7.");
+				// Send message to online player
 				Util.sendMessage(Bukkit.getPlayer(invitedPlayerUUID),
-						plugin.myLocale(invitedPlayerUUID).invitenameHasInvitedYou.replace("[name]", player.getName()));
-				Util.sendMessage(Bukkit.getPlayer(invitedPlayerUUID), ChatColor.WHITE + "/" + label + " [accept/reject]"
-						+ ChatColor.YELLOW + " " + plugin.myLocale(invitedPlayerUUID).invitetoAcceptOrReject);
-				// Check if the player has an island and warn
-				// accordingly
-				// plugin.getLogger().info("DEBUG: invited player =
-				// "
-				// + invitedPlayerUUID.toString());
+						"§f» §2" + player.getName() + "§7 vous a invité à rejoindre son île !");
+				Util.sendMessage(Bukkit.getPlayer(invitedPlayerUUID),
+						"§f» §7Faite §2/is accept/reject §7pour accepter ou refuser l'invitation.");
 				if (plugin.getPlayers().hasIsland(invitedPlayerUUID)) {
-					// plugin.getLogger().info("DEBUG: invited
-					// player has island");
 					Util.sendMessage(Bukkit.getPlayer(invitedPlayerUUID),
-							ChatColor.RED + plugin.myLocale(invitedPlayerUUID).invitewarningYouWillLoseIsland);
+							"§f» §cAttention: Votre île sera supprimée si vous acceptez !");
 				}
 				// Start timeout on invite
 				if (Settings.inviteTimeout > 0) {
@@ -198,15 +183,15 @@ public class IslandCommandInvite extends IslandCommandBase {
 						public void run() {
 
 							if (perform.inviteList.containsKey(invitedPlayerUUID)
-									&& perform.inviteList.get(invitedPlayerUUID).equals(playerUUID)) {
+									&& perform.inviteList.get(invitedPlayerUUID).equals(localUUID)) {
 								perform.inviteList.remove(invitedPlayerUUID);
-								if (plugin.getServer().getPlayer(playerUUID) != null) {
-									Util.sendMessage(plugin.getServer().getPlayer(playerUUID), ChatColor.YELLOW
-											+ plugin.myLocale(player.getUniqueId()).inviteremovingInvite);
+								if (plugin.getServer().getPlayer(localUUID) != null) {
+									Util.sendMessage(plugin.getServer().getPlayer(localUUID),
+											"§f» §7Suppresion de votre ancienne invitation.");
 								}
 								if (plugin.getServer().getPlayer(invitedPlayerUUID) != null) {
-									Util.sendMessage(plugin.getServer().getPlayer(invitedPlayerUUID), ChatColor.YELLOW
-											+ plugin.myLocale(player.getUniqueId()).inviteremovingInvite);
+									Util.sendMessage(plugin.getServer().getPlayer(invitedPlayerUUID),
+											"§f» §7Suppresion de votre ancienne invitation.");
 								}
 							}
 
@@ -214,27 +199,10 @@ public class IslandCommandInvite extends IslandCommandBase {
 					}, Settings.inviteTimeout);
 				}
 			} else {
-				Util.sendMessage(player,
-						ChatColor.RED + plugin.myLocale(player.getUniqueId()).inviteerrorThatPlayerIsAlreadyInATeam);
+				Util.sendMessage(localPlayer, "§f» §cLe joueur est déjà sur votre île !");
 			}
 		}
 		return CommandType.SUCCESS;
-	}
-	
-	/**
-	 * One-to-one relationship, you can return the first matched key
-	 *
-	 * @param map
-	 * @param value
-	 * @return key
-	 */
-	public static <T, E> T getKeyByValue(Map<T, E> map, E value) {
-		for (Entry<T, E> entry : map.entrySet()) {
-			if (value.equals(entry.getValue())) {
-				return entry.getKey();
-			}
-		}
-		return null;
 	}
 
 }

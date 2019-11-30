@@ -21,7 +21,7 @@ public class IslandCommandTeam extends IslandCommandBase {
 
 	@Override
 	public CommandType postPerform(ASkyBlock plugin) {
-		
+
 		if (plugin.getPlayers().inTeam(playerUUID)) {
 			if (teamLeader.equals(playerUUID)) {
 				int maxSize = Settings.maxTeamSize;
@@ -53,31 +53,23 @@ public class IslandCommandTeam extends IslandCommandBase {
 					}
 				}
 				if (teamMembers.size() < maxSize) {
-					Util.sendMessage(player,
-							ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).inviteyouCanInvite
-									.replace("[number]", String.valueOf(maxSize - teamMembers.size())));
-				} else {
-					Util.sendMessage(player,
-							ChatColor.RED + plugin.myLocale(player.getUniqueId()).inviteerrorYourIslandIsFull);
+					Util.sendMessage(player, "§f» §7Vous pouvez encore inviter §2[number]§7 joueurs."
+							.replace("[number]", String.valueOf(maxSize - teamMembers.size())));
 				}
 			}
-			Util.sendMessage(player,
-					ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).teamlistingMembers + ":");
-			// Display members in the list
+			Util.sendMessage(player, "§f» §7Membres de votre île§8:");
 			for (UUID m : plugin.getPlayers().getMembers(teamLeader)) {
-				Util.sendMessage(player, ChatColor.WHITE + plugin.getPlayers().getName(m));
+				Util.sendMessage(player, "  §7- §f" + plugin.getPlayers().getName(m));
 			}
 		} else if (perform.inviteList.containsKey(playerUUID)) {
-			Util.sendMessage(player,
-					ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).invitenameHasInvitedYou
-							.replace("[name]", plugin.getPlayers().getName(perform.inviteList.get(playerUUID))));
-			Util.sendMessage(player, ChatColor.WHITE + "/" + label + " [accept/reject]" + ChatColor.YELLOW
-					+ plugin.myLocale(player.getUniqueId()).invitetoAcceptOrReject);
+			Util.sendMessage(player, "§f» §2" + plugin.getPlayers().getName(perform.inviteList.get(playerUUID))
+					+ "§7 vous a invité à rejoindre son île !");
+			Util.sendMessage(player, "§f» §7Faite §2/is accept/reject §7pour accepter ou refuser l'invitation.");
 		} else {
 			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).kickerrorNoTeam);
 		}
 		return CommandType.SUCCESS;
 
 	}
-	
+
 }

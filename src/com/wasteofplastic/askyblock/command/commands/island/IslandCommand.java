@@ -2,6 +2,7 @@ package com.wasteofplastic.askyblock.command.commands.island;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 
 import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.Settings;
@@ -33,7 +34,8 @@ public class IslandCommand extends IslandCommandBase {
 				return CommandType.DEFAULT;
 			}
 			// Create new island for player
-			message(player, 0, 1500, Sound.BLOCK_NOTE_PLING, () -> perform.chooseIsland(player), Message.ISLAND_CREATE,
+			Player tmpPlayer = player;
+			message(player, 0, 1500, Sound.BLOCK_NOTE_PLING, () -> perform.chooseIsland(tmpPlayer), Message.ISLAND_CREATE,
 					Message.ISLAND_CREATE_1, Message.ISLAND_CREATE_2, Message.ISLAND_CREATE_3, Message.ISLAND_CREATE_4,
 					Message.ISLAND_CREATE_5);
 		} else {

@@ -32,7 +32,7 @@ public class IslandCommandLevel extends IslandCommandBase {
 		if (!plugin.getPlayers().inTeam(playerUUID) && !plugin.getPlayers().hasIsland(playerUUID)) {
 			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoIsland);
 			return CommandType.DEFAULT;
-		} else 
+		} else
 			calculateIslandLevel(player, playerUUID);
 		return CommandType.SUCCESS;
 	}
@@ -69,12 +69,12 @@ public class IslandCommandLevel extends IslandCommandBase {
 				// Newer better system - uses chunks
 				if (!onLevelWaitTime(asker) || Settings.levelWait <= 0 || asker.isOp()
 						|| VaultHelper.checkPerm(asker, Settings.PERMPREFIX + "mod.info")) {
-					Util.sendMessage(asker, ChatColor.GREEN + plugin.myLocale(asker.getUniqueId()).levelCalculating);
+					Util.sendMessage(sender, "§f» §7Calcul du niveau de votre île en cours...");
 					setLevelWaitTime(asker);
 					new LevelCalcByChunk(plugin, plugin.getGrid().getIsland(targetPlayer), targetPlayer, asker, report);
 				} else {
-					Util.sendMessage(asker, ChatColor.YELLOW + plugin.myLocale(asker.getUniqueId()).islandresetWait
-							.replace("[time]", String.valueOf(getLevelWaitTime(asker))));
+					Util.sendMessage(sender, "§f» §7Vous devez attendre §2" + String.valueOf(getLevelWaitTime(asker))
+							+ "§7 avant de pouvoir faire cela à nouveau.");
 				}
 
 			} else {
@@ -84,7 +84,7 @@ public class IslandCommandLevel extends IslandCommandBase {
 			}
 		} else {
 			// Console request
-			Util.sendMessage(sender, ChatColor.GREEN + plugin.myLocale().levelCalculating);
+			Util.sendMessage(sender, "§f» §7Calcul du niveau de votre île en cours...");
 			new LevelCalcByChunk(plugin, plugin.getGrid().getIsland(targetPlayer), targetPlayer, sender, report);
 		}
 		return true;

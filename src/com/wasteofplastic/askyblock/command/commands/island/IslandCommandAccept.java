@@ -24,8 +24,7 @@ public class IslandCommandAccept extends IslandCommandBase {
 		if (!plugin.getPlayers().inTeam(playerUUID) && perform.inviteList.containsKey(playerUUID)) {
 			// If the invitee has an island of their own
 			if (plugin.getPlayers().hasIsland(playerUUID)) {
-				plugin.getLogger()
-						.info(player.getName() + "'s island will be deleted because they joined a party.");
+				plugin.getLogger().info(player.getName() + "'s island will be deleted because they joined a party.");
 				plugin.getPlayers().setInTeleport(playerUUID, true);
 				plugin.deletePlayerIsland(playerUUID, true);
 				plugin.getLogger().info("Island deleted.");
@@ -50,20 +49,19 @@ public class IslandCommandAccept extends IslandCommandBase {
 				perform.runCommands(Settings.teamStartCommands, player);
 			}
 			Util.sendMessage(player,
-					ChatColor.GREEN + plugin.myLocale(playerUUID).inviteyouHaveJoinedAnIsland);
+					"§f» §7Vous venez de rejoindre l'île de §2"
+							+ plugin.getServer().getPlayer(perform.inviteList.get(playerUUID)).getName()
+							+ " §7! Utilisez §2/island team§7 pour avoir la liste des membres de votre nouvelle île !");
 			if (plugin.getServer().getPlayer(perform.inviteList.get(playerUUID)) != null) {
 				Util.sendMessage(plugin.getServer().getPlayer(perform.inviteList.get(playerUUID)),
-						ChatColor.GREEN
-								+ plugin.myLocale(perform.inviteList.get(playerUUID)).invitehasJoinedYourIsland
-										.replace("[name]", player.getName()));
-			}
+						"§f» §2" + player.getName() +" §7vient de rejoindre votre île !");
+			} 
 			// Remove the invite
 			perform.inviteList.remove(player.getUniqueId());
 			plugin.getGrid().saveGrid();
 			return CommandType.SUCCESS;
 		}
-		Util.sendMessage(player,
-				ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorCommandNotReady);
+		Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorCommandNotReady);
 
 		return CommandType.SUCCESS;
 	}
