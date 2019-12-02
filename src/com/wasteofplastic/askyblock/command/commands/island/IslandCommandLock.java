@@ -30,7 +30,7 @@ public class IslandCommandLock extends IslandCommandBase {
 			// plugin.getLogger().info("DEBUG: player has no island in
 			// grid");
 			// Player has no island in the grid
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoIsland);
+			Util.sendMessage(player, "§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoIsland);
 			return CommandType.SUCCESS;
 		} else {
 			if (!island.isLocked()) {
@@ -53,22 +53,24 @@ public class IslandCommandLock extends IslandCommandBase {
 								target.teleport(player.getWorld().getSpawnLocation());
 							}
 						}
-						Util.sendMessage(target, ChatColor.RED + plugin.myLocale(target.getUniqueId()).expelExpelled);
+						Util.sendMessage(target,
+								"§f» " + ChatColor.RED + plugin.myLocale(target.getUniqueId()).expelExpelled);
 						plugin.getLogger().info(player.getName() + " expelled " + target.getName()
 								+ " from their island when locking.");
 						// Yes they are
-						Util.sendMessage(player, ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).expelSuccess
-								.replace("[name]", target.getName()));
+						Util.sendMessage(player,
+								"§f» " + ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).expelSuccess
+										.replace("[name]", target.getName()));
 					}
 				}
-				Util.sendMessage(player, ChatColor.GREEN + plugin.myLocale(playerUUID).lockLocking);
+				Util.sendMessage(player, "§f» " + ChatColor.GREEN + plugin.myLocale(playerUUID).lockLocking);
 				plugin.getMessages().tellOfflineTeam(playerUUID,
 						plugin.myLocale(playerUUID).lockPlayerLocked.replace("[name]", player.getName()));
 				plugin.getMessages().tellTeam(playerUUID,
 						plugin.myLocale(playerUUID).lockPlayerLocked.replace("[name]", player.getName()));
 				island.setLocked(true);
 			} else {
-				Util.sendMessage(player, ChatColor.GREEN + plugin.myLocale(playerUUID).lockUnlocking);
+				Util.sendMessage(player, "§f» " + ChatColor.GREEN + plugin.myLocale(playerUUID).lockUnlocking);
 				plugin.getMessages().tellOfflineTeam(playerUUID,
 						plugin.myLocale(playerUUID).lockPlayerUnlocked.replace("[name]", player.getName()));
 				plugin.getMessages().tellTeam(playerUUID,

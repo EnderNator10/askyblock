@@ -21,7 +21,7 @@ public class IslandCommandSetHome extends IslandCommandBase {
 	public CommandType postPerform(ASkyBlock plugin) {
 
 		if (plugin.getGrid().getIsland(player.getUniqueId()) == null) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoIsland);
+			Util.sendMessage(player, "§f» " +ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoIsland);
 			return CommandType.SUCCESS;
 		}
 		plugin.getGrid().homeSet(player);

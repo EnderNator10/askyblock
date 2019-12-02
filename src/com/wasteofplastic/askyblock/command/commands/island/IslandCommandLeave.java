@@ -18,7 +18,7 @@ import com.wasteofplastic.askyblock.util.Util;
 public class IslandCommandLeave extends IslandCommandBase {
 
 	private List<UUID> leavingPlayers = new ArrayList<>();
-	
+
 	public IslandCommandLeave() {
 		this.addSubCommand("leave");
 		this.setSyntaxe("/is leave");
@@ -29,21 +29,19 @@ public class IslandCommandLeave extends IslandCommandBase {
 	@Override
 	public CommandType postPerform(ASkyBlock plugin) {
 
-		if (player.getWorld().equals(ASkyBlock.getIslandWorld())
-				|| (Settings.createNether && Settings.newNether && ASkyBlock.getNetherWorld() != null
-						&& player.getWorld().equals(ASkyBlock.getNetherWorld()))) {
+		if (player.getWorld().equals(ASkyBlock.getIslandWorld()) || (Settings.createNether && Settings.newNether
+				&& ASkyBlock.getNetherWorld() != null && player.getWorld().equals(ASkyBlock.getNetherWorld()))) {
 			if (plugin.getPlayers().inTeam(playerUUID)) {
 				if (plugin.getPlayers().getTeamLeader(playerUUID) != null
 						&& plugin.getPlayers().getTeamLeader(playerUUID).equals(playerUUID)) {
-					Util.sendMessage(player, ChatColor.YELLOW
-							+ plugin.myLocale(player.getUniqueId()).leaveerrorYouAreTheLeader);
+					Util.sendMessage(player,
+							ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).leaveerrorYouAreTheLeader);
 					return CommandType.SUCCESS;
 				}
 				// Check for confirmation
 				if (!leavingPlayers.contains(playerUUID)) {
 					leavingPlayers.add(playerUUID);
-					Util.sendMessage(player,
-							ChatColor.RED + plugin.myLocale(player.getUniqueId()).leaveWarning);
+					Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).leaveWarning);
 					new BukkitRunnable() {
 
 						@Override
@@ -52,8 +50,8 @@ public class IslandCommandLeave extends IslandCommandBase {
 							// remove them and cancel the leave
 							if (leavingPlayers.contains(playerUUID)) {
 								leavingPlayers.remove(playerUUID);
-								Util.sendMessage(player, ChatColor.RED
-										+ plugin.myLocale(player.getUniqueId()).leaveCanceled);
+								Util.sendMessage(player,
+										"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).leaveCanceled);
 							}
 						}
 
@@ -84,17 +82,17 @@ public class IslandCommandLeave extends IslandCommandBase {
 				// Remove any warps
 				plugin.getWarpSignsListener().removeWarp(playerUUID);
 				Util.sendMessage(player,
-						ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).leaveyouHaveLeftTheIsland);
+						"§f» " + ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).leaveyouHaveLeftTheIsland);
 				// Tell the leader if they are online
 				if (plugin.getServer().getPlayer(teamLeader) != null) {
 					Player leader = plugin.getServer().getPlayer(teamLeader);
 					Util.sendMessage(leader,
-							ChatColor.RED + plugin.myLocale(teamLeader).leavenameHasLeftYourIsland
+							"§f» " + ChatColor.RED + plugin.myLocale(teamLeader).leavenameHasLeftYourIsland
 									.replace("[name]", player.getName()));
 				} else {
 					// Leave them a message
 					plugin.getMessages().setMessage(teamLeader,
-							ChatColor.RED + plugin.myLocale(teamLeader).leavenameHasLeftYourIsland
+							"§f» " + ChatColor.RED + plugin.myLocale(teamLeader).leavenameHasLeftYourIsland
 									.replace("[name]", player.getName()));
 				}
 				// Check if the size of the team is now 1
@@ -115,12 +113,11 @@ public class IslandCommandLeave extends IslandCommandBase {
 				return CommandType.SUCCESS;
 			} else {
 				Util.sendMessage(player,
-						ChatColor.RED + plugin.myLocale(playerUUID).leaveerrorYouCannotLeaveIsland);
+						"§f» " + ChatColor.RED + plugin.myLocale(playerUUID).leaveerrorYouCannotLeaveIsland);
 				return CommandType.SUCCESS;
 			}
 		} else {
-			Util.sendMessage(player,
-					ChatColor.RED + plugin.myLocale(playerUUID).leaveerrorYouMustBeInWorld);
+			Util.sendMessage(player, "§f» " + ChatColor.RED + plugin.myLocale(playerUUID).leaveerrorYouMustBeInWorld);
 		}
 
 		return CommandType.SUCCESS;

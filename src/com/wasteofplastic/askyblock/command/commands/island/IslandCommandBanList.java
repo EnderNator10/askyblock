@@ -23,15 +23,13 @@ public class IslandCommandBanList extends IslandCommandBase {
 	@Override
 	public CommandType postPerform(ASkyBlock plugin) {
 
-		Util.sendMessage(player,
-				ChatColor.GREEN + plugin.myLocale(playerUUID).adminInfoBannedPlayers + ":");
+		Util.sendMessage(player, "§f» " + ChatColor.GRAY + plugin.myLocale(playerUUID).adminInfoBannedPlayers + ":");
 		List<UUID> bannedList = plugin.getPlayers().getBanList(playerUUID);
 		if (bannedList.isEmpty()) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(playerUUID).banNone);
+			Util.sendMessage(player, "§f» " + ChatColor.RED + "Aucune joueur bannis");
 		} else {
 			for (UUID bannedPlayers : bannedList) {
-				Util.sendMessage(player,
-						plugin.myLocale(playerUUID).helpColor + plugin.getPlayers().getName(bannedPlayers));
+				Util.sendMessage(player, "§f» §7" + plugin.getPlayers().getName(bannedPlayers));
 			}
 		}
 

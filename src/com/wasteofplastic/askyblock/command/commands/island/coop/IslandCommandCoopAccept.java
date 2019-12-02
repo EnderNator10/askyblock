@@ -24,16 +24,17 @@ public class IslandCommandCoopAccept extends IslandCommandBase {
 			// Check if inviter is online
 			Player inviter = plugin.getServer().getPlayer(perform.coopInviteList.get(playerUUID));
 			if (inviter == null || !inviter.isOnline()) {
-				Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorOfflinePlayer);
+				Util.sendMessage(player,
+						"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorOfflinePlayer);
 				perform.coopInviteList.remove(playerUUID);
 				return CommandType.SUCCESS;
 			}
 			if (CoopPlay.getInstance().addCoopPlayer(inviter, player)) {
 				// Tell everyone what happened
-				Util.sendMessage(inviter, ChatColor.GREEN
-						+ plugin.myLocale(inviter.getUniqueId()).coopSuccess.replace("[name]", player.getName()));
-				Util.sendMessage(player, ChatColor.GREEN
-						+ plugin.myLocale(playerUUID).coopMadeYouCoop.replace("[name]", inviter.getName()));
+				Util.sendMessage(inviter, "§f» " + ChatColor.GREEN + plugin.myLocale(inviter.getUniqueId()).coopSuccess
+						.replace("[name]", ChatColor.DARK_GREEN + player.getName() + ChatColor.GREEN));
+				Util.sendMessage(player, "§f» " + ChatColor.GREEN + plugin.myLocale(playerUUID).coopMadeYouCoop
+						.replace("[name]", ChatColor.DARK_GREEN + inviter.getName() + ChatColor.GREEN));
 				// TODO: Give perms if the player is on the coop island
 			}
 			perform.setResetWaitTime(player);
@@ -41,7 +42,7 @@ public class IslandCommandCoopAccept extends IslandCommandBase {
 			perform.coopInviteList.remove(playerUUID);
 			return CommandType.SUCCESS;
 		}
-		Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorCommandNotReady);
+		Util.sendMessage(player, "§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorCommandNotReady);
 
 		return CommandType.SUCCESS;
 	}

@@ -28,24 +28,25 @@ public class IslandCommandExpel extends IslandCommandBase {
 		// Find out who they want to expel
 		UUID targetPlayerUUID = plugin.getPlayers().getUUID(args[1]);
 		if (targetPlayerUUID == null) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorUnknownPlayer);
+			Util.sendMessage(player, "§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorUnknownPlayer);
 			return CommandType.SUCCESS;
 		}
 		// Target should not be themselves
 		if (targetPlayerUUID.equals(playerUUID)) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).expelNotYourself);
+			Util.sendMessage(player, "§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).expelNotYourself);
 			return CommandType.SUCCESS;
 		}
 		// Target cannot be op
 		Player target = plugin.getServer().getPlayer(targetPlayerUUID);
 		if (target != null) {
 			if (!player.canSee(target)) {
-				Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorUnknownPlayer);
+				Util.sendMessage(player,
+						"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorUnknownPlayer);
 				return CommandType.SUCCESS;
 			}
 			if (target.isOp() || VaultHelper.checkPerm(target, Settings.PERMPREFIX + "mod.bypassprotect")
 					|| VaultHelper.checkPerm(target, Settings.PERMPREFIX + "mod.bypassexpel")) {
-				Util.sendMessage(player, ChatColor.RED
+				Util.sendMessage(player, "§f» " + ChatColor.RED
 						+ plugin.myLocale(player.getUniqueId()).expelFail.replace("[name]", target.getName()));
 				return CommandType.SUCCESS;
 			}
@@ -54,13 +55,13 @@ public class IslandCommandExpel extends IslandCommandBase {
 		boolean coop = CoopPlay.getInstance().removeCoopPlayer(player, targetPlayerUUID);
 		if (coop) {
 			if (target != null) {
-				Util.sendMessage(target, ChatColor.RED
+				Util.sendMessage(target, "§f» " + ChatColor.RED
 						+ plugin.myLocale(target.getUniqueId()).coopRemoved.replace("[name]", player.getName()));
 			} else {
-				plugin.getMessages().setMessage(targetPlayerUUID, ChatColor.RED
+				plugin.getMessages().setMessage(targetPlayerUUID, "§f» " + ChatColor.RED
 						+ plugin.myLocale(targetPlayerUUID).coopRemoved.replace("[name]", player.getName()));
 			}
-			Util.sendMessage(player, ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).coopRemoveSuccess
+			Util.sendMessage(player, "§f» " + ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).coopRemoveSuccess
 					.replace("[name]", plugin.getPlayers().getName(targetPlayerUUID)));
 		}
 		// See if target is on this player's island
@@ -83,14 +84,14 @@ public class IslandCommandExpel extends IslandCommandBase {
 					 */
 				}
 			}
-			Util.sendMessage(target, ChatColor.RED + plugin.myLocale(target.getUniqueId()).expelExpelled);
+			Util.sendMessage(target, "§f» " + ChatColor.RED + plugin.myLocale(target.getUniqueId()).expelExpelled);
 			plugin.getLogger().info(player.getName() + " expelled " + target.getName() + " from their island.");
 			// Yes they are
-			Util.sendMessage(player, ChatColor.GREEN
+			Util.sendMessage(player, "§f» " + ChatColor.GREEN
 					+ plugin.myLocale(player.getUniqueId()).expelSuccess.replace("[name]", target.getName()));
 		} else if (!coop) {
 			// No they're not
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).expelNotOnIsland);
+			Util.sendMessage(player, "§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).expelNotOnIsland);
 		}
 		return CommandType.SUCCESS;
 	}

@@ -21,7 +21,7 @@ public class IslandCommandGo extends IslandCommandBase {
 	public CommandType postPerform(ASkyBlock plugin) {
 
 		if (!plugin.getPlayers().hasIsland(playerUUID) && !plugin.getPlayers().inTeam(playerUUID)) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(playerUUID).errorNoIsland);
+			Util.sendMessage(player, "§f» " +ChatColor.RED + plugin.myLocale(playerUUID).errorNoIsland);
 			return CommandType.DEFAULT;
 		}
 		plugin.getGrid().homeTeleport(player);

@@ -22,7 +22,7 @@ public class IslandCommandSettings extends IslandCommandBase {
 		try {
 			player.openInventory(plugin.getSettingsPanel().islandGuardPanel(player));
 		} catch (Exception e) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorCommandNotReady);
+			Util.sendMessage(player, "§f» " +ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorCommandNotReady);
 		}
 		return CommandType.SUCCESS;
 

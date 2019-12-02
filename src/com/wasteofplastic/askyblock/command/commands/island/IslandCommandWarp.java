@@ -40,12 +40,12 @@ public class IslandCommandWarp extends IslandCommandBase {
 		final Set<UUID> warpList = plugin.getWarpSignsListener().listWarps();
 		if (warpList.isEmpty()) {
 			Util.sendMessage(player,
-					ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).warpserrorNoWarpsYet);
+					"§f» " + ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).warpserrorNoWarpsYet);
 			if (VaultHelper.checkPerm(player, Settings.PERMPREFIX + "island.addwarp")) {
 				Util.sendMessage(player, ChatColor.YELLOW + plugin.myLocale().warpswarpTip);
 			} else {
 				Util.sendMessage(player,
-						ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoPermission);
+						"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoPermission);
 			}
 			return CommandType.SUCCESS;
 		} else {
@@ -58,15 +58,14 @@ public class IslandCommandWarp extends IslandCommandBase {
 					if (plugin.getPlayers().getName(warp).toLowerCase().equals(args[1].toLowerCase())) {
 						foundWarp = warp;
 						break;
-					} else if (plugin.getPlayers().getName(warp).toLowerCase()
-							.startsWith(args[1].toLowerCase())) {
+					} else if (plugin.getPlayers().getName(warp).toLowerCase().startsWith(args[1].toLowerCase())) {
 						foundWarp = warp;
 					}
 				}
 			}
 			if (foundWarp == null) {
 				Util.sendMessage(player,
-						ChatColor.RED + plugin.myLocale(player.getUniqueId()).warpserrorDoesNotExist);
+						"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).warpserrorDoesNotExist);
 				return CommandType.SUCCESS;
 			} else {
 				// Warp exists!
@@ -74,16 +73,15 @@ public class IslandCommandWarp extends IslandCommandBase {
 				// Check if the warp spot is safe
 				if (warpSpot == null) {
 					Util.sendMessage(player,
-							ChatColor.RED + plugin.myLocale(player.getUniqueId()).warpserrorNotReadyYet);
-					plugin.getLogger()
-							.warning("Null warp found, owned by " + plugin.getPlayers().getName(foundWarp));
+							"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).warpserrorNotReadyYet);
+					plugin.getLogger().warning("Null warp found, owned by " + plugin.getPlayers().getName(foundWarp));
 					return CommandType.SUCCESS;
 				}
 				// Find out if island is locked
 				Island island = plugin.getGrid().getIslandAt(warpSpot);
 				// Check bans
 				if (island != null && plugin.getPlayers().isBanned(island.getOwner(), playerUUID)) {
-					Util.sendMessage(player, ChatColor.RED + plugin.myLocale(playerUUID).banBanned
+					Util.sendMessage(player, "§f» " + ChatColor.RED + plugin.myLocale(playerUUID).banBanned
 							.replace("[name]", plugin.getPlayers().getName(island.getOwner())));
 					if (!VaultHelper.checkPerm(player, Settings.PERMPREFIX + "mod.bypassprotect")
 							&& !VaultHelper.checkPerm(player, Settings.PERMPREFIX + "mod.bypasslock")) {
@@ -95,7 +93,7 @@ public class IslandCommandWarp extends IslandCommandBase {
 						&& !VaultHelper.checkPerm(player, Settings.PERMPREFIX + "mod.bypassprotect")) {
 					// Always inform that the island is locked
 					Util.sendMessage(player,
-							ChatColor.RED + plugin.myLocale(player.getUniqueId()).lockIslandLocked);
+							"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).lockIslandLocked);
 					// Check if this is the owner, team member or
 					// coop
 					if (!plugin.getGrid().locationIsAtHome(player, true, warpSpot)) {
@@ -118,13 +116,11 @@ public class IslandCommandWarp extends IslandCommandBase {
 					org.bukkit.material.Sign s = (org.bukkit.material.Sign) sign.getData();
 					BlockFace directionFacing = s.getFacing();
 					Location inFront = b.getRelative(directionFacing).getLocation();
-					Location oneDown = b.getRelative(directionFacing).getRelative(BlockFace.DOWN)
-							.getLocation();
+					Location oneDown = b.getRelative(directionFacing).getRelative(BlockFace.DOWN).getLocation();
 					if ((GridManager.isSafeLocation(inFront))) {
 						warpPlayer(player, inFront, foundWarp, directionFacing, pvp);
 						return CommandType.SUCCESS;
-					} else if (b.getType().equals(Material.WALL_SIGN)
-							&& GridManager.isSafeLocation(oneDown)) {
+					} else if (b.getType().equals(Material.WALL_SIGN) && GridManager.isSafeLocation(oneDown)) {
 						// Try one block down if this is a wall sign
 						warpPlayer(player, oneDown, foundWarp, directionFacing, pvp);
 						return CommandType.SUCCESS;
@@ -132,46 +128,42 @@ public class IslandCommandWarp extends IslandCommandBase {
 				} else {
 					// Warp has been removed
 					Util.sendMessage(player,
-							ChatColor.RED + plugin.myLocale(player.getUniqueId()).warpserrorDoesNotExist);
+							"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).warpserrorDoesNotExist);
 					plugin.getWarpSignsListener().removeWarp(warpSpot);
 					return CommandType.SUCCESS;
 				}
 				if (!(GridManager.isSafeLocation(warpSpot))) {
 					Util.sendMessage(player,
-							ChatColor.RED + plugin.myLocale(player.getUniqueId()).warpserrorNotSafe);
+							"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).warpserrorNotSafe);
 					// WALL_SIGN's will always be unsafe if the
 					// place in front is obscured.
 					if (b.getType().equals(Material.SIGN_POST)) {
-						plugin.getLogger().warning("Unsafe warp found at " + warpSpot.toString()
-								+ " owned by " + plugin.getPlayers().getName(foundWarp));
+						plugin.getLogger().warning("Unsafe warp found at " + warpSpot.toString() + " owned by "
+								+ plugin.getPlayers().getName(foundWarp));
 
 					}
 					return CommandType.SUCCESS;
 				} else {
-					final Location actualWarp = new Location(warpSpot.getWorld(),
-							warpSpot.getBlockX() + 0.5D, warpSpot.getBlockY(), warpSpot.getBlockZ() + 0.5D);
+					final Location actualWarp = new Location(warpSpot.getWorld(), warpSpot.getBlockX() + 0.5D,
+							warpSpot.getBlockY(), warpSpot.getBlockZ() + 0.5D);
 					player.teleport(actualWarp);
 					if (pvp) {
 						Util.sendMessage(player,
-								ChatColor.BOLD + "" + ChatColor.RED
-										+ plugin.myLocale(player.getUniqueId()).igs.get(SettingsFlag.PVP)
-										+ " " + plugin.myLocale(player.getUniqueId()).igsAllowed);
+								"§f» " + ChatColor.BOLD + "" + ChatColor.RED
+										+ plugin.myLocale(player.getUniqueId()).igs.get(SettingsFlag.PVP) + " "
+										+ plugin.myLocale(player.getUniqueId()).igsAllowed);
 						if (plugin.getServer().getVersion().contains("(MC: 1.8")
 								|| plugin.getServer().getVersion().contains("(MC: 1.7")) {
-							player.getWorld().playSound(player.getLocation(), Sound.valueOf("ARROW_HIT"),
-									1F, 1F);
+							player.getWorld().playSound(player.getLocation(), Sound.valueOf("ARROW_HIT"), 1F, 1F);
 						} else {
-							player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT, 1F,
-									1F);
+							player.getWorld().playSound(player.getLocation(), Sound.ENTITY_ARROW_HIT, 1F, 1F);
 						}
 					} else {
 						if (plugin.getServer().getVersion().contains("(MC: 1.8")
 								|| plugin.getServer().getVersion().contains("(MC: 1.7")) {
-							player.getWorld().playSound(player.getLocation(), Sound.valueOf("BAT_TAKEOFF"),
-									1F, 1F);
+							player.getWorld().playSound(player.getLocation(), Sound.valueOf("BAT_TAKEOFF"), 1F, 1F);
 						} else {
-							player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1F,
-									1F);
+							player.getWorld().playSound(player.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1F, 1F);
 						}
 					}
 					return CommandType.SUCCESS;
@@ -223,5 +215,5 @@ public class IslandCommandWarp extends IslandCommandBase {
 			}
 		}
 	}
-	
+
 }

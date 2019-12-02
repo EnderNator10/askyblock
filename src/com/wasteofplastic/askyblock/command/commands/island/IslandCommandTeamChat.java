@@ -24,7 +24,7 @@ public class IslandCommandTeamChat extends IslandCommandBase {
 	public CommandType postPerform(ASkyBlock plugin) {
 
 		if (!Settings.teamChat) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale().errorUnknownCommand);
+			Util.sendMessage(player, "§f» " +ChatColor.RED + plugin.myLocale().errorUnknownCommand);
 			return CommandType.DEFAULT;
 		}
 		if (plugin.getPlayers().inTeam(playerUUID)) {
@@ -35,21 +35,21 @@ public class IslandCommandTeamChat extends IslandCommandBase {
 				}
 			}
 			if (!online) {
-				Util.sendMessage(player, ChatColor.RED + plugin.myLocale(playerUUID).teamChatNoTeamAround);
+				Util.sendMessage(player, "§f» " +ChatColor.RED + plugin.myLocale(playerUUID).teamChatNoTeamAround);
 				Util.sendMessage(player, ChatColor.GREEN + plugin.myLocale(playerUUID).teamChatStatusOff);
 				plugin.getChatListener().unSetPlayer(playerUUID);
 				return CommandType.DEFAULT;
 			}
 			if (plugin.getChatListener().isTeamChat(playerUUID)) {
 				// Toggle
-				Util.sendMessage(player, ChatColor.GREEN + plugin.myLocale(playerUUID).teamChatStatusOff);
+				Util.sendMessage(player, "§f» " +ChatColor.GREEN + plugin.myLocale(playerUUID).teamChatStatusOff);
 				plugin.getChatListener().unSetPlayer(playerUUID);
 			} else {
-				Util.sendMessage(player, ChatColor.GREEN + plugin.myLocale(playerUUID).teamChatStatusOn);
+				Util.sendMessage(player, "§f» " +ChatColor.GREEN + plugin.myLocale(playerUUID).teamChatStatusOn);
 				plugin.getChatListener().setPlayer(playerUUID);
 			}
 		} else {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(playerUUID).teamChatNoTeam);
+			Util.sendMessage(player, "§f» " +ChatColor.RED + plugin.myLocale(playerUUID).teamChatNoTeam);
 		}
 
 		return CommandType.SUCCESS;

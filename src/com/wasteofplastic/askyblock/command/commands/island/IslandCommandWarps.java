@@ -26,10 +26,11 @@ public class IslandCommandWarps extends IslandCommandBase {
 
 		Collection<UUID> warpList = plugin.getWarpSignsListener().listWarps();
 		if (warpList.isEmpty()) {
-			Util.sendMessage(player, ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).warpserrorNoWarpsYet);
+			Util.sendMessage(player,
+					"§f» " + ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).warpserrorNoWarpsYet);
 			if (VaultHelper.checkPerm(player, Settings.PERMPREFIX + "island.addwarp")
 					&& plugin.getGrid().playerIsOnIsland(player)) {
-				Util.sendMessage(player, ChatColor.YELLOW + plugin.myLocale().warpswarpTip);
+				Util.sendMessage(player, "§f» " + ChatColor.YELLOW + plugin.myLocale().warpswarpTip);
 			}
 		} else {
 			if (Settings.useWarpPanel) {
@@ -50,10 +51,10 @@ public class IslandCommandWarps extends IslandCommandBase {
 						hasWarp = true;
 					}
 				}
-				Util.sendMessage(player, ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).warpswarpsAvailable
-						+ ": " + ChatColor.WHITE + wlist);
+				Util.sendMessage(player, "§f» " + ChatColor.YELLOW
+						+ plugin.myLocale(player.getUniqueId()).warpswarpsAvailable + ": " + ChatColor.WHITE + wlist);
 				if (!hasWarp && (VaultHelper.checkPerm(player, Settings.PERMPREFIX + "island.addwarp"))) {
-					Util.sendMessage(player, ChatColor.YELLOW + plugin.myLocale().warpswarpTip);
+					Util.sendMessage(player, "§f» " + ChatColor.YELLOW + plugin.myLocale().warpswarpTip);
 				}
 			}
 		}

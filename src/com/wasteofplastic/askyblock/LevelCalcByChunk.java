@@ -301,8 +301,8 @@ public class LevelCalcByChunk {
 							// plugin.getLogger().info("DEBUG: telling offline
 							// players");
 							plugin.getMessages().tellOfflineTeam(targetPlayer,
-									ChatColor.GREEN + plugin.myLocale().islandislandLevelis.replace("[level]",
-											String.valueOf(plugin.getPlayers().getIslandLevel(targetPlayer))));
+									"§f» §7Niveau de votre île: §2"
+											+ String.valueOf(plugin.getPlayers().getIslandLevel(targetPlayer)));
 						}
 						if (((Player) asker).isOnline()) {
 							Util.sendMessage(asker,

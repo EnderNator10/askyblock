@@ -22,19 +22,21 @@ public class IslandCommandReject extends IslandCommandBase {
 	public CommandType postPerform(ASkyBlock plugin) {
 
 		if (perform.inviteList.containsKey(player.getUniqueId())) {
-			Util.sendMessage(player, ChatColor.YELLOW + plugin.myLocale(playerUUID).rejectyouHaveRejectedInvitation);
+			Util.sendMessage(player,
+					"§f» " + ChatColor.YELLOW + plugin.myLocale(playerUUID).rejectyouHaveRejectedInvitation);
 			// If the player is online still then tell them directly
 			// about the rejection
 			if (Bukkit.getPlayer(perform.inviteList.get(player.getUniqueId())) != null) {
 				Util.sendMessage(Bukkit.getPlayer(perform.inviteList.get(playerUUID)),
-						ChatColor.RED + plugin.myLocale(perform.inviteList.get(playerUUID)).rejectnameHasRejectedInvite
-								.replace("[name]", player.getName()));
+						"§f» " + ChatColor.RED
+								+ plugin.myLocale(perform.inviteList.get(playerUUID)).rejectnameHasRejectedInvite
+										.replace("[name]", player.getName()));
 			}
 			// Remove this player from the global invite list
 			perform.inviteList.remove(playerUUID);
 		} else {
 			// Someone typed /island reject and had not been invited
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(playerUUID).rejectyouHaveNotBeenInvited);
+			Util.sendMessage(player, "§f» " + ChatColor.RED + plugin.myLocale(playerUUID).rejectyouHaveNotBeenInvited);
 		}
 
 		return CommandType.SUCCESS;

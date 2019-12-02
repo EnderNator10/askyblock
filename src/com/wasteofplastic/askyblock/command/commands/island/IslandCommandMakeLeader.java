@@ -27,22 +27,23 @@ public class IslandCommandMakeLeader extends IslandCommandBase {
 
 		targetPlayer = plugin.getPlayers().getUUID(args[1]);
 		if (targetPlayer == null) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorUnknownPlayer);
+			Util.sendMessage(player, "§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorUnknownPlayer);
 			return CommandType.SUCCESS;
 		}
 		if (targetPlayer.equals(playerUUID)) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).makeLeadererrorGeneralError);
+			Util.sendMessage(player,
+					"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).makeLeadererrorGeneralError);
 			return CommandType.SUCCESS;
 		}
 		if (!plugin.getPlayers().inTeam(player.getUniqueId())) {
 			Util.sendMessage(player,
-					ChatColor.RED + plugin.myLocale(player.getUniqueId()).makeLeadererrorYouMustBeInTeam);
+					"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).makeLeadererrorYouMustBeInTeam);
 			return CommandType.SUCCESS;
 		}
 
 		if (plugin.getPlayers().getMembers(player.getUniqueId()).size() > 2) {
-			Util.sendMessage(player,
-					ChatColor.RED + plugin.myLocale(player.getUniqueId()).makeLeadererrorRemoveAllPlayersFirst);
+			Util.sendMessage(player, "§f» " + ChatColor.RED
+					+ plugin.myLocale(player.getUniqueId()).makeLeadererrorRemoveAllPlayersFirst);
 			plugin.getLogger()
 					.info(player.getName() + " tried to transfer his island, but failed because >2 people in a team");
 			return CommandType.SUCCESS;
@@ -65,7 +66,7 @@ public class IslandCommandMakeLeader extends IslandCommandBase {
 						return CommandType.SUCCESS;
 					}
 					Util.sendMessage(player,
-							ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).makeLeadernameIsNowTheOwner
+							"§f» " + ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).makeLeadernameIsNowTheOwner
 									.replace("[name]", plugin.getPlayers().getName(targetPlayer)));
 
 					// plugin.getLogger().info("DEBUG: " +
@@ -86,7 +87,7 @@ public class IslandCommandMakeLeader extends IslandCommandBase {
 					} else {
 						// Online
 						Util.sendMessage(plugin.getServer().getPlayer(targetPlayer),
-								ChatColor.GREEN + plugin.myLocale(targetPlayer).makeLeaderyouAreNowTheOwner);
+								"§f» " + ChatColor.GREEN + plugin.myLocale(targetPlayer).makeLeaderyouAreNowTheOwner);
 						// Check if new leader has a lower range
 						// permission than the island size
 						boolean hasARangePerm = false;
@@ -132,10 +133,10 @@ public class IslandCommandMakeLeader extends IslandCommandBase {
 							// Range can go up or down
 							if (range != islandByOwner.getProtectionSize()) {
 								Util.sendMessage(player,
-										ChatColor.GOLD + plugin.myLocale(targetPlayer).adminSetRangeUpdated
+										"§f» " + ChatColor.GOLD + plugin.myLocale(targetPlayer).adminSetRangeUpdated
 												.replace("[number]", String.valueOf(range)));
 								Util.sendMessage(target,
-										ChatColor.GOLD + plugin.myLocale(targetPlayer).adminSetRangeUpdated
+										"§f» " + ChatColor.GOLD + plugin.myLocale(targetPlayer).adminSetRangeUpdated
 												.replace("[number]", String.valueOf(range)));
 								plugin.getLogger()
 										.info("Makeleader: Island protection range changed from "
@@ -148,14 +149,15 @@ public class IslandCommandMakeLeader extends IslandCommandBase {
 					plugin.getGrid().saveGrid();
 					return CommandType.SUCCESS;
 				}
-				Util.sendMessage(player,
-						ChatColor.RED + plugin.myLocale(player.getUniqueId()).makeLeadererrorThatPlayerIsNotInTeam);
+				Util.sendMessage(player, "§f» " + ChatColor.RED
+						+ plugin.myLocale(player.getUniqueId()).makeLeadererrorThatPlayerIsNotInTeam);
 			} else {
 				Util.sendMessage(player,
-						ChatColor.RED + plugin.myLocale(player.getUniqueId()).makeLeadererrorNotYourIsland);
+						"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).makeLeadererrorNotYourIsland);
 			}
 		} else {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).makeLeadererrorGeneralError);
+			Util.sendMessage(player,
+					"§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).makeLeadererrorGeneralError);
 		}
 
 		return CommandType.SUCCESS;

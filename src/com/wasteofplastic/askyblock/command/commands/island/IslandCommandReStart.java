@@ -23,25 +23,25 @@ public class IslandCommandReStart extends IslandCommandBase {
 
 		if (plugin.getPlayers().inTeam(playerUUID)) {
 			if (!plugin.getPlayers().getTeamLeader(playerUUID).equals(playerUUID)) {
-				Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).islandresetOnlyOwner);
+				Util.sendMessage(player, "§f» " +ChatColor.RED + plugin.myLocale(player.getUniqueId()).islandresetOnlyOwner);
 			} else {
 				Util.sendMessage(player,
-						ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).islandresetMustRemovePlayers);
+						"§f» " +ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).islandresetMustRemovePlayers);
 			}
 			return CommandType.SUCCESS;
 		}
 		// Check if the player has used up all their resets
 		if (plugin.getPlayers().getResetsLeft(playerUUID) == 0) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).islandResetNoMore);
+			Util.sendMessage(player, "§f» " +ChatColor.RED + plugin.myLocale(player.getUniqueId()).islandResetNoMore);
 			return CommandType.SUCCESS;
 		}
 		if (plugin.getPlayers().getResetsLeft(playerUUID) > 0) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).resetYouHave
+			Util.sendMessage(player, "§f» " +ChatColor.RED + plugin.myLocale(player.getUniqueId()).resetYouHave
 					.replace("[number]", String.valueOf(plugin.getPlayers().getResetsLeft(playerUUID))));
 		}
 		if (!perform.onRestartWaitTime(player) || Settings.resetWait == 0 || player.isOp()) {
 			// Kick off the confirmation
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).islandresetConfirm
+			Util.sendMessage(player, "§f» " +ChatColor.RED + plugin.myLocale(player.getUniqueId()).islandresetConfirm
 					.replace("[seconds]", String.valueOf(Settings.resetConfirmWait)));
 			if (!perform.confirm.containsKey(playerUUID) || !perform.confirm.get(playerUUID)) {
 				perform.confirm.put(playerUUID, true);
@@ -54,7 +54,7 @@ public class IslandCommandReStart extends IslandCommandBase {
 			}
 			return CommandType.SUCCESS;
 		} else {
-			Util.sendMessage(player, ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).islandresetWait
+			Util.sendMessage(player, "§f» " +ChatColor.GRAY + plugin.myLocale(player.getUniqueId()).islandresetWait
 					.replace("[time]", String.valueOf(perform.getResetWaitTime(player))));
 		}
 		return CommandType.SUCCESS;

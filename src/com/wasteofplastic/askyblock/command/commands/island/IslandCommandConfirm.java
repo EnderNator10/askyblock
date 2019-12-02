@@ -24,20 +24,20 @@ public class IslandCommandConfirm extends IslandCommandBase {
 			perform.confirm.remove(playerUUID);
 			// Actually RESET the island
 			Util.sendMessage(player,
-					ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).islandresetPleaseWait);
+					"§f» " + ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).islandresetPleaseWait);
 			if (plugin.getPlayers().getResetsLeft(playerUUID) == 0) {
 				Util.sendMessage(player,
-						ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).islandResetNoMore);
+						"§f» " + ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).islandResetNoMore);
 			}
 			if (plugin.getPlayers().getResetsLeft(playerUUID) > 0) {
-				Util.sendMessage(player, ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).resetYouHave
+				Util.sendMessage(player, "§f» " + ChatColor.YELLOW + plugin.myLocale(player.getUniqueId()).resetYouHave
 						.replace("[number]", String.valueOf(plugin.getPlayers().getResetsLeft(playerUUID))));
 			}
 			perform.chooseIsland(player);
 			return CommandType.SUCCESS;
 		} else {
-			Util.sendMessage(player, plugin.myLocale(player.getUniqueId()).helpColor + "/island restart: "
-					+ ChatColor.WHITE + plugin.myLocale(player.getUniqueId()).islandhelpRestart);
+			Util.sendMessage(player,
+					"§f» §2" + "/island restart§7: " + plugin.myLocale(player.getUniqueId()).islandhelpRestart);
 			return CommandType.SUCCESS;
 		}
 

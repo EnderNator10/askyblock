@@ -36,20 +36,20 @@ public class IslandCommandInvite extends IslandCommandBase {
 		Player invitedPlayer = plugin.getServer().getPlayer(args[1]);
 		if (invitedPlayer == null || !player.canSee(invitedPlayer)) {
 			Util.sendMessage(localPlayer,
-					ChatColor.RED + plugin.myLocale(localPlayer.getUniqueId()).errorOfflinePlayer);
+					"§f» " +ChatColor.RED + plugin.myLocale(localPlayer.getUniqueId()).errorOfflinePlayer);
 			return CommandType.DEFAULT;
 		}
 		final UUID invitedPlayerUUID = invitedPlayer.getUniqueId();
 		// Player issuing the command must have an island
 		if (!plugin.getPlayers().hasIsland(localPlayer.getUniqueId())) {
 			Util.sendMessage(localPlayer,
-					ChatColor.RED + plugin.myLocale(localPlayer.getUniqueId()).inviteerrorYouMustHaveIslandToInvite);
+					"§f» " +ChatColor.RED + plugin.myLocale(localPlayer.getUniqueId()).inviteerrorYouMustHaveIslandToInvite);
 			return CommandType.DEFAULT;
 		}
 		// Player cannot invite themselves
 		if (localPlayer.getUniqueId().equals(invitedPlayer.getUniqueId())) {
 			Util.sendMessage(localPlayer,
-					ChatColor.RED + plugin.myLocale(localPlayer.getUniqueId()).inviteerrorYouCannotInviteYourself);
+					"§f» " +ChatColor.RED + plugin.myLocale(localPlayer.getUniqueId()).inviteerrorYouCannotInviteYourself);
 			return CommandType.DEFAULT;
 		}
 		// Check if this player can be invited to this island, or
@@ -57,7 +57,7 @@ public class IslandCommandInvite extends IslandCommandBase {
 		long time = plugin.getPlayers().getInviteCoolDownTime(invitedPlayerUUID,
 				plugin.getPlayers().getIslandLocation(localUUID));
 		if (time > 0 && !player.isOp()) {
-			Util.sendMessage(localPlayer, ChatColor.RED + plugin.myLocale(localPlayer.getUniqueId()).inviteerrorCoolDown
+			Util.sendMessage(localPlayer, "§f» " +ChatColor.RED + plugin.myLocale(localPlayer.getUniqueId()).inviteerrorCoolDown
 					.replace("[time]", String.valueOf(time)));
 			return CommandType.DEFAULT;
 		}

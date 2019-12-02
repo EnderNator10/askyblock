@@ -71,12 +71,6 @@ public class JoinLeaveEvents implements Listener {
                 plugin.getLogger().info("DEBUG: using default locale");
             plugin.getPlayers().setLocale(playerUUID,"");
         }
-        // Check updates
-        if (player.isOp() && plugin.getUpdateCheck() != null) {
-            if (DEBUG)
-                plugin.getLogger().info("DEBUG: checking Updates");
-            plugin.checkUpdatesNotify(player);
-        }
 
         if (players == null) {
             plugin.getLogger().severe("players is NULL");

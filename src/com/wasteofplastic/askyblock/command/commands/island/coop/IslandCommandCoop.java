@@ -33,26 +33,26 @@ public class IslandCommandCoop extends IslandCommandBase {
 		final UUID targetPlayerUUID = target.getUniqueId();
 		// Player issuing the command must have an island
 		if (!plugin.getPlayers().hasIsland(playerUUID) && !plugin.getPlayers().inTeam(playerUUID)) {
-			Util.sendMessage(player,
-					ChatColor.RED + plugin.myLocale(player.getUniqueId()).inviteerrorYouMustHaveIslandToInvite);
+			Util.sendMessage(player, "§f» §c" + ChatColor.RED
+					+ plugin.myLocale(player.getUniqueId()).inviteerrorYouMustHaveIslandToInvite);
 			return CommandType.SUCCESS;
 		}
 		// Player cannot invite themselves
 		if (playerUUID.equals(targetPlayerUUID)) {
-			Util.sendMessage(player,
-					ChatColor.RED + plugin.myLocale(player.getUniqueId()).inviteerrorYouCannotInviteYourself);
+			Util.sendMessage(player, "§f» §c" + ChatColor.RED
+					+ plugin.myLocale(player.getUniqueId()).inviteerrorYouCannotInviteYourself);
 			return CommandType.SUCCESS;
 		}
 		// If target player is already on the team ignore
 		if (plugin.getPlayers().getMembers(playerUUID).contains(targetPlayerUUID)) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).coopOnYourTeam);
+			Util.sendMessage(player, "§f» §c" + ChatColor.RED + plugin.myLocale(player.getUniqueId()).coopOnYourTeam);
 			return CommandType.SUCCESS;
 		}
 		// Target has to have an island
 		if (!plugin.getPlayers().inTeam(targetPlayerUUID)) {
 			if (!plugin.getPlayers().hasIsland(targetPlayerUUID)) {
 				Util.sendMessage(player,
-						ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoIslandOther);
+						"§f» §c" + ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNoIslandOther);
 				return CommandType.SUCCESS;
 			}
 		}
@@ -68,11 +68,11 @@ public class IslandCommandCoop extends IslandCommandBase {
 
 		if (Settings.coopIsRequest) {
 			// Send out coop invite
-			Util.sendMessage(player, ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).inviteinviteSentTo
-					.replace("[name]", target.getName()));
-			Util.sendMessage(target, ChatColor.GREEN
+			Util.sendMessage(player, "§f» " + ChatColor.GREEN
+					+ plugin.myLocale(player.getUniqueId()).inviteinviteSentTo.replace("[name]", target.getName()));
+			Util.sendMessage(target, "§f» " + ChatColor.GREEN
 					+ plugin.myLocale(targetPlayerUUID).coopHasInvited.replace("[name]", player.getName()));
-			Util.sendMessage(target, ChatColor.WHITE + "/" + label + " [coopaccept/coopreject] "
+			Util.sendMessage(target, "§f» " + ChatColor.WHITE + "/" + label + " [coopaccept/coopreject] "
 					+ ChatColor.YELLOW + plugin.myLocale(targetPlayerUUID).invitetoAcceptOrReject);
 			perform.coopInviteList.put(targetPlayerUUID, playerUUID);
 			if (Settings.inviteTimeout > 0) {
@@ -85,13 +85,12 @@ public class IslandCommandCoop extends IslandCommandBase {
 								&& perform.coopInviteList.get(targetPlayerUUID).equals(playerUUID)) {
 							perform.coopInviteList.remove(targetPlayerUUID);
 							if (plugin.getServer().getPlayer(playerUUID) != null) {
-								Util.sendMessage(plugin.getServer().getPlayer(playerUUID), ChatColor.YELLOW
+								Util.sendMessage(plugin.getServer().getPlayer(playerUUID), "§f» " + ChatColor.GRAY
 										+ plugin.myLocale(player.getUniqueId()).inviteremovingInvite);
 							}
 							if (plugin.getServer().getPlayer(targetPlayerUUID) != null) {
-								Util.sendMessage(plugin.getServer().getPlayer(targetPlayerUUID),
-										ChatColor.YELLOW
-												+ plugin.myLocale(player.getUniqueId()).inviteremovingInvite);
+								Util.sendMessage(plugin.getServer().getPlayer(targetPlayerUUID), "§f» " + ChatColor.GRAY
+										+ plugin.myLocale(player.getUniqueId()).inviteremovingInvite);
 							}
 						}
 
@@ -102,10 +101,10 @@ public class IslandCommandCoop extends IslandCommandBase {
 			// Add target to coop list
 			if (CoopPlay.getInstance().addCoopPlayer(player, target)) {
 				// Tell everyone what happened
-				Util.sendMessage(player, ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).coopSuccess
-						.replace("[name]", target.getName()));
-				Util.sendMessage(target, ChatColor.GREEN + plugin.myLocale(targetPlayerUUID).coopMadeYouCoop
-						.replace("[name]", player.getName()));
+				Util.sendMessage(player, "§f» " + ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).coopSuccess
+						.replace("[name]", "§2" + target.getName() + "§a"));
+				Util.sendMessage(target, "§f» " + ChatColor.GREEN + plugin.myLocale(targetPlayerUUID).coopMadeYouCoop
+						.replace("[name]", "§2" + player.getName() + "§a"));
 				// TODO: Give perms if the player is on the coop island
 			} // else fail silently
 		}

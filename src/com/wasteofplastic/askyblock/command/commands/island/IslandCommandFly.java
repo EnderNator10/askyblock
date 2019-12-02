@@ -20,7 +20,7 @@ public class IslandCommandFly extends IslandCommandBase {
 	public CommandType postPerform(ASkyBlock plugin) {
 
 		if (!plugin.getGrid().playerIsOnIsland(player)) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNotOnIsland);
+			Util.sendMessage(player, "§f» " +ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorNotOnIsland);
 			return CommandType.DEFAULT;
 		}
 		FlyManager.getInstance().update(player);

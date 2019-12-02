@@ -80,8 +80,7 @@ public class IslandCommandKick extends IslandCommandBase {
 			if (target != null) {
 				// plugin.getLogger().info("DEBUG: player is
 				// online");
-				Util.sendMessage(target, ChatColor.RED
-						+ plugin.myLocale(targetPlayer).kicknameRemovedYou.replace("[name]", player.getName()));
+				Util.sendMessage(target, "§f» §c" + player.getName()+"§7 vient de vous kick de son île !");
 				// Clear any coop inventories
 				// CoopPlay.getInstance().returnAllInventories(target);
 				// Remove any of the target's coop invitees and
@@ -139,8 +138,7 @@ public class IslandCommandKick extends IslandCommandBase {
 			// Remove any warps
 			plugin.getWarpSignsListener().removeWarp(targetPlayer);
 			// Tell leader they removed the player
-			Util.sendMessage(player,
-					ChatColor.RED + plugin.myLocale(player.getUniqueId()).kicknameRemoved.replace("[name]", args[1]));
+			Util.sendMessage(player, "§f» §cVous venez de kick §6" + args[1] + " §cde votre île.");
 			// removePlayerFromTeam(targetPlayer, teamLeader);
 			teamMembers.remove(targetPlayer);
 			if (teamMembers.size() < 2) {

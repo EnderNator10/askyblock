@@ -17,6 +17,7 @@ public class IslandCommandTeam extends IslandCommandBase {
 	public IslandCommandTeam() {
 		this.addSubCommand("team");
 		this.setSyntaxe("/is team");
+		this.setDescription("Permet de voir les membres de son île");
 	}
 
 	@Override

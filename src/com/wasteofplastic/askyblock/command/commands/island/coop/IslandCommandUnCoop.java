@@ -27,12 +27,12 @@ public class IslandCommandUnCoop extends IslandCommandBase {
 		// Find out who they want to uncoop
 		UUID targetPlayerUUID = plugin.getPlayers().getUUID(args[1]);
 		if (targetPlayerUUID == null) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorUnknownPlayer);
+			Util.sendMessage(player, "§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).errorUnknownPlayer);
 			return CommandType.SUCCESS;
 		}
 		// Target should not be themselves
 		if (targetPlayerUUID.equals(playerUUID)) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).expelNotYourself);
+			Util.sendMessage(player, "§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).expelNotYourself);
 			return CommandType.SUCCESS;
 		}
 		OfflinePlayer target = plugin.getServer().getOfflinePlayer(targetPlayerUUID);
@@ -40,18 +40,17 @@ public class IslandCommandUnCoop extends IslandCommandBase {
 		boolean coop = CoopPlay.getInstance().removeCoopPlayer(player, targetPlayerUUID);
 		if (coop) {
 			if (target != null && target.isOnline()) {
-				Util.sendMessage(target.getPlayer(),
-						ChatColor.RED + plugin.myLocale(target.getUniqueId()).coopRemoved.replace("[name]",
-								player.getName()));
+				Util.sendMessage(target.getPlayer(), "§f» " + ChatColor.RED
+						+ plugin.myLocale(target.getUniqueId()).coopRemoved.replace("[name]", player.getName()));
 			} else {
 				plugin.getMessages().setMessage(targetPlayerUUID, ChatColor.RED
 						+ plugin.myLocale(targetPlayerUUID).coopRemoved.replace("[name]", player.getName()));
 			}
-			Util.sendMessage(player, ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).coopRemoveSuccess
+			Util.sendMessage(player, "§f» " + ChatColor.GREEN + plugin.myLocale(player.getUniqueId()).coopRemoveSuccess
 					.replace("[name]", plugin.getPlayers().getName(targetPlayerUUID)));
 		} else {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).coopNotInCoop
-					.replace("[name]", plugin.getPlayers().getName(targetPlayerUUID)));
+			Util.sendMessage(player, "§f» " + ChatColor.RED + plugin.myLocale(player.getUniqueId()).coopNotInCoop
+					.replace("[name]", ChatColor.GOLD + plugin.getPlayers().getName(targetPlayerUUID) + ChatColor.RED));
 		}
 		return CommandType.SUCCESS;
 	}

@@ -318,17 +318,6 @@ public abstract class VCommand extends ZUtils {
 		this.label = label;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "VCommand [permission=" + permission + ", subCommands=" + subCommands + ", consoleCanUse="
-				+ consoleCanUse + ", description=" + description + "]";
-	}
-	
 	public void setArgsLength(int length){
 		setIgnoreArgs(true);
 		setArgsMinLength(length);

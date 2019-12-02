@@ -20,7 +20,7 @@ public class IslandCommandMake extends IslandCommandBase {
 	public CommandType postPerform(ASkyBlock plugin) {
 		
 		if (!perform.pendingNewIslandSelection.contains(playerUUID)) {
-			Util.sendMessage(player, ChatColor.RED + plugin.myLocale().errorUnknownCommand);
+			Util.sendMessage(player, "§f» " +ChatColor.RED + plugin.myLocale().errorUnknownCommand);
 			return CommandType.DEFAULT;
 		}
 		perform.pendingNewIslandSelection.remove(playerUUID);

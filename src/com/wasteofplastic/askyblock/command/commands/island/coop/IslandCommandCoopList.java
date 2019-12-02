@@ -33,11 +33,9 @@ public class IslandCommandCoopList extends IslandCommandBase {
 		}
 		if (none) {
 			Util.sendMessage(player,
-					plugin.myLocale(playerUUID).helpColor + "/" + label + " coop <player>: "
-							+ ChatColor.WHITE + plugin.myLocale(player.getUniqueId()).islandhelpCoop);
+					"§f» §2/" + label + " coop <player>: §7" + plugin.myLocale(player.getUniqueId()).islandhelpCoop);
 		} else {
-			Util.sendMessage(player,
-					plugin.myLocale(playerUUID).helpColor + plugin.myLocale(playerUUID).coopUseExpel);
+			Util.sendMessage(player, "§f» §7" + plugin.myLocale(playerUUID).coopUseExpel);
 		}
 
 		return CommandType.SUCCESS;
