@@ -39,6 +39,8 @@ import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.Settings;
 import com.wasteofplastic.askyblock.util.Util;
 
+import fr.maxlego08.skyblock.title.TitleManager;
+
 /**
  * This class is to catch chats and do two things: (1) substitute in the island
  * level to the chat string and (2) implement team chat. As it can be called
@@ -159,6 +161,7 @@ public class ChatListener implements Listener {
 				}
 			});
 		}
+		TitleManager.getInstance().onChat(event);
 	}
 
 	private void teamChat(final AsyncPlayerChatEvent event, String message) {

@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 
 import com.wasteofplastic.askyblock.ASkyBlock;
@@ -27,6 +28,7 @@ import com.wasteofplastic.askyblock.command.commands.island.IslandCommandKick;
 import com.wasteofplastic.askyblock.command.commands.island.IslandCommandLeave;
 import com.wasteofplastic.askyblock.command.commands.island.IslandCommandLock;
 import com.wasteofplastic.askyblock.command.commands.island.IslandCommandMake;
+import com.wasteofplastic.askyblock.command.commands.island.IslandCommandMakeLeader;
 import com.wasteofplastic.askyblock.command.commands.island.IslandCommandReStart;
 import com.wasteofplastic.askyblock.command.commands.island.IslandCommandReject;
 import com.wasteofplastic.askyblock.command.commands.island.IslandCommandSetHome;
@@ -51,7 +53,7 @@ import com.wasteofplastic.askyblock.command.commands.island.name.IslandCommandNa
 import com.wasteofplastic.askyblock.command.commands.island.name.IslandCommandResetName;
 import com.wasteofplastic.askyblock.zcore.Logger.LogType;
 
-public class CommandManager implements CommandExecutor {
+public class CommandManager implements CommandExecutor, TabExecutor {
 
 	private final ASkyBlock main;
 	private final List<VCommand> commands = new ArrayList<VCommand>();
@@ -103,6 +105,7 @@ public class CommandManager implements CommandExecutor {
 		addCommand(new IslandCommandExpel().setParent(island));
 		addCommand(new IslandCommandCoop().setParent(island));
 		addCommand(new IslandCommandKick().setParent(island));
+		addCommand(new IslandCommandMakeLeader().setParent(island));
 
 		/**
 		 * Challenge command
@@ -131,6 +134,7 @@ public class CommandManager implements CommandExecutor {
 	public VCommand addCommand(String string, VCommand command) {
 		commands.add(command.addSubCommand(string));
 		main.getCommand(string).setExecutor(this);
+		main.getCommand(string).setTabCompleter(this);
 		return command;
 	}
 
@@ -266,6 +270,28 @@ public class CommandManager implements CommandExecutor {
 	public boolean isValid(VCommand command, String defaultCommand) {
 		return command.getParent() == null ? command.getSubCommands().contains(defaultCommand.toLowerCase())
 				: isValid(command.getParent(), defaultCommand);
+	}
+
+	private List<String> cmds = new ArrayList<>();
+
+	private List<String> getCmds() {
+		if (cmds.size() == 0) {
+			commands.forEach(command -> {
+				if (command.getParent() != null && command.getParent().getSubCommands().contains("island"))
+					cmds.add(command.getSubCommands().get(0));
+			});
+		}
+		return cmds;
+	}
+
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String command, String[] args) {
+
+		if (cmd.getName().equalsIgnoreCase("island") || cmd.getName().equalsIgnoreCase("is")) {
+			return getCmds();
+		}
+
+		return null;
 	}
 
 }

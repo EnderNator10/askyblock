@@ -1,6 +1,6 @@
 name: NeraliaSkyBlock
 main: com.wasteofplastic.askyblock.ASkyBlock
-version: 3.0.9.4
+version: 3.0.9.5
 description: A SkyBlock Plugin
 authors: [Tastybento, Maxlego08]
 depend: [Vault]

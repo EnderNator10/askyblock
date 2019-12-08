@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/Serveurdedev/spigot-1.11.jar"/>
 	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/Serveurdedev/spigot-1.8.7.jar"/>
 	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/ProjetSkyblock/plugins/PermissionsEx.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Maxlego08/Desktop/Serveur dev/ProjetSkyblock/plugins/Core.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

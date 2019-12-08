@@ -46,10 +46,18 @@ public class FlyManager extends ListenerAdapter implements Saveable {
 			flys.put(player.getName(), 1800l);
 			message(player, Message.FLY_GIVE, TimerBuilder.getStringTime(1800));
 		}
+
+		if (!player.isOnGround() && !player.hasPermission("essentials.fly") && flys.get(player.getName()) > 0) {
+
+			startFly(player);
+
+		}
+
 	}
 
 	/**
 	 * Envoyer les informations du fly
+	 * 
 	 * @param player
 	 */
 	@Deprecated
@@ -59,6 +67,7 @@ public class FlyManager extends ListenerAdapter implements Saveable {
 
 	/**
 	 * Commencer le fly
+	 * 
 	 * @param player
 	 */
 	public void startFly(Player player) {
@@ -79,6 +88,7 @@ public class FlyManager extends ListenerAdapter implements Saveable {
 
 	/**
 	 * Arrêter le fly
+	 * 
 	 * @param player
 	 */
 	public void endFly(Player player) {
@@ -109,9 +119,10 @@ public class FlyManager extends ListenerAdapter implements Saveable {
 	public void onPlayerDeath(PlayerDeathEvent event, Player player) {
 		endFly(player);
 	}
-	
+
 	/**
 	 * Mettre a jour le status du joueur
+	 * 
 	 * @param player
 	 */
 	public void update(Player player) {
@@ -123,33 +134,36 @@ public class FlyManager extends ListenerAdapter implements Saveable {
 
 	/**
 	 * Verifier si un joueur est en fly
+	 * 
 	 * @param player
 	 * @return
 	 */
-	public boolean isFlying(Player player){
+	public boolean isFlying(Player player) {
 		return flyingPlayers.contains(player);
 	}
-	
+
 	/**
 	 * Give du fly a un joueur
+	 * 
 	 * @param player
 	 * @param sec
 	 */
-	public void giveFly(String player, long sec){
+	public void giveFly(String player, long sec) {
 		long tmpFly = flys.getOrDefault(player, 0l);
 		tmpFly += sec;
 		flys.put(player, tmpFly);
 	}
-	
+
 	/**
 	 * Récupérer le temps du fly en string
+	 * 
 	 * @param player
 	 * @return
 	 */
-	public String getStringFly(Player player){
+	public String getStringFly(Player player) {
 		return TimerBuilder.getStringTime(flys.get(player.getName()));
 	}
-	
+
 	/**
 	 * Permet que chaque secondes, tous les joueurs en fly perde une seconde
 	 */
@@ -170,7 +184,7 @@ public class FlyManager extends ListenerAdapter implements Saveable {
 				while (players.hasNext()) {
 
 					Player player = players.next();
-					
+
 					/**
 					 * Si le joueur est en ligne
 					 */
@@ -183,7 +197,7 @@ public class FlyManager extends ListenerAdapter implements Saveable {
 						/**
 						 * Si le temps de fly est inférieur a 0
 						 */
-						
+
 						if (tmpSec < 0) {
 
 							message(player, Message.FLY_END);

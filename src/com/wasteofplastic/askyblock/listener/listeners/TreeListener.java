@@ -27,11 +27,10 @@ public class TreeListener extends ListenerAdapter {
 		Block block = event.getBlock();
 		Island island = plugin.getGrid().getIslandAt(block.getLocation());
 
-		if (island != null && block.getType().equals(Material.LOG) || block.getType().equals(Material.LOG_2)
+		if ((island != null && (block.getType().equals(Material.LOG) || block.getType().equals(Material.LOG_2)))
 				&& player.getItemInHand().isSimilar(ItemBuilder.getCreatedItem(Material.DIAMOND_AXE, 1, "§cL'Hache"))) {
 
 			event.setCancelled(true);
-
 			new TreeCutter(player, block);
 
 		}

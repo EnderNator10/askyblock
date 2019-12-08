@@ -16,8 +16,9 @@ public class IslandCommandMakeLeader extends IslandCommandBase {
 
 	public IslandCommandMakeLeader() {
 		this.addSubCommand("makeleader");
-		this.setSyntaxe("/is makeleader");
+		this.setSyntaxe("/is makeleader <player>");
 		this.setDescription("Changer le chef de votre île");
+		this.setArgsLength(2);
 		this.setPermission(Settings.PERMPREFIX + "team.makeleader");
 		this.setIgnoreArgs(true);
 	}
