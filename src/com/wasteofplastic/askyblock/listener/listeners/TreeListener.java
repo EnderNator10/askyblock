@@ -12,7 +12,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.Island;
 import com.wasteofplastic.askyblock.listener.ListenerAdapter;
-import com.wasteofplastic.askyblock.zcore.ItemBuilder;
 import com.wasteofplastic.askyblock.zcore.TreeCutter;
 
 public class TreeListener extends ListenerAdapter {
@@ -28,8 +27,7 @@ public class TreeListener extends ListenerAdapter {
 		Island island = plugin.getGrid().getIslandAt(block.getLocation());
 
 		if ((island != null && (block.getType().equals(Material.LOG) || block.getType().equals(Material.LOG_2)))
-				&& player.getItemInHand().isSimilar(ItemBuilder.getCreatedItem(Material.DIAMOND_AXE, 1, "§cL'Hache"))) {
-
+				&& same(player.getItemInHand(), "§cL'Hache")) {
 			event.setCancelled(true);
 			new TreeCutter(player, block);
 

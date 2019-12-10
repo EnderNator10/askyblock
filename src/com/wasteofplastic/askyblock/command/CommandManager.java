@@ -287,7 +287,7 @@ public class CommandManager implements CommandExecutor, TabExecutor {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String command, String[] args) {
 
-		if (cmd.getName().equalsIgnoreCase("island") || cmd.getName().equalsIgnoreCase("is")) {
+		if ((cmd.getName().equalsIgnoreCase("island") || cmd.getName().equalsIgnoreCase("is")) && args.length == 1) {
 			return getCmds();
 		}
 
